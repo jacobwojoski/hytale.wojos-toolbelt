@@ -11,15 +11,13 @@ import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.NotificationUtil;
 import org.bson.BsonDocument;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 import org.wojo.wojosToolbelt.ui.GenericRadialSelectionUi;
 import org.wojo.wojosToolbelt.ui.GuiSelectionFactory;
-import org.wojo.wojosToolbelt.ui.Radials.RadialGui2;
-import org.wojo.wojosToolbelt.ui.Radials.RadialGui8;
-import org.wojo.wojosToolbelt.ui.SelectionUiThreeByThree;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -179,7 +177,8 @@ public class QuickAccessUtils {
 
     // ------ Verify Held or Equipped Item is a QuickAccessItem ------
     boolean isItemHeld = false;
-    if (!QuickAccessUtils.isQuickAccessItem(heldItem) && !QuickAccessUtils.isQuickAccessItem(equippedItem)){
+    if (!QuickAccessUtils.isQuickAccessItem(heldItem) && !QuickAccessUtils.isQuickAccessItem(equippedItem)) {
+      notificationHelper(store, ref, "ERROR", "Item held or equipped is not a QuickAccess Item");
       WojosQuickAccessPlugin.LOGGER.atInfo().log("[ERROR]: Item held or equipped is not a QuickAccess Item");
       return;
     }else if (QuickAccessUtils.isQuickAccessItem(heldItem)){
@@ -215,5 +214,11 @@ public class QuickAccessUtils {
     UUIDComponent uuidComponent = store.getComponent(ref, UUIDComponent.getComponentType());
     UUID uuid = uuidComponent.getUuid();
     return Universe.get().getPlayer(uuid);
+  }
+
+  public static void notificationHelper(Store<EntityStore>store, Ref<EntityStore> ref, String primary_msg, String secondary_msg) {
+    var playerRef = getPlayerRef(store,ref);
+    var packetHandler = playerRef.getPacketHandler();
+    NotificationUtil.sendNotification(packetHandler, primary_msg, secondary_msg);
   }
 }
