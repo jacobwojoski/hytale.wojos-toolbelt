@@ -113,14 +113,14 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
     private void revertSelectedHotbarItem(Integer originalHotbarSlot, PlayerRef playerRef) {
         Ref<EntityStore> entityRef = playerRef.getReference();
         if (entityRef == null || !entityRef.isValid()){
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("Bad entity ref when reverting selected hotbar item.");
+            WojosQuickAccessPlugin.LOGGER.atWarn().log("[WARN] Bad entity ref when reverting selected hotbar item.");
             return;
         }
         Store<EntityStore> store = entityRef.getStore();
         // Update server-side state
         Player player = store.getComponent(entityRef, Player.getComponentType());
         if (player == null || player.getInventory() == null){
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("Bad player when getting component");
+            WojosQuickAccessPlugin.LOGGER.atWarn().log("[Warn] Bad player when getting component");
             return;
         }
 
@@ -134,14 +134,5 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
             originalHotbarSlot                      // The slot index to select
         );
         playerRef.getPacketHandler().write(setActiveSlotPacket);
-    }
-
-    // Open the Quick Access Gui 
-    // Params:
-    // - PlayerRef playerRef: Refrence to the player entity. 
-    private void openQuickAccessUI(PlayerRef playerRef, short hotbar_position) {
-        playerRef.sendMessage(Message.raw("Showing UI Page with position " + String.valueOf(hotbar_position)));
-        // Open QuickAccess UI by using a command
-        //CommandManager.get().handleCommand(playerRef, "wqa gui select --event open");
     }
 }
