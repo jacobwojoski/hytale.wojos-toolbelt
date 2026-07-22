@@ -209,9 +209,9 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
     @Override
     public void handleDataEvent(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @NonNullDecl SettingsUiData data) {
         super.handleDataEvent(ref, store, data);
-        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: Output Settings Data:\n "+data.getDebugString()+"\n\n");
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Output Settings Data:\n "+data.getDebugString()+"\n\n");
         if (data.buttonSelected.contains("SubmitButton")){
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - SUBMIT new settings values to player with data\n"+data.getDebugString());
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - SUBMIT new settings values to player with data\n"+data.getDebugString());
 
             QuickAccessPlayerComponent newPlayerComp = new QuickAccessPlayerComponent();
             newPlayerComp.setIsEnabled(this._uiData.isEnabled);
@@ -224,22 +224,22 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
             this.close();
         }else if (data.buttonSelected.contains("ResetButton")) {
             data = new SettingsUiData();
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Reset settings values\n");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - Reset settings values\n");
         }else if (data.buttonSelected.contains("RadialTwo")) {
             data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_TWO;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Two\n");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Two\n");
         }else if (data.buttonSelected.contains("RadialThree")) {
             data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_THREE;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Three\n");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Three\n");
         }else if (data.buttonSelected.contains("RadialFour")) {
             data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_FOUR;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Four\n");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Four\n");
         }else if (data.buttonSelected.contains("RadialSix")) {
             data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_SIX;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Six\n");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Six\n");
         }else if (data.buttonSelected.contains("RadialEight")) {
             data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_EIGHT;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Eight\n");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Eight\n");
         }
 
         this._uiData.update(data);

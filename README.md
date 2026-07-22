@@ -1,16 +1,23 @@
 # Wojo's Quick Access Item's (Toolbelts, Slings & More)
-Turn two hotbar slots into 20+! 
+Turn 2 hotbar slots into 4+! 
 This mod for **Hytale** adds custom items that allow Quck Access (Quick Swapping) using a radial menu.
+
+## WARNING: 
+- Now that proper radials are implemented there will be **only limited/minor UI updates until Hytale's Noesis GUI** gets added.
+    - (I'm going to need to rewite so much code once that happens so expect a delayed update)
 
 ## User Guide
 - Quick-Access Items can be made at a workbench **Tier 1**
     - There are multiple tiers of Quick-Access Items and each requires the previous tier to be made
-- Holding the item and using **Right-Click** will open chest style inventory to hold items
-    - NOTE: The quick swap feature may not work correctly unless they add an item into the storage at least once
-- Holding a Quick-Access item and using **Left-Click** key will open a radial menu allowing the user to select a button to swap an item from the **Target Hotbar Location** with whatever the selected button shows (----, Means the QuickAccess Item has nothing in that position).
-- **Enabling** the Quick-Swap feature in the _Settings_ turns the **Equipped Hotbar Position** into an equipment slot for the QuickAccess Item. If the user places their QuickAccess Item into the specified hotbar position while **Enabled**. Pressing that hotbar key will instantly open the radial menu without needing to equip the item and *Left-Click* to allow proper QuickAccess
+- The Quick-Access Items
+    - Holding the item and using **Right-Click** will open chest style inventory to exmpand your inventory
+        - NOTE: The radial feature may not work correctly unless they add something into the chest inventory at least once
+    - Holding the item and using **Left-Click** key will open a radial menu allowing the user to select a button to swap an item from the **Target Hotbar Location** with whatever the selected button shows.
+    - Pressing the **Settings** Or **Status** buttons will open the _Settings GUI_
+    - **Enabling** the Quick-Swap feature in the _Settings GUI_ turns the **Equipped Hotbar Position** into an equipment slot for the QuickAccess Item.
+        - Place a Quick-Access Item into the specified hotbar position while **Enabled** to allow using the hotbar button to open that radial menu instead of needing to hold the item.
 
-### Description
+### Detailed Description
 - Add new *Quick Access Items* that are used to implement the feature.
     - Holding the item and using **Right-Click** will open chest style inventory to hold items
     - Holding the item and using **Left-Click** will open a radial menu listing items in the inventory. Selecting an item on the UI will swap whatever is in hotbar position 0 (Configurable) with whatever is in the *Quick Access Item* at that spot.
@@ -27,7 +34,7 @@ This mod for **Hytale** adds custom items that allow Quck Access (Quick Swapping
 ### Design Goal
 The main purpose of this mod is to fix one of my major complaints I have with the inventory managemnet. That issue is that the hotbar never feels large enough for the sheet number of things you want to switch between. The original design was a Quick Access strictly for different tools/weapons. 
 
-The current design only includes the *Unrestricted Quick Access Item* with the goal to allow more options and better configuration in the future.
+The current design only includes the *Unrestricted Quick Access Items* with the goal to allow more options and better configuration in the future.
 
 ### Quick Access Item Types (Only checked items are currently implemented)
 - [ ] **Toolbelt:** Quick access radial item that holds only holds **Tools** (Shovel, Pickaxe, axe, hammer)
@@ -39,11 +46,11 @@ The current design only includes the *Unrestricted Quick Access Item* with the g
 
 ### Quick Access Item Tiers and Default Storage Capacity
 - Common: 2 slots
-- Uncommon: 4 slots
-- Rare: 8 slots 
-- Epic: 12 slots
-- Legendary: 20 slots
-- Debug: 24 slots
+- Uncommon: 3 slots
+- Rare: 4 slots 
+- Epic: 6 slots
+- Legendary: 8 slots
+- Debug: 12 slots
 
 ---
 
@@ -70,7 +77,7 @@ The current design only includes the *Unrestricted Quick Access Item* with the g
 /wqa item swap
 /wqa gui *
 
-// - Admin Needed
+// - Admin Access Needed
 /wqa comp *
 /wqa item print
 
@@ -86,9 +93,11 @@ The current design only includes the *Unrestricted Quick Access Item* with the g
 - Custom Key Binds are not currently supported
     - Use the hotbar positions to supliment a key bind for time being.
     - Using hotbar involves async calls outside of the normal game loop and ECS structure.
-    - Added a few concurent hash maps as a way to pass data from the async calls to the game loop. (It's hacky and I don't like it but it works until they add custom key binds) 
+    - Added a few concurent hash maps as a way to pass data from the async calls to the game loop. (It's hacky and I don't like it but it works until they add custom key binds)
+- UI Design involves some hacky work arounds as its not the best.
+    - UI Update's will be limited until the release of **noesis gui**
   
-### Code Data Description
+### Code Data Handleing
 The plugin layout has 2 data storage locations; **QuickAccessPlayerComponent - The player** and **QuickAccessItemComponent - The Quick Access Item**.
 The Item is just a data object that holds info that I was unable to add to the item json. Data in here shouldn't change unless configs are changed. The **PlayerComponent** is the only area where data does change and it gets updated when the user adjusts any settings. 
 
@@ -115,13 +124,13 @@ When a user presses the eqipped hotbar location the code checks to see if the us
     - The QuickAccessPlayerComponent (ECS component attached to the player)
     - The QuickAccessItemComponent (This is not an ecs component, its used as a wrapper to get the items Json data & some config data)
 - Config
-    - All statically defined values
+    - All statically defined values (Plan to be editable)
 - Events
     - Mod involves player interaction so the async nature requiures the use of events instead of a system for the swap functionality
 - Handlers
     - Logic for handling the triggered events
 - Interactions
-    - This is the handler for when players use items. Items use interaction chains so we use this to open the UI when player is holding the item.
+    - Items use interaction chains so we use this to open the UI when player is holding the item.This is the handler for an item interaction. 
 - Packet Adapters
     - Logic to convert player hotbar interaction to a UI button (Ideally when player keybinds get intoduced this can be replaced)
 - Systems
@@ -131,32 +140,30 @@ When a user presses the eqipped hotbar location the code checks to see if the us
 - UI
     - All ui classes
 - Resources
-  - The different resource components that are made through Hytale's Asset Editior
+  - The different resource components that are made through Hytale's Asset Editior. It inludes the **UI html files | Lang Files | Asset Files **  
 
 ---
 
 ### TODO:
 ##### High Priority (No set order)
-- [ ] Update Radial UI to look better
 - [ ] Fix permissions issues - Default perms should allow player to use item
-- [ ] Custom Item model
-- [ ] Allow item to be placed in world & used like chest
+- [ ] Allow swap item to/from Selected hotbar instead of specific value
+- [ ] Allow item to be placed in world
+    - [ ] Place+Break, Open inventory, Open Radial
 - [ ] Add hud elements to show item buttons to user when holding Quick Access Item
-- [X] All Unrestricted item tiers
-- [X] Crafting reciepe design for all QuickAccessUnrestricted items
 
-##### Low Priority (No set order)
-- [ ] Allow swap item to/from Selected hotbar instead of specific value 
-- [ ] Creative mode tab?
+##### Low Priority (No set order) 
+- [ ] Custom Item model
 - [ ] Add animation to using item
 - [ ] Implement other QuickAccessItemTypes
-- [ ] Allow equipping items in utility slot
 - [ ] Have way to *wear* QuickAccess items so others can see when player has it equipped
-- [ ] Add server configurations to modify config values
-    - [ ] Add configurable equip costs 
-    - [ ] Swap speed
-    - [ ] Move Speed while swapping
-    - [ ] Stamina Cost
+- [ ] Crafting ballence
+- [ ] Configurable costs when using the feature
+    - [ ] Stamina ( Regen Delay, Cost, Gain )
+    - [ ] Mana ( Regen Delay, Cost, Gain )
+    - [ ] Movement ( Speed Modifers, Jump Modifiers ) 
+    - [ ] Animation Time
+    - [ ] Noise ( Audio Que for Others )
 
 
 ### Special Thanks

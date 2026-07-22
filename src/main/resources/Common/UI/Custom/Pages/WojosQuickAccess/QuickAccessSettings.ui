@@ -34,6 +34,7 @@ Group {
             Anchor: (Width: 300);
             Padding: (Full: 0);
             Text: "Enable Quick Swap";
+            TooltipText: "Override the defined hotbar location as a Quick-Access equipment slot and an Open-Radial button";
             Style: (TextColor: #ffffff);
           }
       }
@@ -43,6 +44,7 @@ Group {
         Background: (Color: #333333);
         Anchor: (Height: 25);
         Padding: (Full: 0);
+        TooltipText: "Override the defined hotbar location as a Quick-Access equipment slot and an Open-Radial button";
       }
     }
     Group #BodyR1NumberInput {
@@ -56,12 +58,14 @@ Group {
           Anchor: (Width: 300);
           Padding: (Full: 0);
           Text: "Equipped Hotbar Location [0 -> 8]";
+          TooltipText: "What hotbar button should be overwritten as an eqipment/open-radial button. [0: Num-Key 1; 8: Num-Key 9]";
           Style: (TextColor: #ffffff);
         }
       }
       $C.@NumberField #EquippedNumberField {
         Anchor: (Width: 50, Height: 25);
         Padding: (Full: 0);
+        TooltipText: "What hotbar button should be overwritten as an eqipment/open-radial button. [0: Num-Key 1; 8: Num-Key 9]";
       }
     }
     Group #BodyR2NumberInput {
@@ -75,12 +79,14 @@ Group {
           Anchor: (Width: 300);
           Padding: (Full: 0);
           Text: "Target Hotbar Location [0 -> 8]";
+          TooltipText: "What hotbar button should radial selected items be swapped into. [0: Num-Key 1; 8: Num-Key 9]";
           Style: (TextColor: #ffffff);
         }
       }
       $C.@NumberField #TargetNumberField {
         Anchor: (Width: 50, Height: 25);
         Padding: (Full: 0);
+        TooltipText: "What hotbar button should radial selected items be swapped into. [0: Num-Key 1; 8: Num-Key 9]";
       }
     }
     Group #BodyR3StringInput {
@@ -94,6 +100,7 @@ Group {
           Anchor: (Width: 200, Height: 100);
           Padding: (Full: 0);
           Text: "Radial Menu Layout";
+          TooltipText: "What radial UI should be displayed? You can use a larger UI than the Item has access to but the buttons won't do anything.";
           Style: (TextColor: #ffffff);
         }
       }
@@ -106,6 +113,7 @@ Group {
           Padding: (Full: 0);
           Value: "Pages/TwoByTwoQuickAccess.ui";
           PlaceholderText: "Pages/TwoByTwoQuickAccess.ui";
+          TooltipText: "What radial UI should be displayed? You can use a larger UI than the Item has access to but the buttons won't do anything.";
         }
         Group #FileSelectSpacer {
           LayoutMode: Top;
@@ -163,6 +171,7 @@ Group {
         Anchor: (Width: 150, Height: 50);
         Padding: (Full: 0);
         Text: "Submit";
+        TooltipText: "Save the updated values to the players QuickAccess Settings.";
       }
       Group #SpacerHoriz {
         LayoutMode: Top;
@@ -174,6 +183,7 @@ Group {
         Anchor: (Width: 150, Height: 50);
         Padding: (Full: 0);
         Text: "Reset";
+        TooltipText: "Restore QuickAccess values to defaults.";
       }
     }
   }

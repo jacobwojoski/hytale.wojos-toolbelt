@@ -6,12 +6,9 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.Packet;
 import com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChain;
 import com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChains;
-import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.command.system.CommandManager;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.io.adapter.PlayerPacketFilter;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -19,10 +16,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 // Send Packet to player to tell them they are actually holding the original slected item not hotbar 9
 import com.hypixel.hytale.protocol.packets.inventory.SetActiveSlot;
-import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
-import org.wojo.wojosToolbelt.ui.ItemSelectionGui;
 
 import java.util.UUID;
 
@@ -33,9 +28,6 @@ import static org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent.*;
 // NOTE: Use Packet watcher vs Filter to not block the player from swapping weapons.
 //      We're adding features to swapping tools
 public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter {
-    private static final int ABILITY_SLOT = 8;  // Slot index 8 = Key "9"
-
-    static int counter = 0;
 
     // Returns boolean - "blockPacket"
     //    - True: Block Packet
@@ -113,18 +105,18 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
     private void revertSelectedHotbarItem(Integer originalHotbarSlot, PlayerRef playerRef) {
         Ref<EntityStore> entityRef = playerRef.getReference();
         if (entityRef == null || !entityRef.isValid()){
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("Bad entity ref when reverting selected hotbar item.");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] Bad entity ref when reverting selected hotbar item.");
             return;
         }
         Store<EntityStore> store = entityRef.getStore();
         // Update server-side state
         Player player = store.getComponent(entityRef, Player.getComponentType());
         if (player == null || player.getInventory() == null){
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("Bad player when getting component");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warn] Bad player when getting component");
             return;
         }
 
-        //Intentory playerInventory = store.getComponent(entityRef, Inventory.getComponentType());
+        //Inventory playerInventory = store.getComponent(entityRef, Inventory.getComponentType());
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(entityRef, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
         byte hotbarPos = originalHotbarSlot.byteValue();
         
@@ -134,14 +126,5 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
             originalHotbarSlot                      // The slot index to select
         );
         playerRef.getPacketHandler().write(setActiveSlotPacket);
-    }
-
-    // Open the Quick Access Gui 
-    // Params:
-    // - PlayerRef playerRef: Refrence to the player entity. 
-    private void openQuickAccessUI(PlayerRef playerRef, short hotbar_position) {
-        playerRef.sendMessage(Message.raw("Showing UI Page with position " + String.valueOf(hotbar_position)));
-        // Open QuickAccess UI by using a command
-        //CommandManager.get().handleCommand(playerRef, "wqa gui select --event open");
     }
 }
