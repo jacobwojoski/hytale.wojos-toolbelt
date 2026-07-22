@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccessItemEvent> {
     @Override
     public void accept(SwapQuickAccessItemEvent swapQuickAccessItemEvent) {
-        WojosQuickAccessPlugin.LOGGER.atDebug().log("[DEBUG] Running Swap event handler");
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Running Swap event handler");
         Ref<EntityStore> playerRef = swapQuickAccessItemEvent.playerRef();
         Store<EntityStore> store = swapQuickAccessItemEvent.store();
         short sourceInventoryPosition = swapQuickAccessItemEvent.sourceInventoryPosition();
@@ -37,7 +37,7 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(playerRef, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
         ItemStack quickAccessItemStack = hotbar.getInventory().getItemStack(equippedPosition);
-        WojosQuickAccessPlugin.LOGGER.atDebug().log("[DEBUG] Handler Data: \n - Target Pos: "+targetPosition+"\n - Source Pos: "+sourceInventoryPosition+"\n - Equipped Pos: "+equippedPosition);
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Handler Data: \n - Target Pos: "+targetPosition+"\n - Source Pos: "+sourceInventoryPosition+"\n - Equipped Pos: "+equippedPosition);
 
         // ------ Get Currently Stored Items ------
         // Get current target hotbar item
@@ -47,14 +47,14 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         BsonDocument containerBSON = quickAccessItemStack.getFromMetadataOrNull(ItemStackItemContainer.CONTAINER_CODEC);
         ItemStack[] containerItems = ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
         if ( containerItems == null ){
-            WojosQuickAccessPlugin.LOGGER.atDebug().log("[DEBUG]: Trying to use unused container, Add item to get it working");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Trying to use unused container, Add item to get it working");
             String cmd = "echo \"You need to add an item to the Quick Access Container Inventory to get UI to work! Open the Ui with the USE key (Default: f)\"";
             UUID uuid = store.getComponent(playerRef, UUIDComponent.getComponentType()).getUuid();
             PlayerRef ref = Universe.get().getPlayer(uuid);
             CommandManager.get().handleCommand(ref, cmd);
             return;
         } else if ( sourceInventoryPosition >= containerItems.length){
-            WojosQuickAccessPlugin.LOGGER.atDebug().log("[DEBUG]: Trying to access position out of range, Button disable not working");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Trying to access position out of range, Button disable not working");
             return;
         }
         ItemStack itemStoredInQaComp = containerItems[sourceInventoryPosition];

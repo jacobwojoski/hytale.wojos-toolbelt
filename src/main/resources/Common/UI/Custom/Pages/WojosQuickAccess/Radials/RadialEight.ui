@@ -104,7 +104,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton1 {
@@ -119,7 +119,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton7 {
@@ -134,7 +134,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton2 {
@@ -149,7 +149,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton6 {
@@ -164,7 +164,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton3 {
@@ -179,7 +179,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton5 {
@@ -194,7 +194,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButton4 {
@@ -209,7 +209,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
         Button #QuickAccessButtonEquipped {
@@ -224,7 +224,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
     }

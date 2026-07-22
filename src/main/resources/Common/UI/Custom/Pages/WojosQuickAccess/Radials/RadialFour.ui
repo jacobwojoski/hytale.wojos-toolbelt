@@ -84,7 +84,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
 
@@ -100,7 +100,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
                          
@@ -116,7 +116,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
                          
@@ -132,7 +132,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
 
@@ -148,7 +148,7 @@ Group {
                 Visible: true;
                 HitTestVisible: false;
                 TextTooltipShowDelay: 1.0;
-                ItemScale: 0.9;
+                ItemScale: 0.8;
             }
         }
     }

@@ -183,7 +183,7 @@ Group {
         Anchor: (Width: 150, Height: 50);
         Padding: (Full: 0);
         Text: "Reset";
-        TooltipText: "Restore QuickAccess setting to what they were when opening the UI.";
+        TooltipText: "Restore QuickAccess values to defaults.";
       }
     }
   }
