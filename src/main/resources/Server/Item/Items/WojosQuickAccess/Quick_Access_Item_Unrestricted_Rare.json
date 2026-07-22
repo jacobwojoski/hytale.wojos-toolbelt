@@ -7,7 +7,7 @@
   "Icon": "Icons/ItemsGenerated/Utility_Leather_Quiver.png",
   "Model": "Items/Back/Quiver.blockymodel",
   "Texture": "Items/Back/Quiver_Texture.png",
-  "Quality": "Common",
+  "Quality": "Rare",
   "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.5,
@@ -57,8 +57,16 @@
   "Recipe": {
     "Input": [
       {
-        "ItemId": "Ingredient_Leather_Light",
+        "ItemId": "Ingredient_Leather_Heavy",
         "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Quick_Access_Item_Unrestricted_Uncommon",
+        "Quantity": 1
       }
     ],
     "BenchRequirement": [
@@ -71,7 +79,7 @@
       }
     ],
     "PrimaryOutput": {
-      "ItemId": "Quick_Access_Item_Common_Unrestricted",
+      "ItemId": "Quick_Access_Item_Unrestricted_Rare",
       "Quantity": 1
     }
   },

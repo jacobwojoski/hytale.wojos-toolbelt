@@ -30,7 +30,7 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
         public Boolean isEnabled = false;
         public Integer equippedPos = 8;
         public Integer targetPos = 0;
-        public String guiFile = QuickAccessConfig.SELECTION_GUI_FILE_THREE_BY_THREE;
+        public String guiFile = QuickAccessConfig.SELECTION_GUI_FILE_GRID_THREE_BY_THREE;
         public String buttonSelected = "";
 
         public String getDebugString(){
@@ -141,36 +141,44 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
         );
 
         uiEventBuilder.addEventBinding(
-                CustomUIEventBindingType.Activating, "#TwoByTwoUiButton",
+                CustomUIEventBindingType.Activating, "#RadialTwo",
                 EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","TwoByTwo"), false
+                        .append("ButtonSelected","RadialTwo"), false
         );
         uiEventBuilder.addEventBinding(
-                CustomUIEventBindingType.Activating, "#ThreeByThreeUiButton",
+                CustomUIEventBindingType.Activating, "#RadialThree",
                 EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","ThreeByThree"), false
+                        .append("ButtonSelected","RadialThree"), false
         );
         uiEventBuilder.addEventBinding(
-                CustomUIEventBindingType.Activating, "#FourByFourUiButton",
+                CustomUIEventBindingType.Activating, "#RadialFour",
                 EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","FourByFour"), false
+                        .append("ButtonSelected","RadialFour"), false
         );
         uiEventBuilder.addEventBinding(
-                CustomUIEventBindingType.Activating, "#FiveByFiveUiButton",
+                CustomUIEventBindingType.Activating, "#RadialSix",
                 EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","FiveByFive"), false
+                        .append("ButtonSelected","RadialSix"), false
+        );
+        uiEventBuilder.addEventBinding(
+                CustomUIEventBindingType.Activating, "#RadialEight",
+                EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
+                        .append("@EquippedNumberField", "#EquippedNumberField.Value")
+                        .append("@TargetNumberField","#TargetNumberField.Value")
+                        .append("@GuiFileTextField","#GuiFileTextField.Value")
+                        .append("ButtonSelected","RadialEight"), false
         );
 
         uiEventBuilder.addEventBinding(
@@ -217,18 +225,21 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
         }else if (data.buttonSelected.contains("ResetButton")) {
             data = new SettingsUiData();
             WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Reset settings values\n");
-        }else if (data.buttonSelected.contains("TwoByTwo")) {
-            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_TWO_BY_TWO;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to TwoByTwo\n");
-        }else if (data.buttonSelected.contains("ThreeByThree")) {
-            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_THREE_BY_THREE;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to ThreeByThree\n");
-        }else if (data.buttonSelected.contains("FourByFour")) {
-            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_FOUR_BY_FOUR;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to FourByFour\n");
-        }else if (data.buttonSelected.contains("FiveByFive")) {
-            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_FIVE_BY_FIVE;
-            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to FiveByFive\n");
+        }else if (data.buttonSelected.contains("RadialTwo")) {
+            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_TWO;
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Two\n");
+        }else if (data.buttonSelected.contains("RadialThree")) {
+            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_THREE;
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Three\n");
+        }else if (data.buttonSelected.contains("RadialFour")) {
+            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_FOUR;
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Four\n");
+        }else if (data.buttonSelected.contains("RadialSix")) {
+            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_SIX;
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Six\n");
+        }else if (data.buttonSelected.contains("RadialEight")) {
+            data.guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_EIGHT;
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: PlayerSettingsGui - Update Gui File to Radial Eight\n");
         }
 
         this._uiData.update(data);

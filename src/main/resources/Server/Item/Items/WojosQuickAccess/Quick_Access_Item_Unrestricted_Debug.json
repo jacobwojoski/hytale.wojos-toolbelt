@@ -7,7 +7,7 @@
   "Icon": "Icons/ItemsGenerated/Utility_Leather_Quiver.png",
   "Model": "Items/Back/Quiver.blockymodel",
   "Texture": "Items/Back/Quiver_Texture.png",
-  "Quality": "Uncommon",
+  "Quality": "Debug",
   "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.5,
@@ -29,7 +29,7 @@
     ]
   },
   "Container": {
-    "Capacity": 8
+    "Capacity": 12
   },
   "Interactions": {
     "Primary": {
@@ -52,35 +52,6 @@
           "Type": "OpenItemStackContainer"
         }
       ]
-    }
-  },
-  "Recipe": {
-    "Input": [
-      {
-        "ItemId": "Ingredient_Leather_Medium",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Bar_Copper",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Quick_Access_Item_Common_Unrestricted",
-        "Quantity": 1
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Workbench",
-        "Type": "Crafting",
-        "Categories": [
-          "Workbench_Tools"
-        ]
-      }
-    ],
-    "PrimaryOutput": {
-      "ItemId": "Quick_Access_Item_Common_Unrestricted",
-      "Quantity": 1
     }
   },
   "ItemLevel": 100,

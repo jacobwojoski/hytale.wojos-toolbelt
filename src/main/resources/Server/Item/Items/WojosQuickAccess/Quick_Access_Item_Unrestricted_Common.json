@@ -7,7 +7,7 @@
   "Icon": "Icons/ItemsGenerated/Utility_Leather_Quiver.png",
   "Model": "Items/Back/Quiver.blockymodel",
   "Texture": "Items/Back/Quiver_Texture.png",
-  "Quality": "Epic",
+  "Quality": "Common",
   "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.5,
@@ -29,7 +29,7 @@
     ]
   },
   "Container": {
-    "Capacity": 16
+    "Capacity": 2
   },
   "Interactions": {
     "Primary": {
@@ -57,16 +57,8 @@
   "Recipe": {
     "Input": [
       {
-        "ItemId": "Ingredient_Leather_Heavy",
-        "Quantity": 20
-      },
-      {
-        "ItemId": "Ingredient_Bar_Cobalt",
+        "ItemId": "Ingredient_Leather_Light",
         "Quantity": 10
-      },
-      {
-        "ItemId": "Quick_Access_Item_Rare_Unrestricted",
-        "Quantity": 1
       }
     ],
     "BenchRequirement": [
@@ -79,7 +71,7 @@
       }
     ],
     "PrimaryOutput": {
-      "ItemId": "Quick_Access_Item_Common_Unrestricted",
+      "ItemId": "Quick_Access_Item_Unrestricted_Common",
       "Quantity": 1
     }
   },

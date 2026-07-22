@@ -7,7 +7,7 @@
   "Icon": "Icons/ItemsGenerated/Utility_Leather_Quiver.png",
   "Model": "Items/Back/Quiver.blockymodel",
   "Texture": "Items/Back/Quiver_Texture.png",
-  "Quality": "Legendary",
+  "Quality": "Epic",
   "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.5,
@@ -29,7 +29,7 @@
     ]
   },
   "Container": {
-    "Capacity": 20
+    "Capacity": 6
   },
   "Interactions": {
     "Primary": {
@@ -58,14 +58,14 @@
     "Input": [
       {
         "ItemId": "Ingredient_Leather_Heavy",
-        "Quantity": 30
+        "Quantity": 20
       },
       {
-        "ItemId": "Ingredient_Bar_Adamantite",
+        "ItemId": "Ingredient_Bar_Cobalt",
         "Quantity": 10
       },
       {
-        "ItemId": "Quick_Access_Item_Epic_Unrestricted",
+        "ItemId": "Quick_Access_Item_Rare_Unrestricted",
         "Quantity": 1
       }
     ],
@@ -79,7 +79,7 @@
       }
     ],
     "PrimaryOutput": {
-      "ItemId": "Quick_Access_Item_Common_Unrestricted",
+      "ItemId": "Quick_Access_Item_Unrestricted_Epic",
       "Quantity": 1
     }
   },

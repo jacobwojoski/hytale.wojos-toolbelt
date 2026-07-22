@@ -1,4 +1,4 @@
-$C = "../Common.ui";
+$C = "../../Common.ui";
 Group {
   LayoutMode: Top;
   Background: (Color: #003333);
@@ -114,34 +114,42 @@ Group {
         }
         Group {
           LayoutMode: Left;
-          $C.@TextButton #TwoByTwoUiButton {
-            Anchor: (Width: 250, Height: 50);
+          $C.@TextButton #RadialTwo {
+            Anchor: (Width: 250, Height: 40);
             Padding: (Full: 0);
-            Text: "Two-By-Two Radial";
+            Text: "Radial - Two";
           }
         }
         Group {
           LayoutMode: Left;
-          $C.@TextButton #ThreeByThreeUiButton {
-            Anchor: (Width: 250, Height: 50);
+          $C.@TextButton #RadialThree {
+            Anchor: (Width: 250, Height: 40);
             Padding: (Full: 0);
-            Text: "Three-By-Three Radial";
+            Text: "Radial - Three";
           }
         }
         Group {
           LayoutMode: Left;
-          $C.@TextButton #FourByFourUiButton {
-            Anchor: (Width: 250, Height: 50);
+          $C.@TextButton #RadialFour {
+            Anchor: (Width: 250, Height: 40);
             Padding: (Full: 0);
-            Text: "Four-By-Four Radial";
+            Text: "Radial - Four";
           }
         }
         Group {
           LayoutMode: Left;
-          $C.@TextButton #FiveByFiveUiButton {
-            Anchor: (Width: 250, Height: 50);
+          $C.@TextButton #RadialSix {
+            Anchor: (Width: 250, Height: 40);
             Padding: (Full: 0);
-            Text: "Five-By-Five Radial";
+            Text: "Radial - Six";
+          }
+        }
+        Group {
+          LayoutMode: Left;
+          $C.@TextButton #RadialEight {
+            Anchor: (Width: 250, Height: 40);
+            Padding: (Full: 0);
+            Text: "Radial - Eight";
           }
         }
       }

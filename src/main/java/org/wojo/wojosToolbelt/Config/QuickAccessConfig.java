@@ -11,29 +11,61 @@ public class QuickAccessConfig {
     // Default Hytale Qualities:
     // - [Common, Uncommon, Rare, Epic, Legendary, Debug]
     public static final Set<String> QUICK_ACCESS_ITEM_IDS = Set.of(
-        "Quick_Access_Item_Common_Unrestricted",
-        "Quick_Access_Item_Uncommon_Unrestricted",
-        "Quick_Access_Item_Rare_Unrestricted",
-        "Quick_Access_Item_Epic_Unrestricted",
-        "Quick_Access_Item_Legendary_Unrestricted",
-        "Quick_Access_Item_Debug_Unrestricted"
+        "Quick_Access_Item_Unrestricted_Common",
+        "Quick_Access_Item_Unrestricted_Uncommon",
+        "Quick_Access_Item_Unrestricted_Rare",
+        "Quick_Access_Item_Unrestricted_Epic",
+        "Quick_Access_Item_Unrestricted_Legendary",
+        "Quick_Access_Item_Unrestricted_Debug"
     );
     
-    // The max number of items any toolbelt could possibly hold. (Used to define array size in Component)
-    // NOTE: UI's are made with pre-defined component counts. Editing these values may require making new UI files.
-    // TODO: These can be changed so set names to 'DEFAULT'
-    public static int HOTBAR_GUI_BUTTON = 8;            // Button 9
-    public static int HOTBAR_SWAP_LOCATION = 0;         // Button 1
+    
+    public static final int HOTBAR_EQIPPED_LOCATION_DEFAULT = 8;    // Button 9 - Hotbar location to eqip and use the qa-item
+    public static final int HOTBAR_TARGET_LOCATION_DEFAULT = 0;     // Button 1 - Hotbar location to send stored qa-item to
 
-    public static final String SELECTION_GUI_FILE_TWO_BY_TWO = "Pages/Radials/TwoByTwoQuickAccess.ui";
-    public static final String SELECTION_GUI_FILE_THREE_BY_THREE = "Pages/Radials/ThreeByThreeQuickAccess.ui";
-    public static final String SELECTION_GUI_FILE_FOUR_BY_FOUR = "Pages/Radials/FourByFourQuickAccess.ui";
-    public static final String SELECTION_GUI_FILE_FIVE_BY_FIVE = "Pages/Radials/FiveByFiveQuickAccess.ui";
-    public static final String[] SELECTION_GUI_FILES = {SELECTION_GUI_FILE_TWO_BY_TWO, SELECTION_GUI_FILE_THREE_BY_THREE, SELECTION_GUI_FILE_FOUR_BY_FOUR, SELECTION_GUI_FILE_FIVE_BY_FIVE};
+    public static final String SELECTION_GUI_FILE_GRID_THREE_BY_THREE = "Pages/WojosQuickAccess/Grids/ThreeByThreeQuickAccess.ui";
+    public static final String SELECTION_GUI_FILE_GRID_FIVE_BY_FIVE = "Pages/WojosQuickAccess/Grids/FiveByFiveQuickAccess.ui";
+    public static final String SELECTION_GUI_FILE_GRID_SEVEN_BY_SEVEN = "Pages/WojosQuickAccess/Grids/SevenBySevenQuickAccess.ui";
+    public static final String[] SELECTION_GUI_FILES_GRID = {
+        SELECTION_GUI_FILE_GRID_THREE_BY_THREE, 
+        SELECTION_GUI_FILE_GRID_FIVE_BY_FIVE,
+        SELECTION_GUI_FILE_GRID_SEVEN_BY_SEVEN
+    };
 
-    public static final String DEFAULT_SELECTION_GUI_FILE = SELECTION_GUI_FILE_THREE_BY_THREE; // Default to 3x3 grid with 8 selections
-    public static final String SETTINGS_GUI_FILE = "Pages/QuickAccessSettings.ui";
-    public static final String HELPP_GUI_FILE = "Pages/QuickAccessHelp.ui";
+    // Radial selection files, names for number of selectable options
+    public static final String SELECTION_GUI_FILE_RADIAL_TWO = "Pages/WojosQuickAccess/Radials/RadialTwo.ui";
+    public static final String SELECTION_GUI_FILE_RADIAL_THREE = "Pages/WojosQuickAccess/Radials/RadialThree.ui";
+    public static final String SELECTION_GUI_FILE_RADIAL_FOUR = "Pages/WojosQuickAccess/Radials/RadialFour.ui";
+    public static final String SELECTION_GUI_FILE_RADIAL_SIX = "Pages/WojosQuickAccess/Radials/RadialSix.ui";
+    public static final String SELECTION_GUI_FILE_RADIAL_EIGHT = "Pages/WojosQuickAccess/Radials/RadialEight.ui";
+    public static final String SELECTION_GUI_FILE_RADIAL_NINE = "Pages/WojosQuickAccess/Radials/RadialNine.ui";
+    public static final String SELECTION_GUI_FILE_RADIAL_TWELVE = "Pages/WojosQuickAccess/Radials/RadialTwelve.ui";
+    public static final String[] SELECTION_GUI_FILES_RADIAL = {
+        SELECTION_GUI_FILE_RADIAL_TWO,
+        SELECTION_GUI_FILE_RADIAL_THREE,
+        SELECTION_GUI_FILE_RADIAL_FOUR,
+        SELECTION_GUI_FILE_RADIAL_SIX,
+        SELECTION_GUI_FILE_RADIAL_EIGHT,
+        SELECTION_GUI_FILE_RADIAL_NINE,
+        SELECTION_GUI_FILE_RADIAL_TWELVE
+    };
+
+    public static final String[] ALL_SELECTION_GUI_FILES = {
+        SELECTION_GUI_FILE_GRID_THREE_BY_THREE, 
+        SELECTION_GUI_FILE_GRID_FIVE_BY_FIVE,
+        SELECTION_GUI_FILE_GRID_SEVEN_BY_SEVEN,
+        SELECTION_GUI_FILE_RADIAL_TWO,
+        SELECTION_GUI_FILE_RADIAL_THREE,
+        SELECTION_GUI_FILE_RADIAL_FOUR,
+        SELECTION_GUI_FILE_RADIAL_SIX,
+        SELECTION_GUI_FILE_RADIAL_EIGHT,
+        SELECTION_GUI_FILE_RADIAL_NINE,
+        SELECTION_GUI_FILE_RADIAL_TWELVE
+    };
+
+    public static final String DEFAULT_SELECTION_GUI_FILE = SELECTION_GUI_FILE_RADIAL_THREE;
+    public static final String SETTINGS_GUI_FILE = "Pages/WojosQuickAccess/QuickAccessSettings.ui";
+    public static final String HELP_GUI_FILE = "Pages/WojosQuickAccess/QuickAccessHelp.ui";
 
     // Possible Item Tiers. Mythic is not craftable.
     public static enum ITEM_TIER {
@@ -101,7 +133,7 @@ public class QuickAccessConfig {
     public static Integer[] QUIVER_ARRAY =           {0,2,3,4,5,6,8,8};
 
     // Unrestricted array can hold anything
-    public static Integer[] UNRESTRICTED_ARRAY =     {0,4,8,12,16,20,24};
+    public static Integer[] UNRESTRICTED_ARRAY =     {0,2,3,4,6,8,12};
 
     // Get the number of different items the QuickAccess Item can swap between
     public static Integer getQuickAccessSize(QuickAccessItemComponent item) {
@@ -120,12 +152,12 @@ public class QuickAccessConfig {
 
     public static ITEM_TYPE getQuickAccessItemType(String item_id) {
         switch (item_id){
-            case "Quick_Access_Item_Common_Unrestricted":
-            case "Quick_Access_Item_Uncommon_Unrestricted":
-            case "Quick_Access_Item_Rare_Unrestricted":
-            case "Quick_Access_Item_Epic_Unrestricted":
-            case "Quick_Access_Item_Legendary_Unrestricted":
-            case "Quick_Access_Item_Debug_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Common":
+            case "Quick_Access_Item_Unrestricted_Uncommon":
+            case "Quick_Access_Item_Unrestricted_Rare":
+            case "Quick_Access_Item_Unrestricted_Epic":
+            case "Quick_Access_Item_Unrestricted_Legendary":
+            case "Quick_Access_Item_Unrestricted_Debug":
                 return ITEM_TYPE.UNRESTRICTED;
             default:
                 return ITEM_TYPE.UNKNOWN;
@@ -134,17 +166,17 @@ public class QuickAccessConfig {
 
     public static ITEM_TIER getQuickAccessItemTier(String item_id) {
         switch (item_id){
-            case "Quick_Access_Item_Common_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Common":
                 return ITEM_TIER.COMMON;
-            case "Quick_Access_Item_Uncommon_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Uncommon":
                 return ITEM_TIER.UNCOMMON;
-            case "Quick_Access_Item_Rare_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Rare":
                 return ITEM_TIER.RARE;
-            case "Quick_Access_Item_Epic_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Epic":
                 return ITEM_TIER.EPIC;
-            case "Quick_Access_Item_Legendary_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Legendary":
                 return ITEM_TIER.LEGENDARY;
-            case "Quick_Access_Item_Debug_Unrestricted":
+            case "Quick_Access_Item_Unrestricted_Debug":
                 return ITEM_TIER.DEBUG;
             default:
                 return ITEM_TIER.UNKNOWN;
