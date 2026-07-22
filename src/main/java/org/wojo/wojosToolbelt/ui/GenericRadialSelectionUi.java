@@ -330,7 +330,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
             case "help" -> {
                 WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: Help Pressed");
-                String cmd = "echo \"WIP - See https://github.com/jacobwojoski/hytale.wojos-toolbelt for README\"";
+                String cmd = "echo \" W.I.P. - See https://github.com/jacobwojoski/hytale.wojos-toolbelt for a README\"";
                 CommandManager.get().handleCommand(playerRef,cmd);
                 // https://github.com/jacobwojoski/hytale.wojos-toolbelt
                 this.close();
