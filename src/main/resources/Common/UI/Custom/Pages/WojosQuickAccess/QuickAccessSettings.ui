@@ -2,7 +2,7 @@ $C = "../../Common.ui";
 Group {
   LayoutMode: Top;
   Background: (Color: #003333);
-  Anchor: (Width: 600, Height: 550);
+  Anchor: (Width: 600, Height: 650);
   Padding: (Left: 10, Top: 10);
   Group #R0Title {
     LayoutMode: CenterMiddle;
@@ -45,6 +45,35 @@ Group {
         Anchor: (Height: 25);
         Padding: (Full: 0);
         TooltipText: "Override the defined hotbar location as a Quick-Access equipment slot and an Open-Radial button";
+      }
+    }
+    Group #R2Body {
+    LayoutMode: Top;
+    Background: (Color: #003300);
+    Padding: (Full: 0);
+    Group #BodyR0Checkbox {
+      LayoutMode: Left;
+      Background: (Color: #333333);
+      Anchor: (Height: 50);
+      Padding: (Full: 0);
+      Group {
+        LayoutMode: Middle;
+        Background: (Color: #333333);
+          Label #IsActiveSwapEnabledLabel {
+            Anchor: (Width: 300);
+            Padding: (Full: 0);
+            Text: "Enable Swapping to Active Hotbar:";
+            TooltipText: "Allow Right-Click to swap the selected radial item into the players active hotbar slot.";
+            Style: (TextColor: #ffffff);
+          }
+      }
+      $C.@CheckBoxWithLabel #IsActiveSwapEnabledCheckbox  {
+        @Text = "";
+        LayoutMode: Top;
+        Background: (Color: #333333);
+        Anchor: (Height: 25);
+        Padding: (Full: 0);
+        TooltipText: "Allow Right-Click to swap the selected radial item into the players active hotbar slot.";
       }
     }
     Group #BodyR1NumberInput {
