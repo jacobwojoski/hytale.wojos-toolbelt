@@ -293,6 +293,8 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         WojosQuickAccessPlugin.LOGGER.atFine().log("[Info] Handle Event Output Data:\n "+data.getDebugString());
         String buttonPressed = data.buttonSelected;
         String backgroundImg = data.backgroundImage;
+        String clickType = data.clickType;
+        Boolean isSwapActive_Enabled = this._playerQaComp.getIsSwapActiveEnabled();
 
         // No Data reveived
         if (buttonPressed.equals("N/A") && backgroundImg.equals("N/A")) {
@@ -343,11 +345,19 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                 this.close();
             }
             default -> {
-                // TODO: Handle Click Type First
-                short containerPos = Short.parseShort(buttonPressed);
-                short equippedPos = _quickAccessItemHotbarPosition.shortValue();
-                short targetPos = (short) _playerQaComp.getTargetPosition();
-                SwapQuickAccessItemEvent.dispatch(playerRef.getReference(), store, containerPos, equippedPos, targetPos);
+                if ( clickType.equals("RightClick") && isSwapActive_Enabled) {
+                    // 
+                    short containerPos = Short.parseShort(buttonPressed);
+                    short equippedPos = _quickAccessItemHotbarPosition.shortValue();
+                    // short targetPos = (short) _playerQaComp.getTargetPosition();
+                    short targetPos = QuickAccessUtils.getActiveHotbarPosition(ref, store);
+                    SwapQuickAccessItemEvent.dispatch(playerRef.getReference(), store, containerPos, equippedPos, targetPos);
+                }else{
+                    short containerPos = Short.parseShort(buttonPressed);
+                    short equippedPos = _quickAccessItemHotbarPosition.shortValue();
+                    short targetPos = (short) _playerQaComp.getTargetPosition();
+                    SwapQuickAccessItemEvent.dispatch(playerRef.getReference(), store, containerPos, equippedPos, targetPos);
+                }
                 this.close();
             }
         }
