@@ -42,13 +42,15 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
     public static class RadialGuiInteractionData {
         public String getDebugString() {
             String output =
-                    "- Btn Selected: " + this.buttonSelected +
-                    "\n"+" - Bg Img: " +this.backgroundImage;
+                    "- Btn Selected: "     + this.buttonSelected +
+                    "\n"+" - Bg Img: "     + this.backgroundImage +
+                    "\n"+" - Click Type: " + this.clickType;
             return output;
         }
 
         public String buttonSelected = "N/A";
         public String backgroundImage = "N/A";
+        public String clickType = "N/A";
         public static final BuilderCodec<RadialGuiInteractionData> CODEC = BuilderCodec.builder(RadialGuiInteractionData.class, RadialGuiInteractionData::new)
                 .append(
                         new KeyedCodec<>("ButtonSelected", Codec.STRING),
@@ -60,6 +62,12 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                         new KeyedCodec<>("BackgroundImage", Codec.STRING),
                         (obj, val) -> obj.backgroundImage = val,
                         obj -> obj.backgroundImage
+                )
+                .add()
+                .append(
+                        new KeyedCodec<>("ClickType", Codec.STRING),
+                        (obj, val) -> obj.clickType = val,
+                        obj -> obj.clickType
                 )
                 .add()
                 .build();
@@ -244,18 +252,18 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         for (int qaBtnIt = 0; qaBtnIt < _quickAccessButtons.size(); qaBtnIt++) {
             String htmlID = _quickAccessButtons.get(qaBtnIt).buttonHtmlId;
             String numId = String.valueOf(qaBtnIt);
-            uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating,   htmlID, new EventData().append("ButtonSelected", numId).append("BackgroundImage","N/A"), true);
-
-            // TODO: HandleBG Images
-            uiEventBuilder.addEventBinding(CustomUIEventBindingType.MouseEntered, htmlID, new EventData().append("ButtonSelected", numId).append("BackgroundImage", "HighlightAreaImgPth"+String.valueOf(qaBtnIt) ), false);
+            String bgImg = "HighlightAreaImgPth"+String.valueOf(qaBtnIt);
+            uiEventBuilder.addEventBinding(CustomUIEventBindingType.RightClicking,htmlID, new EventData().append("ButtonSelected", numId).append("BackgroundImage","N/A" ).append("ClickType","RightClick"), true);
+            uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating,   htmlID, new EventData().append("ButtonSelected", numId).append("BackgroundImage","N/A" ).append("ClickType",""), true);
+            uiEventBuilder.addEventBinding(CustomUIEventBindingType.MouseEntered, htmlID, new EventData().append("ButtonSelected", numId).append("BackgroundImage", bgImg).append("ClickType",""), false);
         }
 
-        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonEquipped", new EventData().append("ButtonSelected", "equipped").append("BackgroundImage","N/A"), true);
-        uiEventBuilder.addEventBinding(CustomUIEventBindingType.MouseEntered, "#QuickAccessButtonEquipped", new EventData().append("ButtonSelected", "equipped").append("BackgroundImage", "HighlightAreaImgPthEquipped"), false);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating,   "#QuickAccessButtonEquipped", new EventData().append("ButtonSelected", "equipped").append("BackgroundImage","N/A").append("ClickType",""), true);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.MouseEntered, "#QuickAccessButtonEquipped", new EventData().append("ButtonSelected", "equipped").append("BackgroundImage", "HighlightAreaImgPthEquipped").append("ClickType",""), false);
 
-        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonHelp",     new EventData().append("ButtonSelected", "help"    ).append("BackgroundImage","N/A"), true);
-        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonStatus",   new EventData().append("ButtonSelected", "status"  ).append("BackgroundImage","N/A"), true);
-        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonSettings", new EventData().append("ButtonSelected", "settings").append("BackgroundImage","N/A"), true);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonHelp",     new EventData().append("ButtonSelected", "help"    ).append("BackgroundImage","N/A").append("ClickType",""), true);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonStatus",   new EventData().append("ButtonSelected", "status"  ).append("BackgroundImage","N/A").append("ClickType",""), true);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonSettings", new EventData().append("ButtonSelected", "settings").append("BackgroundImage","N/A").append("ClickType",""), true);
 
         // Apply UI File
         uiCommandBuilder.append(this._guiFile);
@@ -335,6 +343,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                 this.close();
             }
             default -> {
+                // TODO: Handle Click Type First
                 short containerPos = Short.parseShort(buttonPressed);
                 short equippedPos = _quickAccessItemHotbarPosition.shortValue();
                 short targetPos = (short) _playerQaComp.getTargetPosition();
