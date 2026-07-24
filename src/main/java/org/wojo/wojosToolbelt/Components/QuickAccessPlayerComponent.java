@@ -102,7 +102,7 @@ public class QuickAccessPlayerComponent implements Component<EntityStore> {
 
     public String getGuiFile() { return this._selectionGui;}
 
-    public boolean getIsSwapActiveEnabled() {return this._isSwapActiveEnabled}
+    public boolean getIsSwapActiveEnabled() {return this._isSwapActiveEnabled;}
 
     // ------------ Setters ------------
     public void setIsEnabled(boolean is_enabled){
@@ -119,7 +119,7 @@ public class QuickAccessPlayerComponent implements Component<EntityStore> {
 
     public void setGuiFile(String gui_file) { this._selectionGui = gui_file;}
 
-    public void setIsSwapActiveEnabled(boolean is_enabled) {this._isSwapActiveEnabled = is_enabled}
+    public void setIsSwapActiveEnabled(boolean is_enabled) {this._isSwapActiveEnabled = is_enabled;}
 
     // ------------ Debug ------------
     public String getPrintableString(){
@@ -128,7 +128,7 @@ public class QuickAccessPlayerComponent implements Component<EntityStore> {
             "- Is Enabled: %b \n"+
             "- Equipped Pos: %d \n" +
             "- Target Pos: %d \n"+
-            "- Gui File: %s \n",
+            "- Gui File: %s \n"+
             "- SwapActive Status: %b",
             this.getIsEnabled(),
             this.getEquippedPosition(),

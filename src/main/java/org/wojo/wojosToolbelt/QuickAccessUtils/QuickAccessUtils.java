@@ -229,7 +229,7 @@ public class QuickAccessUtils {
     Boolean isActiveItemTheQuickAccessItem = QuickAccessUtils.isQuickAccessItem(heldItem);
 
     if (isActiveItemTheQuickAccessItem){
-        notificationHelper(store, ref, "WARNING", "Active slot is a Quick-Access Item. Item swap Cancled")
+        notificationHelper(store, ref, "WARNING", "Active slot is a Quick-Access Item. Item swap Cancled");
         return -1;
     }
     return hotbar.getActiveSlot();

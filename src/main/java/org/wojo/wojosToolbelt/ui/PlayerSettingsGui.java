@@ -110,6 +110,7 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
             this._uiData.equippedPos = qaPlayerComp.getEquippedPosition();
             this._uiData.targetPos = qaPlayerComp.getTargetPosition();
             this._uiData.guiFile = qaPlayerComp.getGuiFile();
+            this._uiData.isActiveSwapEnabled = qaPlayerComp.getIsSwapActiveEnabled();
         }
     }
 
@@ -122,7 +123,16 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","IsEnabledCheckbox"),
+                        .append("ButtonSelected","IsEnabledCheckbox")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
+        );
+        uiEventBuilder.addEventBinding(
+                CustomUIEventBindingType.ValueChanged, "#IsActiveSwapEnabledCheckbox #CheckBox",
+                EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
+                        .append("@EquippedNumberField", "#EquippedNumberField.Value")
+                        .append("@TargetNumberField","#TargetNumberField.Value")
+                        .append("@GuiFileTextField","#GuiFileTextField.Value")
+                        .append("ButtonSelected","IsEnabledCheckbox")
                         .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
@@ -220,7 +230,7 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
 
         uiCommandBuilder.append(QuickAccessConfig.SETTINGS_GUI_FILE);
 
-        uiCommandBuilder.set("#IsActiveSwapEnabledCheckbox #CheckBox.Value", _uiData.isEnabled);
+        uiCommandBuilder.set("#IsActiveSwapEnabledCheckbox #CheckBox.Value", _uiData.isActiveSwapEnabled);
         uiCommandBuilder.set("#IsEnabledCheckbox #CheckBox.Value", _uiData.isEnabled);
         uiCommandBuilder.set("#EquippedNumberField.Value", _uiData.equippedPos);
         uiCommandBuilder.set("#TargetNumberField.Value", _uiData.targetPos);

@@ -349,7 +349,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                     // 
                     short containerPos = Short.parseShort(buttonPressed);
                     short equippedPos = _quickAccessItemHotbarPosition.shortValue();
-                    short targetPos = QuickAccessUtils.getActiveHotbarPosition(ref, store);
+                    short targetPos = QuickAccessUtils.getActiveHotbarPosition(store,ref);
                     if (targetPos != -1){
                         SwapQuickAccessItemEvent.dispatch(playerRef.getReference(), store, containerPos, equippedPos, targetPos);
                     }
