@@ -221,4 +221,17 @@ public class QuickAccessUtils {
     var packetHandler = playerRef.getPacketHandler();
     NotificationUtil.sendNotification(packetHandler, primary_msg, secondary_msg);
   }
+
+  public static short getActiveHotbarPosition(Store<EntityStore>store, Ref<EntityStore> ref) {
+    InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+    QuickAccessPlayerComponent qaPlayerComp = store.getComponent(ref, QuickAccessPlayerComponent.getComponentType());
+    ItemStack heldItem = hotbar.getActiveItem();
+    Boolean isActiveItemTheQuickAccessItem = QuickAccessUtils.isQuickAccessItem(heldItem);
+
+    if (isActiveItemTheQuickAccessItem){
+        notificationHelper(store, ref, "WARNING", "Active slot is a Quick-Access Item. Item swap Cancled");
+        return -1;
+    }
+    return hotbar.getActiveSlot();
+  }
 }

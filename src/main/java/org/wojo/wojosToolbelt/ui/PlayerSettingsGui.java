@@ -28,18 +28,20 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
     // ------ UI Interaction Data ------
     public static class SettingsUiData {
         public Boolean isEnabled = false;
+        public Boolean isActiveSwapEnabled = false;
         public Integer equippedPos = 8;
         public Integer targetPos = 0;
         public String guiFile = QuickAccessConfig.SELECTION_GUI_FILE_GRID_THREE_BY_THREE;
         public String buttonSelected = "";
 
         public String getDebugString(){
-            return String.format("------ SettingsUiData ------\n - IsEnabled: %b\n - equippedPos: %d\n - targetPos: %d\n - guiFile: %s\n - buttonSelected: %s",
+            return String.format("------ SettingsUiData ------\n - IsEnabled: %b\n - equippedPos: %d\n - targetPos: %d\n - guiFile: %s\n - buttonSelected: %s\n - activeSwap: %b",
                 this.isEnabled,
                 this.equippedPos,
                 this.targetPos,
                 this.guiFile,
-                this.buttonSelected
+                this.buttonSelected,
+                this.isActiveSwapEnabled                 
             );
         }
 
@@ -49,6 +51,7 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
             this.targetPos = data.targetPos;
             this.guiFile = data.guiFile;
             this.buttonSelected = data.buttonSelected;
+            this.isActiveSwapEnabled = data.isActiveSwapEnabled;
         };
 
         public SettingsUiData(){
@@ -85,6 +88,12 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                 obj -> obj.buttonSelected
             )
             .add()
+            .append(
+                new KeyedCodec<>("@IsActiveSwapEnabled", Codec.BOOLEAN),
+                (obj, val) -> obj.isActiveSwapEnabled = val,
+                obj -> obj.isActiveSwapEnabled
+            )
+            .add()
             .build();
     }
 
@@ -101,6 +110,7 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
             this._uiData.equippedPos = qaPlayerComp.getEquippedPosition();
             this._uiData.targetPos = qaPlayerComp.getTargetPosition();
             this._uiData.guiFile = qaPlayerComp.getGuiFile();
+            this._uiData.isActiveSwapEnabled = qaPlayerComp.getIsSwapActiveEnabled();
         }
     }
 
@@ -113,7 +123,17 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","IsEnabledCheckbox"), false
+                        .append("ButtonSelected","IsEnabledCheckbox")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
+        );
+        uiEventBuilder.addEventBinding(
+                CustomUIEventBindingType.ValueChanged, "#IsActiveSwapEnabledCheckbox #CheckBox",
+                EventData.of("@IsEnabledCheckbox", "#IsEnabledCheckbox #CheckBox.Value")
+                        .append("@EquippedNumberField", "#EquippedNumberField.Value")
+                        .append("@TargetNumberField","#TargetNumberField.Value")
+                        .append("@GuiFileTextField","#GuiFileTextField.Value")
+                        .append("ButtonSelected","IsEnabledCheckbox")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.ValueChanged, "#EquippedNumberField",
@@ -121,7 +141,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","EquippedNumberField"), false
+                        .append("ButtonSelected","EquippedNumberField")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.ValueChanged, "#TargetNumberField",
@@ -129,7 +150,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","TargetNumberField"), false
+                        .append("ButtonSelected","TargetNumberField")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.ValueChanged, "#GuiFileTextField",
@@ -137,7 +159,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","GuiFileTextField"), false
+                        .append("ButtonSelected","GuiFileTextField")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
 
         uiEventBuilder.addEventBinding(
@@ -146,7 +169,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","RadialTwo"), false
+                        .append("ButtonSelected","RadialTwo")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating, "#RadialThree",
@@ -154,7 +178,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","RadialThree"), false
+                        .append("ButtonSelected","RadialThree")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating, "#RadialFour",
@@ -162,7 +187,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","RadialFour"), false
+                        .append("ButtonSelected","RadialFour")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating, "#RadialSix",
@@ -170,7 +196,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","RadialSix"), false
+                        .append("ButtonSelected","RadialSix")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating, "#RadialEight",
@@ -178,7 +205,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","RadialEight"), false
+                        .append("ButtonSelected","RadialEight")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
 
         uiEventBuilder.addEventBinding(
@@ -187,7 +215,8 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","ResetButton"), false
+                        .append("ButtonSelected","ResetButton")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
         uiEventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating, "#SubmitButton",
@@ -195,11 +224,13 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
                         .append("@EquippedNumberField", "#EquippedNumberField.Value")
                         .append("@TargetNumberField","#TargetNumberField.Value")
                         .append("@GuiFileTextField","#GuiFileTextField.Value")
-                        .append("ButtonSelected","SubmitButton"), false
+                        .append("ButtonSelected","SubmitButton")
+                        .append("@IsActiveSwapEnabled", "#IsActiveSwapEnabledCheckbox #CheckBox.Value"), false
         );
 
         uiCommandBuilder.append(QuickAccessConfig.SETTINGS_GUI_FILE);
 
+        uiCommandBuilder.set("#IsActiveSwapEnabledCheckbox #CheckBox.Value", _uiData.isActiveSwapEnabled);
         uiCommandBuilder.set("#IsEnabledCheckbox #CheckBox.Value", _uiData.isEnabled);
         uiCommandBuilder.set("#EquippedNumberField.Value", _uiData.equippedPos);
         uiCommandBuilder.set("#TargetNumberField.Value", _uiData.targetPos);
@@ -218,6 +249,7 @@ public class PlayerSettingsGui extends InteractiveCustomUIPage<PlayerSettingsGui
             newPlayerComp.setTargetPosition(this._uiData.targetPos);
             newPlayerComp.setEquippedPosition(this._uiData.equippedPos);
             newPlayerComp.setGuiFile(this._uiData.guiFile);
+            newPlayerComp.setIsSwapActiveEnabled(this._uiData.isActiveSwapEnabled);
 
             newPlayerComp = QuickAccessUtils.validateQuickAccessPlayerComponent(newPlayerComp);
             store.replaceComponent(ref, QuickAccessPlayerComponent.getComponentType(), newPlayerComp);
