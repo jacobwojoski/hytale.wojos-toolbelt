@@ -76,7 +76,7 @@ Group {
             Anchor: (Width: 350, Height: 350, Left: 0, Top: -700);
             TooltipText: "BTN 0";
             Disabled: true;
-            Background: (Color: #FF00000F);
+            Background: (Color: #0000FF0F);
             LayoutMode: MiddleCenter;
 
             ItemPreviewComponent #QuickAccessButton0Img {

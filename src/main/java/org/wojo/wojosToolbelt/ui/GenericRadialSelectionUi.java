@@ -112,6 +112,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         ItemStack[] storedItems = QuickAccessUtils.getContainerItems(this._quickAccessItem);
         if (storedItems == null){
             WojosQuickAccessPlugin.LOGGER.atFine().log("[WARN]: Stored items in QuickAccess container is null!");
+            QuickAccessUtils.notificationHelper(playerRef.getReference().getStore(), playerRef.getReference(), "WARNING", "You must first add an item to the container inventory to get Radial working.\nUse Right-Click to open container inventory!");
             return;
         }
 
@@ -120,6 +121,8 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         // -- Update button data with item ID
         for (int qaBtnIt=0; qaBtnIt<this._quickAccessButtons.size(); qaBtnIt++) {
             if (qaBtnIt < storedItems.length) {
+                // Enable All buttons that the QuickAccessComp and ItemComp can fit
+                this._quickAccessButtons.get(qaBtnIt).isButtonDisabled = "false";
                 if (storedItems[qaBtnIt] != null) {
                     this._quickAccessButtons.get(qaBtnIt).buttonIcon = storedItems[qaBtnIt].getItemId();
                 }
@@ -223,7 +226,6 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
     private void setIconData(UICommandBuilder command_builder, GuiButtonData button_data) {
         if (!Objects.equals(button_data.buttonIcon, "")){
             command_builder.set(button_data.iconHtmlId+".ItemId", button_data.buttonIcon);
-            button_data.isButtonDisabled = "false";
         }
 
         boolean isDiabled = true;
