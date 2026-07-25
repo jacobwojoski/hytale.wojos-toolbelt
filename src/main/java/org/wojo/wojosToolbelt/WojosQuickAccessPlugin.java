@@ -26,6 +26,9 @@ import javax.annotation.Nonnull;
 /**
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
  * event listeners.
+ *
+ * This log uses debug logs. Update the log level to
+ *  /log WojosQuickAccessPlugin --level fine
  */
 public class WojosQuickAccessPlugin extends JavaPlugin {
     private static WojosQuickAccessPlugin _instance = null;

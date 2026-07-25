@@ -39,6 +39,11 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         ItemStack quickAccessItemStack = hotbar.getInventory().getItemStack(equippedPosition);
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Handler Data: \n - Target Pos: "+targetPosition+"\n - Source Pos: "+sourceInventoryPosition+"\n - Equipped Pos: "+equippedPosition);
 
+        if (equippedPosition == targetPosition) {
+            QuickAccessUtils.notificationHelper(store,playerRef, "ERROR", "You are trying to swap something into the position that the Quick-Access item is stored in.\nMove the Quick-Access item or change the target location!");
+            return;
+        }
+
         // ------ Get Currently Stored Items ------
         // Get current target hotbar item
         ItemStack equippedItem = hotbar.getInventory().getItemStack(targetPosition);
