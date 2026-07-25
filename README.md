@@ -29,7 +29,8 @@ This mod for **Hytale** adds custom items that allow Quck Access (Quick Swapping
 - **Target Position:** When selecting an item in the radial menu, what hotbar location does it swap items to.
 - **Gui File:** What radial menu file do you want to see
     - This allows the player to use a menu that shows locked positions or use a smaller radial menu then possible.
-- **Is Enabled:** Intercept hotbar swaps to use the hotbars *Equipped Position* as a way to open the radial menu instead of needing to **Equip and Use** the item. 
+- **Enable Quick-Swap:** Intercept hotbar swaps to use the hotbars *Equipped Position* as a way to open the radial menu instead of needing to **Equip and Use** the item.
+- **Enable Swap-to-Active:** Right-click an item in the radial to swap the item into the `active-hotbar-position` instead of `target-hotbar-position`
 
 ### Design Goal
 The main purpose of this mod is to fix one of my major complaints I have with the inventory managemnet. That issue is that the hotbar never feels large enough for the sheet number of things you want to switch between. The original design was a Quick Access strictly for different tools/weapons. 
