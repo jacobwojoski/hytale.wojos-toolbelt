@@ -6,33 +6,58 @@ Group {
     Anchor: (Width: 700, Height: 760);
     Padding: (Left: 2, Right: 5, Top: 2);
     Group #R0 {
-        LayoutMode: Right;
-        Background: (Color: #00000000);
+        LayoutMode: CenterMiddle;
+        Background: (Color: #0000FF02);
         Anchor: (Height: 60);
         $C.@TextButton #QuickAccessButtonStatus {
             Background: (Color: #04CC00);
             Anchor: (Width: 200, Height: 55);
             Text: "Quick-Access: Unknown";
+            TooltipText: "Override hotbar position to Open-Radial";
         }
         Group #R0Spacer0 {
             LayoutMode: Top;
             Background: (Color: #00000000);
-            Anchor: (Width: 60, Height: 120);
+            Anchor: (Width: 3, Height: 120);
         }
-        $C.@TextButton #QuickAccessButtonHelp {
+        $C.@TextButton #SwapToActiveButtonStatus {
+            Background: (Color: #04CC00);
+            Anchor: (Width: 200, Height: 55);
+            Text: "To-Active: Disabled";
+            TooltipText: "Right-Click Item to swap it with Active-Hotbar-Slot instead of Target-Hotbar-Slot";
+        }
+        Group #R0Spacer2 {
+            LayoutMode: Top;
+            Background: (Color: #00000000);
+            Anchor: (Width: 3, Height: 120);
+        }
+        $C.@TextButton #OpenInventory {
             Background: (Color: #04CC00);
             Anchor: (Width: 120, Height: 55);
-            Text: "Help";
+            Text: "Inventory";
+            TooltipText: "Open the Quick-Access items inventory";
         }
         Group #R0Spacer1 {
             LayoutMode: Top;
             Background: (Color: #00000000);
-            Anchor: (Width: 60, Height: 120);
+            Anchor: (Width: 10, Height: 120);
+        }
+        $C.@TextButton #QuickAccessButtonHelp {
+            Background: (Color: #04CC00);
+            Anchor: (Width: 85, Height: 55);
+            Text: "Help";
+            TooltipText: "Link to users guide";
+        }
+        Group #R0Spacer2 {
+            LayoutMode: Top;
+            Background: (Color: #00000000);
+            Anchor: (Width: 3, Height: 120);
         }
         $C.@TextButton #QuickAccessButtonSettings {
             Background: (Color: #04CC00);
             Anchor: (Width: 120, Height: 55);
             Text: "Settings";
+            TooltipText: "Open Quick-Access Settings GUI";
         }
     }
                          
