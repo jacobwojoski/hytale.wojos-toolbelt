@@ -1,17 +1,30 @@
 package org.wojo.wojosToolbelt.ui;
 
 import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.ExtraInfo;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.RootInteraction;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
+import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
 import com.hypixel.hytale.server.core.command.system.CommandManager;
+import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.entity.InteractionManager;
 import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.entity.entities.player.pages.CustomUIPage;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
+import com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager;
+import com.hypixel.hytale.server.core.entity.entities.player.windows.ItemStackContainerWindow;
+import com.hypixel.hytale.server.core.entity.entities.player.windows.Window;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.InventoryUtils;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import com.hypixel.hytale.server.core.ui.PatchStyle;
 import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
@@ -19,6 +32,7 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.bson.BsonDocument;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponentFactory;
@@ -90,9 +104,13 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
 
     protected ArrayList<GuiButtonData> _quickAccessButtons = new ArrayList<>();
     protected GuiButtonData _equipedItemButton =  new GuiButtonData(null,"","","","false","","#QuickAccessButtonEquipped","#QuickAccessButtonEquippedImg","","");
+
     protected GuiButtonData _statusButton = new GuiButtonData(null,"Quick-Swap: Unknown?","","","false","","#QuickAccessButtonStatus","","","");
+    protected GuiButtonData _ActiveStatusButton = new GuiButtonData(null,"To-Active: Disabled","","","false","","#SwapToActiveButtonStatus","","","");
+    protected GuiButtonData _InventoryButton = new GuiButtonData(null,"Inventory","","","false","","#OpenInventory","","","");
     protected GuiButtonData _helpButton = new GuiButtonData(null,"Help","","","false","","#QuickAccessButtonHelp","","","");
     protected GuiButtonData _settingsButton = new GuiButtonData(null,"Settings","","","false","","#QuickAccessButtonSettings","","","");
+
 
     protected QuickAccessPlayerComponent _playerQaComp = null; // Player Specific Quick Access Settings
     protected Integer _quickAccessItemHotbarPosition = 8;
@@ -139,6 +157,14 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             this._statusButton.buttonStyle = "Color (#00FF00FF)";
         } else {
             this._statusButton.buttonText = "Quick-Swap: Disabled";
+            this._statusButton.buttonStyle = "Color (#FF0000FF)";
+        }
+
+        if (this._playerQaComp != null && this._playerQaComp.getIsSwapActiveEnabled()) {
+            this._ActiveStatusButton.buttonText = "To-Active: Enabled";
+            this._statusButton.buttonStyle = "Color (#00FF00FF)";
+        }else{
+            this._ActiveStatusButton.buttonText = "To-Active: Disabled";
             this._statusButton.buttonStyle = "Color (#FF0000FF)";
         }
         
@@ -266,7 +292,8 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonHelp",     new EventData().append("ButtonSelected", "help"    ).append("BackgroundImage","N/A").append("ClickType",""), true);
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonStatus",   new EventData().append("ButtonSelected", "status"  ).append("BackgroundImage","N/A").append("ClickType",""), true);
         uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#QuickAccessButtonSettings", new EventData().append("ButtonSelected", "settings").append("BackgroundImage","N/A").append("ClickType",""), true);
-
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#SwapToActiveButtonStatus", new EventData().append("ButtonSelected", "swapActive").append("BackgroundImage","N/A").append("ClickType",""), true);
+        uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#OpenInventory", new EventData().append("ButtonSelected", "inventory").append("BackgroundImage","N/A").append("ClickType",""), true);
         // Apply UI File
         uiCommandBuilder.append(this._guiFile);
 
@@ -285,6 +312,8 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         setIconData(uiCommandBuilder,  this._equipedItemButton);
         setItemData(uiCommandBuilder,  this._settingsButton);
         setItemData(uiCommandBuilder,  this._statusButton);
+        setIconData(uiCommandBuilder,  this._ActiveStatusButton);
+        setIconData(uiCommandBuilder,  this._InventoryButton);
         setItemData(uiCommandBuilder,  this._helpButton);
     }
 
@@ -345,6 +374,25 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                 String cmd = "echo \"W.I.P. - See https://github.com/jacobwojoski/hytale.wojos-toolbelt for README\"";
                 CommandManager.get().handleCommand(playerRef,cmd);
                 this.close();
+            }
+            case "swapActive" -> {
+                WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Swap Active Pressed");
+                PlayerSettingsGui guiPage = new PlayerSettingsGui(playerRef, store);
+                Player player = store.getComponent(ref, Player.getComponentType());
+                player.getPageManager().openCustomPage(ref, store, guiPage);
+            }
+            case "inventory" -> {
+                Player playerComponent = store.getComponent(ref, Player.getComponentType());
+                InventoryComponent inventoryComponent = store.getComponent(ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+                PageManager pageManager = playerComponent.getPageManager();
+                if (this._quickAccessItem != null) {
+                    ItemStackContainerConfig config = this._quickAccessItem.getItem().getItemStackContainerConfig();
+                    ItemStackItemContainer itemStackItemContainer = ItemStackItemContainer.ensureConfiguredContainer(inventoryComponent.getInventory(), _quickAccessItemHotbarPosition.shortValue(), config);
+
+                    if (itemStackItemContainer != null) {
+                        pageManager.setPageWithWindows(ref, store, Page.Bench, true, new Window[]{new ItemStackContainerWindow(itemStackItemContainer)});
+                    }
+                }
             }
             default -> {
                 if ( clickType.equals("RightClick") && isSwapActive_Enabled) {
