@@ -2,8 +2,8 @@
   "nodes": [
     {
       "id": "1",
-      "name": "R-Attachment",
-      "position": {"x": 0, "y": 39, "z": -1},
+      "name": "Main",
+      "position": {"x": 0, "y": 35, "z": 0},
       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
       "shape": {
         "type": "none",
@@ -22,8 +22,8 @@
         {
           "id": "2",
           "name": "QuickAccessDebug",
-          "position": {"x": 0, "y": -1, "z": 0},
-          "orientation": {"x": 0, "y": 0.70711, "z": 0, "w": 0.70711},
+          "position": {"x": 0, "y": 3, "z": -1},
+          "orientation": {"x": -0.44259, "y": 0.55146, "z": -0.44259, "w": 0.55146},
           "shape": {
             "type": "box",
             "offset": {"x": 0, "y": -27, "z": 14},
