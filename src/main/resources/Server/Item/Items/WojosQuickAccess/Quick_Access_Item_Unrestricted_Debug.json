@@ -87,6 +87,14 @@
     "Usable": false
   },
   "BlockType": {
+    "Interactions": [
+      "Primary": {
+        "Type": "BreakBlock"
+      },
+      "Secondary": {
+        "Type": "OpenItemStackContainer"
+      }
+    ],
     "Material": "Solid",
     "DrawType": "Model",
     "BlockSoundSetId": "Metal",
