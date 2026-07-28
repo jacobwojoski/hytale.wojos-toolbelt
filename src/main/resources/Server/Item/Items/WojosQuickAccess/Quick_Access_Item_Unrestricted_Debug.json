@@ -102,7 +102,7 @@
     "CustomModelScale": 1,
     "HitboxType": "Block_Half",
     "VariantRotation": "NESW",
-    "AmbientSoundEventId": "SFX_Cauldron_Bubbling_Small",
+    "AmbientSoundEventId": "",
     "Looping": true,
     "Flags": {},
     "Gathering": {
