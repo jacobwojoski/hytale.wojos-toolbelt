@@ -36,7 +36,7 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Holding": true,
+          "Held": true,
           "Next": {
             "Type": "Condition",
             "Crouching": true,
@@ -64,7 +64,7 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Holding": true,
+          "Held": true,
           "Next": {
             "Type": "Condition",
             "Crouching": true,
