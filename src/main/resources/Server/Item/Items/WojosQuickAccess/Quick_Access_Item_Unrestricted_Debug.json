@@ -36,13 +36,27 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Crouching": true,
-          "Failed": {
-            "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
-          },
+          "Holding": true,
           "Next": {
-            "Type": "BreakBlock"
-          }
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "BreakBlock"
+            },
+            "Failed": {
+              "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
+            }
+          },
+          "Failed": {
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "BreakBlocl"
+            },
+            "Failed": {
+              "Type": "WojosQuickAccessOpenSelectionGuiInteraction_ID"
+            }
+          }    
         }
       ]
     },
@@ -50,12 +64,19 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Crouching": true,
+          "Holding": true,
+          "Next": {
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "PlaceBlock"
+            },
+            "Failed": {
+              "Type": "OpenItemStackContainer"
+            }
+          },
           "Failed": {
             "Type": "OpenItemStackContainer"
-          },
-          "Next": {
-            "Type": "PlaceBlock"
           }
         }
       ]
@@ -92,35 +113,5 @@
     "BlockParticleSetId": "Grass",
     "TextureComputedColor": "#41362D",
     "FlipType": "Orthogonal",
-    "Interactions": {
-      "Primary": {
-        "Interactions": [
-          {
-            "Type": "Condition",
-            "Crouching": true,
-            "Failed": {
-              "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
-            },
-            "Next": {
-              "Type": "BreakBlock"
-            }
-          }
-        ]
-      },
-      "Secondary": {
-        "Interactions": [
-          {
-            "Type": "Condition",
-            "Crouching": true,
-            "Failed": {
-              "Type": "OpenItemStackContainer"
-            },
-            "Next": {
-              "Type": "PlaceBlock"
-            }
-          }
-        ]
-      }
-    }
   }
 }
