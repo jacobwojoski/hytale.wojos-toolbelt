@@ -1,23 +1,25 @@
 package org.wojo.wojosToolbelt.QuickAccessUtils;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
-public class LoggingUtils {
-    public static void printItemContainer(ItemContainer item_container, short capacity){
+public class QuickAccessLoggingUtils {
+    public static void printItemContainer(ItemContainer item_container){
         if (item_container == null){
             WojosQuickAccessPlugin.LOGGER.atInfo().log("[ERROR] WQA::LoggingUtils::printItemContainer \n - item_container is null");
             return;
         }
         
-        String logString = "[INFO] WQA::LoggingUtils::printItemContainer \n - ItemCapacity: "+String.valueOf(capacity)+"\n - [ ";
-        for (short i=0; i<capacity;i++){
-            ItemStack item = item_container.getItemAtSlot(i);
+        String logString = "[INFO] WQA::LoggingUtils::printItemContainer \n - ItemCapacity: "+String.valueOf(item_container.getCapacity())+"\n - [ ";
+        for (short i=0; i<item_container.getCapacity();i++){
+            ItemStack item = item_container.getItemStack(i);
             if (item != null){
                 logString += item.getItemId();
             }else{
-                logString += "null"
+                logString += "null";
             }
-            if (i != capacity-1){
-                logString += " | "
+            if (i+1 != item_container.getCapacity()){
+                logString += " | ";
             }
         }
         logString += " ]";
@@ -35,10 +37,10 @@ public class LoggingUtils {
             if (item != null){
                 logString += item.getItemId();
             }else{
-                logString += "null"
+                logString += "null";
             }
-            if (i != capacity-1){
-                logString += " | "
+            if (i != item_stack_ary.length-1){
+                logString += " | ";
             }
         }
         logString += " ]";

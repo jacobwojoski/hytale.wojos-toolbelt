@@ -53,7 +53,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
         Ref<EntityStore> entity_ref = interactionContext.getEntity();
         Store<EntityStore> entity_Store = entity_ref.getStore();
         Player player = entity_Store.getComponent(entity_ref, Player.getComponentType());
-        ChunkStore chunk_store = world.getChunkStore();
+        ChunkStore chunk_store = player.getWorld().getChunkStore();
         Store<ChunkStore> chunk_accessor = chunk_store.getStore();
         com.hypixel.hytale.protocol.BlockPosition targetPos = interactionContext.getTargetBlock();
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) entity_Store.getComponent(entity_ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
