@@ -28,6 +28,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 
+// Custom interaction when placing a held quickAccessItem
+// - Need to convert ItemStackItemContainer to ItemContainerBlock
 public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
 
     public static final String PLACE_QUICK_ACCESS_ITEM_INTERACTION_ID = "WojoQuickAccessPlaceQuickAccessItemInteraction_ID";
@@ -37,6 +39,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<PlaceQuickAccessItemInteraction> CODEC = BuilderCodec.builder(
             PlaceQuickAccessItemInteraction.class, PlaceQuickAccessItemInteraction::new, SimpleInstantInteraction.CODEC
     ).build();
+    
     @Override
     protected void firstRun(@NonNullDecl InteractionType interactionType, @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
         //  1. Get copy of container data
@@ -50,7 +53,6 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
         Ref<EntityStore> entity_ref = interactionContext.getEntity();
         Store<EntityStore> entity_Store = entity_ref.getStore();
         Player player = entity_Store.getComponent(entity_ref, Player.getComponentType());
-        World world = player.getWorld();
         ChunkStore chunk_store = world.getChunkStore();
         Store<ChunkStore> chunk_accessor = chunk_store.getStore();
         com.hypixel.hytale.protocol.BlockPosition targetPos = interactionContext.getTargetBlock();
@@ -62,13 +64,13 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
         }
 
 
-
-        // BlockFace targetedFace = interactionContext.getClientState().blockFace;
-        // Ref<ChunkStore> chunkRef = chunk_store.getChunkSectionReference(targetPos.x,targetPos.y,targetPos.z);
-
-        // Determine target position (from your raycast / interaction targeting)
-
+        // TODO: Set Block Rotation to face player
+        // TODO: set block placement position to be above blockface selected
+        // - BlockFace targetedFace = interactionContext.getClientState().blockFace;
+        
+        World world = player.getWorld();
         world.execute(() -> {
+            
             // Place the block
             world.setBlock(targetPos.x, targetPos.y, targetPos.z, quickAccessItem.getBlockKey());
 
@@ -96,8 +98,8 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
             Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, targetPos.x, targetPos.y, targetPos.z);
             chunk_accessor.replaceComponent(chunkEntityRef, ItemContainerBlock.getComponentType(), blockContainer);
 
-            // Consume the held item (or just clear its container if it should persist)
-            hotbar.getInventory().removeItemStackFromSlot(activeSlot);
+            // TODO: Handle adventure vs creative mode placement or removing of keeping item in hand
+            hotbar.getInventory().removeItemStackFromSlot(activeSlot, false);
         });
     }
 }
