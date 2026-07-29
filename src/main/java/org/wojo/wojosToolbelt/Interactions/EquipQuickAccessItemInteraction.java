@@ -58,15 +58,24 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         ItemContainerBlock blockContainer = BlockModule.getComponent(
                 ItemContainerBlock.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
         );
-        short capacity = blockContainer.getCapacity();
+        short block_capacity = blockContainer.getCapacity();
         ItemContainer container = blockContainer.getItemContainer();
-        ItemStack[] items = new ItemStack[capacity];
-        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Block container storage - "+String.valueOf(capacity));
-        for (short i = 0; i < capacity; i++) {
-            ItemStack item = container.getItemStack(i);
-            if (item != null){
-                WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Saving item from block container - "+item.getItemId());
-                items[i] = item;
+        ItemStack[] items = new ItemStack[block_capacity];
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Block container storage - "+String.valueOf(block_capacity));
+
+        short limit = (short) Math.max(quickAccessItemContainer.length, block_capacity);
+        for (short i = 0; i < limit; i++) {
+            // If item can be moved from block to itemStack do that
+            if (i<block_capacity && i<quickAccessItemContainer.length) {
+                ItemStack item = container.getItemStack(i);
+                if (item != null){
+                    WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Saving item from block container - "+item.getItemId());
+                    items[i] = item;
+                }
+            // One of the containers is too large, Drop the item on the ground
+            } else {
+                // TODO: this should, *in theory*, not happen so ignore case for now 
+                WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] QaBlock & QaItem Container Size Mismatch!");
             }
         }
 
@@ -83,8 +92,9 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         ItemStack quickAccessItem = new ItemStack("Quick_Access_Item_Unrestricted_Debug");
         // TODO: See why settings items isnt working
         quickAccessItem.withMetadata(ItemStackItemContainer.ITEMS_CODEC,items);
-        hotbar.getInventory().setItemStackForSlot((short)qaEquippedPositiion, quickAccessItem);
         //ItemStackItemContainer.writeToItemStack(hotbar.getInventory(),(short)qaEquippedPositiion,quickAccessItem,items);
+        
+        hotbar.getInventory().setItemStackForSlot((short)qaEquippedPositiion, quickAccessItem);
 
         // 5. Delete Block in world
         world.execute(() -> {
