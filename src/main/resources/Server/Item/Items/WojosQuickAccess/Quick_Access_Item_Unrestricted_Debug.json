@@ -4,7 +4,7 @@
     "Items.Tools",
     "WojosQuickAccess.Containers"
   ],
-  "Icon": "Icons/ItemsGenerated/Utility_Leather_Quiver.png",
+  "Icon": "Icons/ItemsGenerated/Quick_Access_Item_Unrestricted_Debug.png",
   "Model": "Items/WojosQuickAccess/WojosQuickAccess_Toolbox_Item.blockymodel",
   "Texture": "Items/WojosQuickAccess/WojosQuickAccess_Toolbox_Texture.png",
   "Quality": "Debug",
@@ -12,13 +12,13 @@
   "IconProperties": {
     "Scale": 0.5,
     "Rotation": [
+      114,
       0,
-      0,
-      0
+      115
     ],
     "Translation": [
-      1,
-      -27
+      31,
+      12
     ]
   },
   "Scale": 1,
@@ -36,27 +36,13 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Held": true,
+          "Crouching": true,
           "Next": {
-            "Type": "Condition",
-            "Crouching": true,
-            "Next": {
-              "Type": "BreakBlock"
-            },
-            "Failed": {
-              "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
-            }
+            "Type": "BreakBlock"
           },
           "Failed": {
-            "Type": "Condition",
-            "Crouching": true,
-            "Next": {
-              "Type": "BreakBlocl"
-            },
-            "Failed": {
-              "Type": "WojosQuickAccessOpenSelectionGuiInteraction_ID"
-            }
-          }    
+            "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
+          }
         }
       ]
     },
@@ -64,16 +50,9 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Held": true,
+          "Crouching": true,
           "Next": {
-            "Type": "Condition",
-            "Crouching": true,
-            "Next": {
-              "Type": "PlaceBlock"
-            },
-            "Failed": {
-              "Type": "OpenItemStackContainer"
-            }
+            "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID"
           },
           "Failed": {
             "Type": "OpenItemStackContainer"
@@ -87,14 +66,6 @@
     "Usable": false
   },
   "BlockType": {
-    "Interactions": [
-      "Primary": {
-        "Type": "BreakBlock"
-      },
-      "Secondary": {
-        "Type": "OpenItemStackContainer"
-      }
-    ],
     "Material": "Solid",
     "DrawType": "Model",
     "BlockSoundSetId": "Metal",
@@ -110,16 +81,33 @@
     "CustomModelScale": 1,
     "HitboxType": "Block_Half",
     "VariantRotation": "NESW",
-    "AmbientSoundEventId": "",
-    "Looping": true,
     "Flags": {},
     "Gathering": {
       "Breaking": {
         "GatherType": "SoftBlocks"
       }
     },
-    "BlockParticleSetId": "Grass",
-    "TextureComputedColor": "#41362D",
+    "BlockParticleSetId": "Metal",
+    "TextureComputedColor": "#c6a487",
     "FlipType": "Orthogonal",
+    "ParticleColor": "#fe3131",
+    "BlockEntity": {
+      "Components": {
+        "ItemContainerBlock": {
+          "ItemContainer": {
+            "Capacity": 12
+          }
+        }
+      }
+    },
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "OpenContainer"
+          }
+        ]
+      }
+    }
   }
 }
