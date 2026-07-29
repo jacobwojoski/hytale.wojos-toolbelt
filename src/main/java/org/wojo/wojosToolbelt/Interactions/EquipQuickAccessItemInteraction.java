@@ -23,6 +23,8 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 
+// Custom interaction when quipping a placed quickAccessItem
+// - Need to convert ItemContainerBlock to ItemStackItemContainer
 public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
     public static final String EQUIP_QUICK_ACCESS_ITEM_INTERACTION_ID = "WojoQuickAccessEquipQuickAccessItemInteraction_ID";
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -59,9 +61,11 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         short capacity = blockContainer.getCapacity();
         ItemContainer container = blockContainer.getItemContainer();
         ItemStack[] items = new ItemStack[capacity];
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Block container storage - "+String.valueOf(capacity));
         for (short i = 0; i < capacity; i++) {
             ItemStack item = container.getItemStack(i);
             if (item != null){
+                WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Saving item from block container - "+item.getItemId());
                 items[i] = item;
             }
         }
