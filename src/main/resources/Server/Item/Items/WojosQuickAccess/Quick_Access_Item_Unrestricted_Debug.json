@@ -104,7 +104,14 @@
       "Use": {
         "Interactions": [
           {
-            "Type": "OpenContainer"
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "WojoQuickAccessEquipQuickAccessItemInteraction_ID"
+            },
+            "Failed": {
+              "Type": "OpenContainer"
+            }
           }
         ]
       }

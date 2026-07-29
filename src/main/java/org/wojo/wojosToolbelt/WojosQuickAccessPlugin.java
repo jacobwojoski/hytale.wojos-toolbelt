@@ -16,6 +16,7 @@ import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
 import org.wojo.wojosToolbelt.Handlers.PlayerReadyEventHandler;
 import org.wojo.wojosToolbelt.Handlers.SwapQuickAccessItemEventHandler;
+import org.wojo.wojosToolbelt.Interactions.EquipQuickAccessItemInteraction;
 import org.wojo.wojosToolbelt.Interactions.OpenQuickAccessSelectionGuiInteraction;
 import org.wojo.wojosToolbelt.Interactions.PlaceQuickAccessItemInteraction;
 import org.wojo.wojosToolbelt.PacketAdapters.HotbarOpenQuickAccessGuiPacketAdapter;
@@ -61,6 +62,7 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
     private void registerInteractions(){
         this.getCodecRegistry(Interaction.CODEC).register(OpenQuickAccessSelectionGuiInteraction.OpenQuickAccessSelectionGuiInteractionID, OpenQuickAccessSelectionGuiInteraction.class, OpenQuickAccessSelectionGuiInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register(PlaceQuickAccessItemInteraction.PLACE_QUICK_ACCESS_ITEM_INTERACTION_ID, PlaceQuickAccessItemInteraction.class, PlaceQuickAccessItemInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register(EquipQuickAccessItemInteraction.EQUIP_QUICK_ACCESS_ITEM_INTERACTION_ID, EquipQuickAccessItemInteraction.class, EquipQuickAccessItemInteraction.CODEC);
     }
     private void registerCommands(){
         this.getCommandRegistry().registerCommand(new WojosQuickAccessCommandCollection());
