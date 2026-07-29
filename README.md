@@ -1,13 +1,13 @@
 # Wojo's Quick Access Item's (Toolbelts, Slings & More)
 ##### Turn 2 hotbar slots into 4+! 
-##### This mod for **Hytale** adds custom *Quick-Access Items* that allows the user to have a *Quick-Access* radial menu.
+This mod for **Hytale** adds custom *Quick-Access Items* that allows the user to have a *Quick-Access* radial menu.
 
 ### The Problem
 **Tools and weapons take up too much hotbar real-estate significatnly impacting the building experience while in adventure mode.**
 The main purpose of this mod is to fix one of my largest painpoints with inventory management. 
 
 ## WARNING: 
-- Now that radiala are implemented there will be **limited/minor UI updates until Hytale's Noesis GUI** gets added.
+- Now that radials are implemented there will be **limited/minor UI updates until Hytale's Noesis GUI** gets added.
     - (I'm going to need to rewite so much UI code once that happens so expect a very delayed update)
 
 ## Guide and Detailed Description
