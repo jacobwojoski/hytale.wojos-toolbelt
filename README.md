@@ -84,6 +84,9 @@ The current design only includes the *Unrestricted Quick Access Items* with the 
 
 ```
 
+#### Use Hytale's log command to update logger for detailed debugging
+- `/log WojosQuickAccessItems --level fine --save`
+
 --- 
 
 ## Code Design 
