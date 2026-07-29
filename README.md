@@ -1,87 +1,82 @@
 # Wojo's Quick Access Item's (Toolbelts, Slings & More)
-Turn 2 hotbar slots into 4+! 
-This mod for **Hytale** adds custom items that allow Quck Access (Quick Swapping) using a radial menu.
+##### Turn 2 hotbar slots into 4+! 
+##### This mod for **Hytale** adds custom *Quick-Access Items* that allows the user to have a *Quick-Access* radial menu.
+
+### The Problem
+**Tools and weapons take up too much hotbar real-estate significatnly impacting the building experience while in adventure mode.**
+The main purpose of this mod is to fix one of my largest painpoints with inventory management. 
 
 ## WARNING: 
-- Now that proper radials are implemented there will be **only limited/minor UI updates until Hytale's Noesis GUI** gets added.
-    - (I'm going to need to rewite so much code once that happens so expect a delayed update)
+- Now that radiala are implemented there will be **limited/minor UI updates until Hytale's Noesis GUI** gets added.
+    - (I'm going to need to rewite so much UI code once that happens so expect a very delayed update)
 
-## User Guide
-- Quick-Access Items can be made at a workbench **Tier 1**
-    - There are multiple tiers of Quick-Access Items and each requires the previous tier to be made
-- The Quick-Access Items
-    - Holding the item and using **Right-Click** will open chest style inventory to exmpand your inventory
-        - NOTE: The radial feature may not work correctly unless they add something into the chest inventory at least once
-    - Holding the item and using **Left-Click** key will open a radial menu allowing the user to select a button to swap an item from the **Target Hotbar Location** with whatever the selected button shows.
-    - Pressing the **Settings** Or **Status** buttons will open the _Settings GUI_
-    - **Enabling** the Quick-Swap feature in the _Settings GUI_ turns the **Equipped Hotbar Position** into an equipment slot for the QuickAccess Item.
-        - Place a Quick-Access Item into the specified hotbar position while **Enabled** to allow using the hotbar button to open that radial menu instead of needing to hold the item.
+## Guide and Detailed Description
+- **Quick-Access Items** are used to implement the feature
+    - Craftable in workbench level 1 (Tools)
+    - Multiple item tiers with increasing container size
+    - Can be equipped by placing the item in a defined hotbar position (Configurable)
+- When holding a *Quick Access Item*
+    - Holding & **Right-Click** will open chest style inventory to hold items
+    - Holding & **Left-Click** will open a radial menu listing items in the Quick-Access item inventory.
+        - Selecting **Left-Click** an item on the Radial UI will swap the selected item with **target-hotbar-position** (Configurable).
+        - Selecting **Right-Click** an item on the Radial UI will swap the selected item with **active-hotbar-position** (Enableable)
+    - Holding & **Shift + Right-Click** will place the item in the world as a block
+    - Holding & **Shift + Left-Click** will do a general break block punch
+- Placed *Quick-Access Items*
+    - Use (**F**) opens the blocks inventory
+    - Primary (**Left-Click**) breaks the block droping its contents
+    - Secondary (**Right-Click**) tries to equip item into configured **equipped-hotbar-position** (Configurable)
 
-### Detailed Description
-- Add new *Quick Access Items* that are used to implement the feature.
-    - Holding the item and using **Right-Click** will open chest style inventory to hold items
-    - Holding the item and using **Left-Click** will open a radial menu listing items in the inventory. Selecting an item on the UI will swap whatever is in hotbar position 0 (Configurable) with whatever is in the *Quick Access Item* at that spot.
-- Have different tiers and types of *Quick Accesss Items* that have different benifits and drawbacks.
-- A settings page can be opened through the command line or by using the settings button in the radial menu allowing the user to set different options
-
-### Settings
-- **Equipped Position:** What *hotbar position* does the *Quick Access Item* need to be in for it to count as **Equipped**.
+## Settings
+- **Equipped Position:** What *hotbar position* acts as the Quick-Access-equipment & open-radial slot.
 - **Target Position:** When selecting an item in the radial menu, what hotbar location does it swap items to.
 - **Gui File:** What radial menu file do you want to see
-    - This allows the player to use a menu that shows locked positions or use a smaller radial menu then possible.
-- **Enable Quick-Swap:** Intercept hotbar swaps to use the hotbars *Equipped Position* as a way to open the radial menu instead of needing to **Equip and Use** the item.
-- **Enable Swap-to-Active:** Right-click an item in the radial to swap the item into the `active-hotbar-position` instead of `target-hotbar-position`
+    - This allows the player to use a smaller radial for a given *Quick-Access Item* if desired.
+- **Enable Quick-Swap:** Intercept hotbar swaps to use the *Equipped Position* as a way to open the radial menu instead of needing to **Equip and Use** the item.
+- **Enable Swap-to-Active:** *Right-click* an item in the radial to swap the item into the `active-hotbar-position` instead of `target-hotbar-position`
 
-### Design Goal
-The main purpose of this mod is to fix one of my major complaints I have with the inventory managemnet. That issue is that the hotbar never feels large enough for the sheet number of things you want to switch between. The original design was a Quick Access strictly for different tools/weapons. 
 
-The current design only includes the *Unrestricted Quick Access Items* with the goal to allow more options and better configuration in the future.
 
-### Quick Access Item Types (Only checked items are currently implemented)
+## Quick Access Item Types (Only checked items are currently implemented)
+The current design only includes the *Unrestricted Quick-Access Items*. More are planned!
+
+- [X] **Unrestricted:** Quick access radial that can hold **Anything**
 - [ ] **Toolbelt:** Quick access radial item that holds only holds **Tools** (Shovel, Pickaxe, axe, hammer)
 - [ ] **Builders Pouch:** Quick access radial that only holds **Blocks & Hammer**
 - [ ] **Weapon Sling:** Quick access radial that only hold **Weapons**
 - [ ] **Bandolier:** Quick access radial that only holds **Consumables** (Potions, Food, Bombs etc)
 - [ ] **Quiver:** Quick access radial that only holds **Arrows**
-- [X] **Unrestricted:** Quick access radial that can hold **Anything**
 
-### Quick Access Item Tiers and Default Storage Capacity
-- Common: 2 slots
-- Uncommon: 3 slots
-- Rare: 4 slots 
-- Epic: 6 slots
-- Legendary: 8 slots
-- Debug: 12 slots
+## Quick-Access Item Tier & Storage Capacity
+- Unrestricted
+    - Common: 2 slots
+    - Uncommon: 3 slots
+    - Rare: 4 slots 
+    - Epic: 6 slots
+    - Legendary: 8 slots
+    - Debug: 12 slots
 
 ---
 
-### Commands
-#### Key Command
-- `/wqa gui help` Provides a UI of various mod info 
+## Commands
+#### Permission Groups
+- WojosQuickAccess.admin
+- WojosQuickAccess.user
 
 #### All Commands (Note: most commands have default args that are not specified here)
+
 ```java
-/wqa comp player    // Set your QuickAccessPlayerComponent to defaults or specified values
-/wqa comp printp    // Print your QuickAccessPlayerComponent data
-/wqa comp printi    // Print held items QuickAccessItemComponent data
+/wqa comp player    // (Admin) Set your QuickAccessPlayerComponent to defaults or specified values
+/wqa comp printp    // (Admin) Print your QuickAccessPlayerComponent data
+/wqa comp printi    // (Admin) Print held items QuickAccessItemComponent data
 
-/wqa item swap      // Swap an item from held(Higher priority) or equiped(Lower Priority) QuickAccess Item to the defined hotbar position
-/wqa item print     // Print Hytale item data associated with the held itemStack
+/wqa item swap      // (User)  Swap an item from held(Higher priority) or equipped(Lower Priority) Quick-Access Item to the defined hotbar position
+/wqa item print     // (Admin) Print Hytale item data associated with the held itemStack
 
-/wqa gui select     // Show the radial selection menu
-/wqa gui store      // Show the container storage menu
-/wqa gui settings   // Show the settings menu
-/wqa gui help       // Show the help menu
-
-// ======== Perm's Info ========
-// - Default Access
-/wqa item swap
-/wqa gui *
-
-// - Admin Access Needed
-/wqa comp *
-/wqa item print
-
+/wqa gui select     // (User)  Show the radial selection menu
+/wqa gui store      // (User)  Show the container storage menu
+/wqa gui settings   // (User)  Show the settings menu
+/wqa gui help       // (User)  Show the help menu
 ```
 
 #### Use Hytale's log command to update logger for detailed debugging
@@ -92,24 +87,28 @@ The current design only includes the *Unrestricted Quick Access Items* with the 
 ## Code Design 
 ### Hytale Development Notes and Limitations
 - Adding custom metadata to items is not currently supported
-    - Metadata is stored on ItemStacks not on the item itself. This makes handling custom data kind of a pain.
-    - My work around for this issue is to have a `ComponentID -> Item Data Class` Map  
+    - Metadata is stored on the `ItemStack` not on the `Item`. This makes handling dynamic custom data kind of a pain.
+    - My work around for this issue is to have a `ComponentID -> Item Data Object` Factory  
 - Custom Key Binds are not currently supported
     - Use the hotbar positions to supliment a key bind for time being.
     - Using hotbar involves async calls outside of the normal game loop and ECS structure.
-    - Added a few concurent hash maps as a way to pass data from the async calls to the game loop. (It's hacky and I don't like it but it works until they add custom key binds)
-- UI Design involves some hacky work arounds as its not the best.
-    - UI Update's will be limited until the release of **noesis gui**
+        - Using concurent hash maps as a way to pass data from the async packet calls to the ECS game loop.
+        - *It's hacky and I don't like it but it works until they add custom key binds*
+- UI Design tools are limited until Noesis Gui gets added.
+    - No dynamic backgrounds so my workaround was to change image visibility based of where mouse was
+    - Cant get mouse position, UI is actually a all transparent buttons over a background image 
   
 ### Code Data Handleing
 The plugin layout has 2 data storage locations; **QuickAccessPlayerComponent - The player** and **QuickAccessItemComponent - The Quick Access Item**.
-The Item is just a data object that holds info that I was unable to add to the item json. Data in here shouldn't change unless configs are changed. The **PlayerComponent** is the only area where data does change and it gets updated when the user adjusts any settings. 
+- The **ItemComponent** is a data object that holds additional config info that I was unable to add to the item json. Data in here shouldn't change unless configs are changed. 
+- The **PlayerComponent** is the only area where data does change and it gets updated when the user adjusts any settings. 
 
 - The **QuickAccessPlayerComponent**:
     - What hotbar slot is the 'equipped' location/ what hotbar button pressed to open ui
     - Is the hotbar button enabled?
+    - Is Swap-to-Active enabled?
     - What Hotbar Position to Swap Items Into
-    - GuiPageString (Radial Menu to displau to user)
+    - GuiPageString (Radial Menu to display to user)
 
 - The **QuickAccessItemComponent**: Holds the following item into
     - Asset Info
@@ -118,8 +117,16 @@ The Item is just a data object that holds info that I was unable to add to the i
     - Config Info
       - Quick Access Size (Must be <= Container Size; likely same as Container Size but doesn't need to be)
       - Item type (Unrestricted, Toolbelt, sling, etc)
-      
-When a user presses the eqipped hotbar location the code checks to see if the user has QuickSwap Enabled (Hash Map Value). If so, grab the data of the items in the component and open the gui. When the user selects an item on the gui swap that item with whatever is in the defined location.
+
+- Handling the Hotbar button press
+    - Check packet to see if its a button press packet
+    - If User has Quick Swap Enabled
+    - If button press was enabled button
+    - Tell the world thread the player is on to try to open the gui
+
+- Handling converting `ItemStackItemContainer` to `BlockContainer`
+    - Create custom placeBlockInteraction
+    - Create custom equipBlockInteraction
 
 ### Code Components
 - Commands
@@ -130,11 +137,11 @@ When a user presses the eqipped hotbar location the code checks to see if the us
 - Config
     - All statically defined values (Plan to be editable)
 - Events
-    - Mod involves player interaction so the async nature requiures the use of events instead of a system for the swap functionality
+    - Mod involves player interaction, async nature means we trigger an event when swapping items 
 - Handlers
-    - Logic for handling the triggered events
+    - Logic for handling the triggered events of `Player Connected` and `QuickSwapEvent`
 - Interactions
-    - Items use interaction chains so we use this to open the UI when player is holding the item.This is the handler for an item interaction. 
+    - Items use interaction chains so these are any custom interactions created. (CustomPlaceBlock, CustomEquipBlock, CustomOpenRadialMenu)
 - Packet Adapters
     - Logic to convert player hotbar interaction to a UI button (Ideally when player keybinds get intoduced this can be replaced)
 - Systems
@@ -142,23 +149,24 @@ When a user presses the eqipped hotbar location the code checks to see if the us
 - Utils
     - ECS structure states components should have no methods so these are all static helper methods that do much of the validation & sanity checks. 
 - UI
-    - All ui classes
+    - All ui classes (Radials, Settings Page, Help Page)
 - Resources
-  - The different resource components that are made through Hytale's Asset Editior. It inludes the **UI html files | Lang Files | Asset Files **  
+    - The different resource components that are made through Hytale's Asset Editior. It inludes the **UI html files | Lang Files | Asset Files **  
 
 ---
 
 ### TODO:
 ##### High Priority (No set order)
 - [ ] Fix permissions issues - Default perms should allow player to use item
-- [ ] Allow swap item to/from Selected hotbar instead of specific value
+- [ ] Allow swap item to/from a selected hotbar instead of specific value
 - [ ] Allow item to be placed in world
-    - [ ] Place+Break, Open inventory, Open Radial
+    - [ ] Place+Break, Open inventory
 - [ ] Add hud elements to show item buttons to user when holding Quick Access Item
+    - Look Into HudUI setting in asset file 
 
 ##### Low Priority (No set order) 
 - [ ] Custom Item model
-- [ ] Add animation to using item
+- [ ] Add animations to using item
 - [ ] Implement other QuickAccessItemTypes
 - [ ] Have way to *wear* QuickAccess items so others can see when player has it equipped
 - [ ] Crafting ballence
