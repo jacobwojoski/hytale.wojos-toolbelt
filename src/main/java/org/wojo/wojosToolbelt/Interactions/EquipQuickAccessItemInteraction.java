@@ -37,10 +37,11 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
     @Override
     protected void firstRun(@NonNullDecl InteractionType interactionType, @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
         // 1. Get data Structures
-        // 2. Get Container from placed QuickAccess Block
-        // 3. Verify we have space to hold item else, tell user they have no room!
-        // 4. Create QuickAccessItem & Fill in with storage data & equip
-        // 5. Delete Block In world
+        // 2. Verify we have space to hold item else, tell user they have no room!
+        // 3. Get Container from placed QuickAccess Block
+        // 4. Create QuickAccessItem & Fill in with storage data 
+        // 5. quip QuickAccessItem
+        // 6. Delete Block In world
 
         // 1. Get data structs
         Ref<EntityStore> entity_ref = interactionContext.getEntity();
@@ -54,7 +55,15 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         short activeSlot = hotbar.getActiveSlot();
         QuickAccessPlayerComponent quickAccessPlayerComponent = entity_store.getComponent(entity_ref, QuickAccessPlayerComponent.getComponentType());
 
-        // 2. Get Container from placed block & Convert to ItemStack[] that it needs
+        // 2. Verify player can hold the container
+        int qaEquippedPositiion = quickAccessPlayerComponent.getEquippedPosition();
+        ItemStack equippedPositiion = hotbar.getInventory().getItemStack((short)qaEquippedPositiion);
+        if (equippedPositiion != null) {
+            QuickAccessUtils.notificationHelper(entity_store, entity_ref, "EQUIP FAILED", "Something is already equipped in hotbar location");
+            return;
+        }
+        
+        // 3. Get Container from placed block & Convert to ItemStack[] that it needs
         ItemContainerBlock blockContainer = BlockModule.getComponent(
                 ItemContainerBlock.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
         );
@@ -77,14 +86,6 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
                 // TODO: this should, *in theory*, not happen so ignore case for now 
                 WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] QaBlock & QaItem Container Size Mismatch!");
             }
-        }
-
-        // 3. Verify player can hold the container
-        int qaEquippedPositiion = quickAccessPlayerComponent.getEquippedPosition();
-        ItemStack equippedPositiion = hotbar.getInventory().getItemStack((short)qaEquippedPositiion);
-        if (equippedPositiion != null) {
-            QuickAccessUtils.notificationHelper(entity_store, entity_ref, "EQUIP FAILED", "Something is already equipped in hotbar location");
-            return;
         }
 
         // 4. Create QuickAccessItem
