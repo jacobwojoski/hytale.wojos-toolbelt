@@ -241,14 +241,33 @@ public class QuickAccessUtils {
     return hotbar.getActiveSlot();
   }
 
-  public static short getContainerSize(String item_id) {
+  public static short getItemContainerSize(String item_id) {
     ItemStack item = new ItemStack(item_id);
+    if (item == null){
+      return 0;
+    }
+
     Short capacity = item.getFromMetadataOrNull(ItemStackItemContainer.CAPACITY_CODEC);
     if (capacity == null) {
-      String log = "[ERROR] WQA::QuickAccessUtils::getContainerSize - Capacity is null for "+item_id;
+      String log = "[ERROR] WQA::QuickAccessUtils::getItemContainerSize - Capacity is null for "+item_id;
       WojosQuickAccessPlugin.LOGGER.atSevere().log(log);
       return 0;
     }
     return capacity;
   }
+
+  public static short getItemContainerSize(ItemStack item) {
+    if (item == null){
+      return 0;
+    }
+
+    Short capacity = item.getFromMetadataOrNull(ItemStackItemContainer.CAPACITY_CODEC);
+    if (capacity == null) {
+      String log = "[ERROR] WQA::QuickAccessUtils::getItemContainerSize - Capacity is null for "+item.getItemId();
+      WojosQuickAccessPlugin.LOGGER.atSevere().log(log);
+      return 0;
+    }
+    return capacity;
+  }
+
 }
