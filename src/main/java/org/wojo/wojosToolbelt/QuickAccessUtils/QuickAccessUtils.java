@@ -7,6 +7,7 @@ import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainerUtil;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
@@ -230,7 +231,6 @@ public class QuickAccessUtils {
 
   public static short getActiveHotbarPosition(Store<EntityStore>store, Ref<EntityStore> ref) {
     InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
-    QuickAccessPlayerComponent qaPlayerComp = store.getComponent(ref, QuickAccessPlayerComponent.getComponentType());
     ItemStack heldItem = hotbar.getActiveItem();
     Boolean isActiveItemTheQuickAccessItem = QuickAccessUtils.isQuickAccessItem(heldItem);
 
@@ -239,5 +239,16 @@ public class QuickAccessUtils {
         return -1;
     }
     return hotbar.getActiveSlot();
+  }
+
+  public static short getContainerSize(String item_id) {
+    ItemStack item = new ItemStack(item_id);
+    Short capacity = item.getFromMetadataOrNull(ItemStackItemContainer.CAPACITY_CODEC);
+    if (capacity == null) {
+      String log = "[ERROR] WQA::QuickAccessUtils::getContainerSize - Capacity is null for "+item_id;
+      WojosQuickAccessPlugin.LOGGER.atSevere().log(log);
+      return 0;
+    }
+    return capacity;
   }
 }
