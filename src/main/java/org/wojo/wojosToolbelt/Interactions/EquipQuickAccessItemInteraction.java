@@ -46,8 +46,7 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         // 2. Verify we have space to hold item else, tell user they have no room!
         // 3. Get Container from placed QuickAccess Block
         // 4. Create QuickAccessItem & Fill in with storage data 
-        // 5. quip QuickAccessItem
-        // 6. Delete Block In world
+        // 5. Delete Block In world
 
         // 1. Get data structs
         Ref<EntityStore> entity_ref = interactionContext.getEntity();
@@ -69,7 +68,7 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
             return;
         }
         
-        // 3. Get Container from placed block & Convert to ItemStack[] that it needs
+        // 3. Get Container from placed block
         ItemContainerBlock blockContainer = BlockModule.getComponent(
                 ItemContainerBlock.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
         );
@@ -78,59 +77,35 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         ItemStack[] items = new ItemStack[block_capacity];
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Block container storage - "+String.valueOf(block_capacity));
 
-        // TODO: get Quick Access Item and create ItemStack[] size from QuickAccessItem
-        //short limit = (short) Math.max(, block_capacity);
-        for (short i = 0; i < block_capacity; i++) {
-            // If item can be moved from block to itemStack do that
-            if (i<block_capacity) {
-                ItemStack item = container.getItemStack(i);
-                if (item != null){
-                    WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Saving item from block container - "+item.getItemId());
-                    items[i] = item;
-                }
-            // One of the containers is too large, Drop the item on the ground
-            } else {
-                // TODO: this should, *in theory*, not happen so ignore case for now 
-                WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] QaBlock & QaItem Container Size Mismatch!");
-            }
-        }
-
-//        // 4. Create QuickAccessItem
-//        // TODO: Get it somehow
-//        ItemStack quickAccessItem = new ItemStack("Quick_Access_Item_Unrestricted_Debug");
-//        // TODO: See why settings items isnt working
-//        quickAccessItem.withMetadata(ItemStackItemContainer.ITEMS_CODEC,items);
-//        //ItemStackItemContainer.writeToItemStack(hotbar.getInventory(),(short)qaEquippedPositiion,quickAccessItem,items);
-//        QuickAccessLoggingUtils.printItemContainer(container);
-//        QuickAccessLoggingUtils.printItemStackArray(items);
-//        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG] QA Item: \n"+quickAccessItem.toString());
-//
-//
-//        BsonDocument containerBSON = quickAccessItem.getFromMetadataOrNull(ItemStackItemContainer.CONTAINER_CODEC);
-//        //ItemStack[] containerItems = ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
-//        ItemStackItemContainer.ITEMS_CODEC.put(containerBSON, items, new ExtraInfo());
-//        ItemStack updatedQuickAccessItem = quickAccessItem.withMetadata(ItemStackItemContainer.CONTAINER_CODEC, containerBSON);
-
-        // 1. Create the base item
-        ItemStack quickAccessItem = new ItemStack("Quick_Access_Item_Unrestricted_Debug", 1);
+        // TODO: Get the item from the block
+        // 4. Create QuickAccess Item that we will give to player
+        BlockType blockType = BlockModule.getComponent(
+                BlockType.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
+        );
+        String itemId = blockType.getItem().getId();
+        ItemStack quickAccessItem = new ItemStack(itemId, 1);
         hotbar.getInventory().setItemStackForSlot((short)qaEquippedPositiion, quickAccessItem);
 
+        short capacity = QuickAccessConfig.getContainerSize(quickAccessItem.getItemId());
         ItemStackItemContainer unconfiguredQuickAccessItem =
                 ItemStackItemContainer.ensureContainer(
                         hotbar.getInventory(),          // parentContainer
                         (short) qaEquippedPositiion,    // slot containing the backpack
-                        (short) 12                      // capacity
+                        capacity                        // capacity
                 );
 
-        for (short i=0; i<12; i++) {
+        // Move Items from block to ItemStackItemContainer
+        if (capacity != blockContainer.getItemContainer().getCapacity()){
+            WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] WQA::EquipQuickAccessItemInteraction::firstRun - Block capacity, vs item capacity is different");
+        }
+        short limit = (short) Math.min(capacity, blockContainer.getItemContainer().getCapacity());
+        for (short i=0; i<limit; i++) {
             ItemStack item = blockContainer.getItemContainer().getItemStack(i);
             unconfiguredQuickAccessItem.setItemStackForSlot(i, item);
         }
 
-        //hotbar.getInventory().setItemStackForSlot((short)qaEquippedPositiion, quickAccessItem);
-
         // 5. Delete Block in world
-        // Clear blocks inventory by deleting storage component from block
+        // Clear blocks inventory so items in container are gone
         Ref<ChunkStore> block_ref = BlockModule.getBlockEntity(world,targetPos.x, targetPos.y, targetPos.z);
         chunk_accessor.removeComponent(block_ref,ItemContainerBlock.getComponentType());
 
