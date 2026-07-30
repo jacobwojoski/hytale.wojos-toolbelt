@@ -18,6 +18,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.bson.BsonDocument;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
+import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -41,6 +42,38 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
 
         if (equippedPosition == targetPosition) {
             QuickAccessUtils.notificationHelper(store,playerRef, "ERROR", "You are trying to swap something into the position that the Quick-Access item is stored in.\nMove the Quick-Access item or change the target location!");
+            return;
+        }
+
+
+        // TODO: TRY new Swap event
+        short capacity = QuickAccessConfig.getContainerSize(quickAccessItemStack.getItemId());
+        ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
+        ItemStack quickAccessItem = hotbar.getInventory().getItemStack(equippedPosition);
+
+
+        ItemStackItemContainer ensuredQuickAccessItem =
+                ItemStackItemContainer.ensureContainer(
+                        hotbar.getInventory(),      // parentContainer
+                        equippedPosition,           // slot containing the backpack
+                        capacity                    // capacity
+                );
+
+        ItemStack inventoryItem =
+                ItemStackItemContainer
+                        .getContainer(hotbar.getInventory(),equippedPosition)
+                        .getItemStack(sourceInventoryPosition);
+
+        if (targetPosition > capacity) {
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] Tring to move an item to a positiion greater than container size");
+            return;
+        }
+
+        ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, targetItem);
+        hotbar.getInventory().setItemStackForSlot(targetPosition, inventoryItem);
+
+        // TODO: Debug
+        if (true) {
             return;
         }
 

@@ -1,6 +1,8 @@
 package org.wojo.wojosToolbelt.Config;
 
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponentFactory;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -236,5 +238,24 @@ public class QuickAccessConfig {
             return "false";
         }
         return "true";
+    }
+
+    public static short getContainerSize(String item_id) {
+        switch (item_id){
+            case "Quick_Access_Item_Unrestricted_Common":
+                return 2;
+            case "Quick_Access_Item_Unrestricted_Uncommon":
+                return 3;
+            case "Quick_Access_Item_Unrestricted_Rare":
+                return 4;
+            case "Quick_Access_Item_Unrestricted_Epic":
+                return 6;
+            case "Quick_Access_Item_Unrestricted_Legendary":
+                return 8;
+            case "Quick_Access_Item_Unrestricted_Debug":
+                return 12;
+            default:
+                return 2;
+        }
     }
 }

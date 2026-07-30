@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import org.bson.BsonDocument;
+import org.wojo.wojosToolbelt.Components.QuickAccessItemComponentFactory;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -160,6 +161,10 @@ public class QuickAccessUtils {
   // Get array of items in a container if item has container field, else get null.
   public static ItemStack[] getContainerItems(ItemStack itemStack) {
     BsonDocument containerBSON = itemStack.getFromMetadataOrNull(ItemStackItemContainer.CONTAINER_CODEC);
+    ItemStack[] items = ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
+    if (items == null){
+      return new ItemStack[QuickAccessConfig.getContainerSize(itemStack.getItemId())];
+    }
     return ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
   }
 
@@ -192,6 +197,7 @@ public class QuickAccessUtils {
       quickAccessItem = equippedItem;
     }
 
+    // ------ Ensure Quick Access Item Has Proper Config ------
     // ------ TODO: Update Selection GUI's to have a object for each UI instead of single monolithic UI file with multiple switch cases
     // ------ Get Needed GUI Object ------
     // -- Have a different class for each file type instead of a single UI file --
