@@ -37,6 +37,10 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         short targetPosition = swapQuickAccessItemEvent.targetPosition();
         
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(playerRef, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        if (hotbar==null){
+            WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] WQA::SwapQuickAccessItemEventHandler::accept - No hotbar found on entity.");
+            return;
+        }
         ItemStack quickAccessItemStack = hotbar.getInventory().getItemStack(equippedPosition);
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Handler Data: \n - Target Pos: "+targetPosition+"\n - Source Pos: "+sourceInventoryPosition+"\n - Equipped Pos: "+equippedPosition);
 
@@ -45,8 +49,8 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
             return;
         }
 
-
-        // TODO: TRY new Swap event
+        // Ensure Item has an inventory if it doesn't
+        //  (This is needed if player has not added an item to the container yet)
         short capacity = QuickAccessUtils.getItemContainerSize(quickAccessItemStack);
         ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
 
