@@ -5,6 +5,7 @@ import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
+import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
 import com.hypixel.hytale.server.core.command.system.CommandManager;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
@@ -51,8 +52,11 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
 
         // Ensure Item has an inventory if it doesn't
         //  (This is needed if player has not added an item to the container yet)
-        short capacity = QuickAccessConfig.getContainerSize(hotbar, equippedPosition);
-        ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
+        short capacity = quickAccessItemStack.getItem().getItemStackContainerConfig().getCapacity();
+        if (capacity == 0) {
+            WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] WQA::SwapQuickAccessItemEventHandler::accept - ItemStackItemContainer capacity is 0");
+            return;
+        }
 
         ItemStackItemContainer ensuredQuickAccessItem =
                 ItemStackItemContainer.ensureContainer(
@@ -71,6 +75,7 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
             return;
         }
 
+        ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
         ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, targetItem);
         hotbar.getInventory().setItemStackForSlot(targetPosition, inventoryItem);
     }

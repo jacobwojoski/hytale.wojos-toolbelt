@@ -1,10 +1,6 @@
 package org.wojo.wojosToolbelt.Config;
 
-import com.hypixel.hytale.server.core.inventory.Inventory;
-import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
-import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponentFactory;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -242,33 +238,10 @@ public class QuickAccessConfig {
         return "true";
     }
 
-    public static short getContainerSize(String item_id) {
-        switch (item_id){
-            case "Quick_Access_Item_Unrestricted_Common":
-                return 2;
-            case "Quick_Access_Item_Unrestricted_Uncommon":
-                return 3;
-            case "Quick_Access_Item_Unrestricted_Rare":
-                return 4;
-            case "Quick_Access_Item_Unrestricted_Epic":
-                return 6;
-            case "Quick_Access_Item_Unrestricted_Legendary":
-                return 8;
-            case "Quick_Access_Item_Unrestricted_Debug":
-                return 12;
-            default:
-                return 0;
-        }
-    }
-
-    public static short getContainerSize(InventoryComponent parent_inv, short inv_pos) {
-        if (parent_inv == null){
+    public static short getContainerSize(ItemStack item_stack) {
+        if (item_stack == null){
             return 0;
         }
-        ItemStackItemContainer container = ItemStackItemContainer.getContainer(parent_inv.getInventory(), inv_pos);
-        if(container != null){
-            return container.getCapacity();
-        }
-        return 0;
+        return item_stack.getItem().getItemStackContainerConfig().getCapacity();
     }
 }

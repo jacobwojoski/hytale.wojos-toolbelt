@@ -164,7 +164,7 @@ public class QuickAccessUtils {
     BsonDocument containerBSON = itemStack.getFromMetadataOrNull(ItemStackItemContainer.CONTAINER_CODEC);
     ItemStack[] items = ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
     if (items == null){
-      return new ItemStack[QuickAccessConfig.getContainerSize(itemStack.getItemId())];
+      return new ItemStack[QuickAccessConfig.getContainerSize(itemStack)];
     }
     return ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
   }
