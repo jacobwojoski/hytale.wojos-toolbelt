@@ -7,12 +7,14 @@ import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainerUtil;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import org.bson.BsonDocument;
+import org.wojo.wojosToolbelt.Components.QuickAccessItemComponentFactory;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -160,6 +162,10 @@ public class QuickAccessUtils {
   // Get array of items in a container if item has container field, else get null.
   public static ItemStack[] getContainerItems(ItemStack itemStack) {
     BsonDocument containerBSON = itemStack.getFromMetadataOrNull(ItemStackItemContainer.CONTAINER_CODEC);
+    ItemStack[] items = ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
+    if (items == null){
+      return new ItemStack[QuickAccessConfig.getContainerSize(itemStack)];
+    }
     return ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
   }
 
@@ -179,19 +185,20 @@ public class QuickAccessUtils {
     boolean isItemHeld = false;
     if (!QuickAccessUtils.isQuickAccessItem(heldItem) && !QuickAccessUtils.isQuickAccessItem(equippedItem)) {
       notificationHelper(store, ref, "ERROR", "Item held or equipped is not a QuickAccess Item");
-      WojosQuickAccessPlugin.LOGGER.atInfo().log("[ERROR]: Item held or equipped is not a QuickAccess Item");
+      WojosQuickAccessPlugin.LOGGER.atWarning().log("[ERROR]: Item held or equipped is not a QuickAccess Item");
       return;
     }else if (QuickAccessUtils.isQuickAccessItem(heldItem)){
       // Priority to use held item over equipped item
-      WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: Opening Held Items Quick Access Selection Gui");
+      WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Opening Held Items Quick Access Selection Gui");
       qaItemHotbarPosition = (int) hotbar.getActiveSlot();
       quickAccessItem = heldItem;
     }else{
-      WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: Opening Equipped Items Quick Access Selection Gui");
+      WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Opening Equipped Items Quick Access Selection Gui");
       qaItemHotbarPosition = qaPlayerComp.getEquippedPosition();
       quickAccessItem = equippedItem;
     }
 
+    // ------ Ensure Quick Access Item Has Proper Config ------
     // ------ TODO: Update Selection GUI's to have a object for each UI instead of single monolithic UI file with multiple switch cases
     // ------ Get Needed GUI Object ------
     // -- Have a different class for each file type instead of a single UI file --
@@ -224,7 +231,6 @@ public class QuickAccessUtils {
 
   public static short getActiveHotbarPosition(Store<EntityStore>store, Ref<EntityStore> ref) {
     InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
-    QuickAccessPlayerComponent qaPlayerComp = store.getComponent(ref, QuickAccessPlayerComponent.getComponentType());
     ItemStack heldItem = hotbar.getActiveItem();
     Boolean isActiveItemTheQuickAccessItem = QuickAccessUtils.isQuickAccessItem(heldItem);
 

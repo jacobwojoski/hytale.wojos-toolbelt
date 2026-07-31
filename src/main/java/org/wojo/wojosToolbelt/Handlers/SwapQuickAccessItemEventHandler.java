@@ -5,6 +5,7 @@ import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
+import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
 import com.hypixel.hytale.server.core.command.system.CommandManager;
 import com.hypixel.hytale.server.core.command.system.CommandSender;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
@@ -18,6 +19,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.bson.BsonDocument;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
+import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -36,6 +38,10 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         short targetPosition = swapQuickAccessItemEvent.targetPosition();
         
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(playerRef, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        if (hotbar==null){
+            WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] WQA::SwapQuickAccessItemEventHandler::accept - No hotbar found on entity.");
+            return;
+        }
         ItemStack quickAccessItemStack = hotbar.getInventory().getItemStack(equippedPosition);
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Handler Data: \n - Target Pos: "+targetPosition+"\n - Source Pos: "+sourceInventoryPosition+"\n - Equipped Pos: "+equippedPosition);
 
@@ -44,53 +50,33 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
             return;
         }
 
-        // ------ Get Currently Stored Items ------
-        // Get current target hotbar item
-        ItemStack equippedItem = hotbar.getInventory().getItemStack(targetPosition);
-
-        // Get Item in Quick Access Component Storage to swap into hotbar
-        BsonDocument containerBSON = quickAccessItemStack.getFromMetadataOrNull(ItemStackItemContainer.CONTAINER_CODEC);
-        ItemStack[] containerItems = ItemStackItemContainer.ITEMS_CODEC.getOrNull(containerBSON, new ExtraInfo());
-        if ( containerItems == null ){
-            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Trying to use unused container, Add item to get it working");
-            String cmd = "echo \"You need to add an item to the Quick Access Container Inventory to get UI to work! Open the Ui with the USE key (Default: f)\"";
-            UUID uuid = store.getComponent(playerRef, UUIDComponent.getComponentType()).getUuid();
-            PlayerRef ref = Universe.get().getPlayer(uuid);
-            CommandManager.get().handleCommand(ref, cmd);
-            return;
-        } else if ( sourceInventoryPosition >= containerItems.length){
-            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Trying to access position out of range, Button disable not working");
+        // Ensure Item has an inventory if it doesn't
+        //  (This is needed if player has not added an item to the container yet)
+        short capacity = quickAccessItemStack.getItem().getItemStackContainerConfig().getCapacity();
+        if (capacity == 0) {
+            WojosQuickAccessPlugin.LOGGER.atSevere().log("[ERROR] WQA::SwapQuickAccessItemEventHandler::accept - ItemStackItemContainer capacity is 0");
             return;
         }
-        ItemStack itemStoredInQaComp = containerItems[sourceInventoryPosition];
 
-        // ------ Set Container Items ------
-        // Set Quick Access item to hotbar item
-        hotbar.getInventory().removeItemStackFromSlot(targetPosition);
-        if (itemStoredInQaComp != null) {
-            hotbar.getInventory().setItemStackForSlot(targetPosition, itemStoredInQaComp);
+        ItemStackItemContainer ensuredQuickAccessItem =
+                ItemStackItemContainer.ensureContainer(
+                        hotbar.getInventory(),      // parentContainer
+                        equippedPosition,           // slot containing the backpack
+                        capacity                    // capacity
+                );
+
+        ItemStack inventoryItem =
+                ItemStackItemContainer
+                        .getContainer(hotbar.getInventory(),equippedPosition)
+                        .getItemStack(sourceInventoryPosition);
+
+        if (targetPosition > capacity) {
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] Tring to move an item to a positiion greater than container size");
+            return;
         }
 
-        // Set Hotbar Item to quickaccess Item
-        // NOTE: QuickAccessComponent updates when the UI is opened. No need to update it here we only need to update the container
-        if (equippedItem != null){
-            containerItems[sourceInventoryPosition] = equippedItem;
-            ItemStackItemContainer.ITEMS_CODEC.put(containerBSON, containerItems, new ExtraInfo());
-            ItemStack updatedQuickAccessItem = quickAccessItemStack.withMetadata(ItemStackItemContainer.CONTAINER_CODEC, containerBSON);
-            hotbar.getInventory().removeItemStackFromSlot(equippedPosition);
-            hotbar.getInventory().setItemStackForSlot(equippedPosition, updatedQuickAccessItem);
-
-            ComponentType componentType = InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID);
-            store.replaceComponent(playerRef, componentType, hotbar);
-        }else{
-            containerItems[sourceInventoryPosition] = null;
-            ItemStackItemContainer.ITEMS_CODEC.put(containerBSON, containerItems, new ExtraInfo());
-            ItemStack updatedQuickAccessItem = quickAccessItemStack.withMetadata(ItemStackItemContainer.CONTAINER_CODEC, containerBSON);
-            hotbar.getInventory().removeItemStackFromSlot(equippedPosition);
-            hotbar.getInventory().setItemStackForSlot(equippedPosition, updatedQuickAccessItem);
-
-            ComponentType componentType = InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID);
-            store.replaceComponent(playerRef, componentType, hotbar);
-        }
+        ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
+        ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, targetItem);
+        hotbar.getInventory().setItemStackForSlot(targetPosition, inventoryItem);
     }
 }
