@@ -237,4 +237,11 @@ public class QuickAccessConfig {
         }
         return "true";
     }
+
+    public static short getContainerSize(ItemStack item_stack) {
+        if (item_stack == null){
+            return 0;
+        }
+        return item_stack.getItem().getItemStackContainerConfig().getCapacity();
+    }
 }

@@ -119,7 +119,6 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         if (storedItems == null){
             WojosQuickAccessPlugin.LOGGER.atFine().log("[WARN]: Stored items in QuickAccess container is null!");
             QuickAccessUtils.notificationHelper(playerRef.getReference().getStore(), playerRef.getReference(), "WARNING", "You must first add an item to the container inventory to get Radial working.\nUse Right-Click to open container inventory!");
-            return;
         }
 
         // For all quick Access buttons
