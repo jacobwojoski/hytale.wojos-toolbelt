@@ -185,15 +185,15 @@ public class QuickAccessUtils {
     boolean isItemHeld = false;
     if (!QuickAccessUtils.isQuickAccessItem(heldItem) && !QuickAccessUtils.isQuickAccessItem(equippedItem)) {
       notificationHelper(store, ref, "ERROR", "Item held or equipped is not a QuickAccess Item");
-      WojosQuickAccessPlugin.LOGGER.atInfo().log("[ERROR]: Item held or equipped is not a QuickAccess Item");
+      WojosQuickAccessPlugin.LOGGER.atWarning().log("[ERROR]: Item held or equipped is not a QuickAccess Item");
       return;
     }else if (QuickAccessUtils.isQuickAccessItem(heldItem)){
       // Priority to use held item over equipped item
-      WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: Opening Held Items Quick Access Selection Gui");
+      WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Opening Held Items Quick Access Selection Gui");
       qaItemHotbarPosition = (int) hotbar.getActiveSlot();
       quickAccessItem = heldItem;
     }else{
-      WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: Opening Equipped Items Quick Access Selection Gui");
+      WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Opening Equipped Items Quick Access Selection Gui");
       qaItemHotbarPosition = qaPlayerComp.getEquippedPosition();
       quickAccessItem = equippedItem;
     }
@@ -240,34 +240,4 @@ public class QuickAccessUtils {
     }
     return hotbar.getActiveSlot();
   }
-
-  public static short getItemContainerSize(String item_id) {
-    ItemStack item = new ItemStack(item_id);
-    if (item == null){
-      return 0;
-    }
-
-    Short capacity = item.getFromMetadataOrNull(ItemStackItemContainer.CAPACITY_CODEC);
-    if (capacity == null) {
-      String log = "[ERROR] WQA::QuickAccessUtils::getItemContainerSize - Capacity is null for "+item_id;
-      WojosQuickAccessPlugin.LOGGER.atSevere().log(log);
-      return 0;
-    }
-    return capacity;
-  }
-
-  public static short getItemContainerSize(ItemStack item) {
-    if (item == null){
-      return 0;
-    }
-
-    Short capacity = item.getFromMetadataOrNull(ItemStackItemContainer.CAPACITY_CODEC);
-    if (capacity == null) {
-      String log = "[ERROR] WQA::QuickAccessUtils::getItemContainerSize - Capacity is null for "+item.getItemId();
-      WojosQuickAccessPlugin.LOGGER.atSevere().log(log);
-      return 0;
-    }
-    return capacity;
-  }
-
 }

@@ -24,3 +24,9 @@ store.replaceComponent(playerRef, componentType, hotbar);
 ```java
 CommandManager.get().handleCommand(player,"Open");
 ```
+
+#### Commands
+```sh
+/log --level Fine --save
+/hitdetection
+```

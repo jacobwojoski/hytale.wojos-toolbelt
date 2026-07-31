@@ -255,7 +255,7 @@ public class QuickAccessConfig {
             case "Quick_Access_Item_Unrestricted_Debug":
                 return 12;
             default:
-                return 2;
+                return 0;
         }
     }
 }
