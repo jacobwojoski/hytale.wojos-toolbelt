@@ -1,5 +1,7 @@
 package org.wojo.wojosToolbelt.Config;
 
+import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
@@ -257,5 +259,16 @@ public class QuickAccessConfig {
             default:
                 return 0;
         }
+    }
+
+    public static short getContainerSize(InventoryComponent parent_inv, short inv_pos) {
+        if (parent_inv == null){
+            return 0;
+        }
+        ItemStackItemContainer container = ItemStackItemContainer.getContainer(parent_inv.getInventory(), inv_pos);
+        if(container != null){
+            return container.getCapacity();
+        }
+        return 0;
     }
 }

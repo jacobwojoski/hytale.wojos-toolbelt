@@ -51,8 +51,7 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
 
         // Ensure Item has an inventory if it doesn't
         //  (This is needed if player has not added an item to the container yet)
-        // TODO: Replace getContainerSize with fn that uses CODEC and ItemStackItemContainer
-        short capacity = QuickAccessConfig.getContainerSize(quickAccessItemStack.getItemId());
+        short capacity = QuickAccessConfig.getContainerSize(hotbar, equippedPosition);
         ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
 
         ItemStackItemContainer ensuredQuickAccessItem =
