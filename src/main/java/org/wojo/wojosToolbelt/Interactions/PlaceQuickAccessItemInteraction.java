@@ -28,7 +28,7 @@ import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
 // Custom interaction when placing a held quickAccessItem
 // - Need to convert ItemStackItemContainer to ItemContainerBlock
-public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
+public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
 
     public static final String PLACE_QUICK_ACCESS_ITEM_INTERACTION_ID = "WojoQuickAccessPlaceQuickAccessItemInteraction_ID";
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
