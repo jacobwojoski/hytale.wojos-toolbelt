@@ -4,10 +4,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.protocol.BlockRotation;
-import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.protocol.PlaceBlockInteraction;
-import com.hypixel.hytale.protocol.SimpleInteraction;
+import com.hypixel.hytale.protocol.*;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.Rotation;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
@@ -27,6 +24,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
+import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
 // Custom interaction when placing a held quickAccessItem
 // - Need to convert ItemStackItemContainer to ItemContainerBlock
@@ -66,20 +64,51 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
 
         // TODO: Set Block Rotation to face player
         // TODO: set block placement position to be above blockface selected
-        // - BlockFace targetedFace = interactionContext.getClientState().blockFace;
-        
+        BlockFace targetedFace = null;
+        if (interactionContext.getClientState() != null){
+            targetedFace = interactionContext.getClientState().blockFace;
+        }else{
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[Debug] Bad Client: "+targetedFace.getValue());
+        }
+        WojosQuickAccessPlugin.LOGGER.atInfo().log("[Debug]Targeted Face: "+targetedFace.getValue());
+        int x = targetPos.x;
+        int y = targetPos.y;
+        int z = targetPos.z;
+
+        switch (targetedFace.getValue()) {
+//            case BlockFace.Up:     y += 1; break; // The face on top of the block
+//            case BlockFace.Down:   y -= 1; break; // The bottom face
+//            case BlockFace.North:  z -= 1; break;
+//            case BlockFace.South:  z += 1; break;
+//            case BlockFace.East:   x += 1; break;
+//            case BlockFace.West:   x -= 1; break;
+            case 1:     y += 1; break; // The face on top of the block
+            case 2:   y -= 1; break; // The bottom face
+            case 3:  z -= 1; break;
+            case 4:  z += 1; break;
+            case 5:   x += 1; break;
+            case 6:   x -= 1; break;
+            default:
+                WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] WQA::PlaceQuickAccessItemInteraction::firstRun - No Block Face Found");
+        }
+
+// (x, y, z) is now the position of the empty block space above the clicked face
+
+        final int fx = x;
+        final int fy = y;
+        final int fz = z;
         World world = player.getWorld();
         world.execute(() -> {
-            
+
             // Place the block
-            world.setBlock(targetPos.x, targetPos.y, targetPos.z, quickAccessItem.getBlockKey());
+            world.setBlock(fx, fy, fz, quickAccessItem.getBlockKey());
 
             // Access the item's nested container (the inventory inside the held item)
             //ItemStackItemContainer itemContainer = new ItemStackItemContainer(hotbar, activeSlot);
 
             // Access the newly placed block's ItemContainerBlock component
             ItemContainerBlock blockContainer = BlockModule.getComponent(
-                    ItemContainerBlock.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
+                    ItemContainerBlock.getComponentType(), world, fx, fy, fz
             );
 
             if (blockContainer != null) {
@@ -95,7 +124,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleInstantInteraction {
                 }
             }
 
-            Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, targetPos.x, targetPos.y, targetPos.z);
+            Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, fx, fy, fz);
             chunk_accessor.replaceComponent(chunkEntityRef, ItemContainerBlock.getComponentType(), blockContainer);
 
             // TODO: Handle adventure vs creative mode placement or removing of keeping item in hand

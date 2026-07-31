@@ -1,5 +1,6 @@
 package org.wojo.wojosToolbelt.Interactions;
 
+import com.hypixel.hytale.builtin.hytalegenerator.assets.props.ManualPropAsset;
 import com.hypixel.hytale.codec.ExtraInfo;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
@@ -9,6 +10,7 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.entity.entities.BlockEntity;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -20,11 +22,14 @@ import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBloc
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
+import com.hypixel.hytale.server.core.universe.world.commands.block.BlockGetCommand;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.bson.BsonDocument;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
+import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessLoggingUtils;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
@@ -72,21 +77,16 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         ItemContainerBlock blockContainer = BlockModule.getComponent(
                 ItemContainerBlock.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
         );
-        short block_capacity = blockContainer.getCapacity();
-        ItemContainer container = blockContainer.getItemContainer();
-        ItemStack[] items = new ItemStack[block_capacity];
-        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Block container storage - "+String.valueOf(block_capacity));
 
         // TODO: Get the item from the block
         // 4. Create QuickAccess Item that we will give to player
-        BlockType blockType = BlockModule.getComponent(
-                BlockType.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
-        );
+        BlockType blockType = world.getBlockType(targetPos.x, targetPos.y, targetPos.z);
         String itemId = blockType.getItem().getId();
         ItemStack quickAccessItem = new ItemStack(itemId, 1);
+
         hotbar.getInventory().setItemStackForSlot((short)qaEquippedPositiion, quickAccessItem);
 
-        short capacity = QuickAccessConfig.getContainerSize(quickAccessItem.getItemId());
+        short capacity = QuickAccessConfig.getContainerSize(quickAccessItem);
         ItemStackItemContainer unconfiguredQuickAccessItem =
                 ItemStackItemContainer.ensureContainer(
                         hotbar.getInventory(),          // parentContainer
