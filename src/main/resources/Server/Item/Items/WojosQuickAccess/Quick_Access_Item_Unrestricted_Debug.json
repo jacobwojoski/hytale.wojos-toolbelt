@@ -50,12 +50,19 @@
       "Interactions": [
         {
           "Type": "Condition",
-          "Crouching": true,
+          "Held": true,
           "Next": {
-            "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID"
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID"
+            },
+            "Failed": {
+              "Type": "OpenItemStackContainer"
+            }
           },
           "Failed": {
-            "Type": "OpenItemStackContainer"
+            "Type": "WojoQuickAccessEquipQuickAccessItemInteraction_ID"
           }
         }
       ]
@@ -96,7 +103,8 @@
         "ItemContainerBlock": {
           "ItemContainer": {
             "Capacity": 12
-          }
+          },
+          "Capacity": 12
         }
       }
     },

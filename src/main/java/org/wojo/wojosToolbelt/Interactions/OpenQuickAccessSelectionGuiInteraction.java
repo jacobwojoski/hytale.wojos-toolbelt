@@ -47,5 +47,7 @@ public class OpenQuickAccessSelectionGuiInteraction extends SimpleInstantInterac
             QuickAccessUtils.openQuickAccessUI(interactionContext.getEntity().getStore(), ref);
             //CommandManager.get().handleCommand(player,"wqa gui select --event open");
         }
+
+        interactionContext.getState().state = InteractionState.Finished;
     }
 }

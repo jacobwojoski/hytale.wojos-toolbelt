@@ -6,6 +6,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
@@ -114,5 +115,7 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
             String blockTypeKey = BlockType.EMPTY_KEY;
             world.setBlock(targetPos.x, targetPos.y, targetPos.z, blockTypeKey);
         });
+
+        interactionContext.getState().state = InteractionState.Finished;
     }
 }
