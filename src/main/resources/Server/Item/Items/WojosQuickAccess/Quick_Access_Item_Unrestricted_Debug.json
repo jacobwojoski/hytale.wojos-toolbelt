@@ -42,6 +42,11 @@
           },
           "Failed": {
             "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
+          },
+          "Effects": {
+            "WaitForAnimationToFinish": false,
+            "ItemPlayerAnimationsId": "Block",
+            "ItemAnimationId": "SwingLeft"
           }
         }
       ]
@@ -55,7 +60,12 @@
             "Type": "Condition",
             "Crouching": true,
             "Next": {
-              "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID"
+              "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID",
+              "Effects": {
+                "WaitForAnimationToFinish": false,
+                "ItemPlayerAnimationsId": "Block",
+                "ItemAnimationId": "Build"
+              }
             },
             "Failed": {
               "Type": "OpenItemStackContainer"

@@ -1,22 +1,28 @@
 package org.wojo.wojosToolbelt.Interactions;
 
 import com.hypixel.hytale.builtin.hytalegenerator.props.ManualProp;
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.protocol.*;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
-import com.hypixel.hytale.protocol.BlockFace;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.BlockInteractionUtils;
 import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.util.InteractionValidation;
 import com.hypixel.hytale.server.core.universe.world.SetBlockSettings;
 import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
@@ -36,6 +42,7 @@ import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.logging.Level;
 
 // Custom interaction when placing a held quickAccessItem
 // - Need to convert ItemStackItemContainer to ItemContainerBlock
@@ -172,8 +179,11 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
             }
         }
 
-        Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, fx, fy, fz);
-        chunk_accessor.replaceComponent(chunkEntityRef, ItemContainerBlock.getComponentType(), blockContainer);
+        world.execute(()->{
+            Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, fx, fy, fz);
+            chunk_accessor.replaceComponent(chunkEntityRef, ItemContainerBlock.getComponentType(), blockContainer);
+        });
+
 
         // TODO: Handle adventure vs creative mode placement or removing of keeping item in hand
         hotbar.getInventory().removeItemStackFromSlot(activeSlot, false);
@@ -187,4 +197,3 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         // Needed to be overridden, but not needed to be used
     }
 }
-
