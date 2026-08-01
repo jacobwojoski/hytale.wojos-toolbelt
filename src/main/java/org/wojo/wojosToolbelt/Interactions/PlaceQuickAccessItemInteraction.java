@@ -1,30 +1,34 @@
 package org.wojo.wojosToolbelt.Interactions;
 
+import com.hypixel.hytale.builtin.hytalegenerator.props.ManualProp;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.*;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.Rotation;
-import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
-import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
+import com.hypixel.hytale.protocol.BlockFace;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.interaction.BlockInteractionUtils;
+import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
 import org.joml.Vector3i;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
-import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 // Custom interaction when placing a held quickAccessItem
 // - Need to convert ItemStackItemContainer to ItemContainerBlock
@@ -35,15 +39,13 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
 
     // CODEC: Needed to link interaction with item
     public static final BuilderCodec<PlaceQuickAccessItemInteraction> CODEC = BuilderCodec.builder(
-            PlaceQuickAccessItemInteraction.class, PlaceQuickAccessItemInteraction::new, SimpleInstantInteraction.CODEC
+            PlaceQuickAccessItemInteraction.class, PlaceQuickAccessItemInteraction::new, SimpleBlockInteraction.CODEC
     ).build();
-    
+
     @Override
-    protected void firstRun(@NonNullDecl InteractionType interactionType, @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
-        //  1. Get copy of container data
-        //  2. Place Block using block place Util
-        //      - Note: Block Place util will delete item from player so make a copy of container data first)
-        //  3. Update block chunk with container data
+    protected void interactWithBlock(@Nonnull World world, @Nonnull CommandBuffer<EntityStore> cmdBuffer,
+                                     @Nonnull InteractionType intType, @Nonnull InteractionContext interactionContext, @Nullable ItemStack itmStack,
+                                     @Nonnull Vector3i blockPos, @Nonnull CooldownHandler cooldownHndlr) {
 
         ItemStack quickAccessItem = interactionContext.getHeldItem();
         ItemStack[] quickAccessItemContainer = QuickAccessUtils.getContainerItems(quickAccessItem);
@@ -52,6 +54,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         Store<EntityStore> entity_Store = entity_ref.getStore();
         Player player = entity_Store.getComponent(entity_ref, Player.getComponentType());
         ChunkStore chunk_store = player.getWorld().getChunkStore();
+
         Store<ChunkStore> chunk_accessor = chunk_store.getStore();
         com.hypixel.hytale.protocol.BlockPosition targetPos = interactionContext.getTargetBlock();
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) entity_Store.getComponent(entity_ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
@@ -67,6 +70,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         BlockFace targetedFace = null;
         if (interactionContext.getClientState() != null){
             targetedFace = interactionContext.getClientState().blockFace;
+            //targetedFace = interactionContext.getServerState().blockFace;
         }else{
             WojosQuickAccessPlugin.LOGGER.atInfo().log("[Debug] Bad Client: "+targetedFace.getValue());
         }
@@ -75,19 +79,13 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         int y = targetPos.y;
         int z = targetPos.z;
 
-        switch (targetedFace.getValue()) {
-//            case BlockFace.Up:     y += 1; break; // The face on top of the block
-//            case BlockFace.Down:   y -= 1; break; // The bottom face
-//            case BlockFace.North:  z -= 1; break;
-//            case BlockFace.South:  z += 1; break;
-//            case BlockFace.East:   x += 1; break;
-//            case BlockFace.West:   x -= 1; break;
-            case 1:     y += 1; break; // The face on top of the block
-            case 2:   y -= 1; break; // The bottom face
-            case 3:  z -= 1; break;
-            case 4:  z += 1; break;
-            case 5:   x += 1; break;
-            case 6:   x -= 1; break;
+        switch (targetedFace) {
+            case BlockFace.Up:     y += 1; break; // The face on top of the block
+            case BlockFace.Down:   y -= 1; break; // The bottom face
+            case BlockFace.North:  z -= 1; break;
+            case BlockFace.South:  z += 1; break;
+            case BlockFace.East:   x += 1; break;
+            case BlockFace.West:   x -= 1; break;
             default:
                 WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] WQA::PlaceQuickAccessItemInteraction::firstRun - No Block Face Found");
         }
@@ -97,14 +95,40 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         final int fx = x;
         final int fy = y;
         final int fz = z;
-        World world = player.getWorld();
+
+        TransformComponent transformComponent = entity_Store.getComponent(entity_ref, TransformComponent.getComponentType());
+
+        // Get BlockPlaceUtilData
+        //World world = player.getWorld();
+        Ref<ChunkStore> chunkRef = chunk_store.getChunkSectionReferenceAtBlock(fx, fy, fz);
+        org.joml.Vector3d playerPos = transformComponent.getPosition();
+        org.joml.Vector3d placePos = new org.joml.Vector3d(fx + 0.5, fy + 0.5, fz + 0.5);
+        org.joml.Vector3d toPlayer = playerPos.sub(placePos).normalize();
+        org.joml.Vector3i toPlayerNorm = new Vector3i((int)Math.floor(toPlayer.x+0.5), (int)Math.floor(toPlayer.y+0.5), (int)Math.floor(toPlayer.z+0.5));
+        //BlockRotation rotation = BlockRotation.fromDirection(toPlayer);
+
+        //BlockRotation rotation = new BlockRotation( new Rotation.fromValue()) transformComponent.
         world.execute(() -> {
 
             // Place the block
-            world.setBlock(fx, fy, fz, quickAccessItem.getBlockKey());
-
-            // Access the item's nested container (the inventory inside the held item)
-            //ItemStackItemContainer itemContainer = new ItemStackItemContainer(hotbar, activeSlot);
+            //world.setBlock(fx, fy, fz, quickAccessItem.getBlockKey());
+            BlockPlaceUtils.placeBlock(
+                    entity_ref,                          // ref: player entity ref
+                    quickAccessItem,                     // itemStack: the item being placed
+                    quickAccessItem.getBlockKey(),       // blockTypeKey: block to place
+                    hotbar.getInventory(),               // itemContainer: player's inventory
+                    toPlayerNorm,                        // placementNormal: face normal
+                    new Vector3i(fx, fy, fz),            // blockPosition: destination position
+                    new BlockRotation(),                 // blockRotation: computed rotation
+                    (byte) activeSlot,                   // activeSlot: hotbar slot
+                    false,                               // removeItemInHand: false (you handle this yourself)
+                    chunkRef,                            // chunkReference: chunk ref for destination
+                    chunk_accessor,                      // chunkStore: ChunkStore's Store for component access
+                    entity_Store,                        // entityStore: EntityStore for player component access
+                    false,                               // quickReplace: creative quick replace
+                    false,                               // quickRetype: creative quick retype
+                    false                                // noPhysics: skip physics checks
+            );
 
             // Access the newly placed block's ItemContainerBlock component
             ItemContainerBlock blockContainer = BlockModule.getComponent(
@@ -130,5 +154,11 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
             // TODO: Handle adventure vs creative mode placement or removing of keeping item in hand
             hotbar.getInventory().removeItemStackFromSlot(activeSlot, false);
         });
+    }
+
+    @Override
+    protected void simulateInteractWithBlock(@Nonnull InteractionType intType, @Nonnull InteractionContext intCxt,
+                                             @Nullable ItemStack itmStk, @Nonnull World world, @Nonnull Vector3i blockPos) {
+        // Needed to be overridden, but not needed to be used
     }
 }
