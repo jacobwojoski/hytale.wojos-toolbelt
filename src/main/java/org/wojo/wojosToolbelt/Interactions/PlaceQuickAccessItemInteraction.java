@@ -1,31 +1,17 @@
 package org.wojo.wojosToolbelt.Interactions;
 
-import com.hypixel.hytale.builtin.hytalegenerator.props.ManualProp;
-import com.hypixel.hytale.codec.Codec;
-import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.protocol.*;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
-import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.modules.interaction.BlockInteractionUtils;
 import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
-import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
-import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
-import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
-import com.hypixel.hytale.server.core.modules.interaction.interaction.util.InteractionValidation;
-import com.hypixel.hytale.server.core.universe.world.SetBlockSettings;
-import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
-import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.joml.Vector3i;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -42,7 +28,6 @@ import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.logging.Level;
 
 // Custom interaction when placing a held quickAccessItem
 // - Need to convert ItemStackItemContainer to ItemContainerBlock
@@ -63,6 +48,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
                                      @Nonnull Vector3i blockPos, @Nonnull CooldownHandler cooldownHndlr) {
 
         ItemStack quickAccessItem = interactionContext.getHeldItem();
+        if (quickAccessItem == null){ return;}
         ItemStack[] quickAccessItemContainer = QuickAccessUtils.getContainerItems(quickAccessItem);
 
         Ref<EntityStore> entity_ref = interactionContext.getEntity();
@@ -75,7 +61,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) entity_Store.getComponent(entity_ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
         short activeSlot = hotbar.getActiveSlot();
 
-        if (targetPos == null) {
+        if (targetPos == null || !QuickAccessUtils.isQuickAccessItem(quickAccessItem)) {
             return;
         }
 
@@ -118,21 +104,13 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         org.joml.Vector3d toPlayer = playerPos.sub(placePos).normalize();
         Vector3i toPlayerNorm = new Vector3i((int)Math.floor(toPlayer.x+0.5), (int)Math.floor(toPlayer.y+0.5), (int)Math.floor(toPlayer.z+0.5));
 
-        BlockRotation rotation = null;
+
         HeadRotation headRotation = entity_Store.getComponent(entity_ref, HeadRotation.getComponentType()).clone();
         final float yaw = headRotation.getRotation().yaw();
         double deg = Math.toDegrees(yaw);
         deg += 180; // Deg is from -180 -> 180, Convert to 0-360
 
-        if (deg >=45 && deg < 135){
-            rotation = new BlockRotation(Rotation.TwoSeventy,Rotation.None,Rotation.None);
-        } else if (deg >= 135 && deg <225) {
-            rotation = new BlockRotation(Rotation.None,Rotation.None,Rotation.None);
-        } else if (deg >= 225 && deg < 315){
-            rotation = new BlockRotation(Rotation.Ninety,Rotation.None,Rotation.None);
-        } else {
-            rotation = new BlockRotation(Rotation.OneEighty,Rotation.None,Rotation.None);
-        }
+        BlockRotation rotation = getBlockRotation(deg);
 
         BlockRotation blockRotation = interactionContext.getServerState().blockRotation;
         BlockRotation serverBlockRotation = interactionContext.getClientState().blockRotation;
@@ -141,7 +119,6 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
 
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Degrees: "+deg);
 
-        final BlockRotation finalBlockRot = rotation;
         //BlockRotation rotation = new BlockRotation( new Rotation.fromValue()) transformComponent.
         BlockPlaceUtils.placeBlock(
                 entity_ref,                          // ref: player entity ref
@@ -179,16 +156,27 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
             }
         }
 
-        world.execute(()->{
-            Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, fx, fy, fz);
-            chunk_accessor.replaceComponent(chunkEntityRef, ItemContainerBlock.getComponentType(), blockContainer);
-        });
+        Ref<ChunkStore>  chunkEntityRef = BlockModule.getBlockEntity(world, fx, fy, fz);
+        chunk_accessor.replaceComponent(chunkEntityRef, ItemContainerBlock.getComponentType(), blockContainer);
 
-
-        // TODO: Handle adventure vs creative mode placement or removing of keeping item in hand
         hotbar.getInventory().removeItemStackFromSlot(activeSlot, false);
 
         interactionContext.getState().state = InteractionState.Finished;
+    }
+
+    @NonNullDecl
+    private static BlockRotation getBlockRotation(double deg) {
+        BlockRotation rotation;
+        if (deg >=45 && deg < 135){
+            rotation = new BlockRotation(Rotation.TwoSeventy,Rotation.None,Rotation.None);
+        } else if (deg >= 135 && deg <225) {
+            rotation = new BlockRotation(Rotation.None,Rotation.None,Rotation.None);
+        } else if (deg >= 225 && deg < 315){
+            rotation = new BlockRotation(Rotation.Ninety,Rotation.None,Rotation.None);
+        } else {
+            rotation = new BlockRotation(Rotation.OneEighty,Rotation.None,Rotation.None);
+        }
+        return rotation;
     }
 
     @Override
