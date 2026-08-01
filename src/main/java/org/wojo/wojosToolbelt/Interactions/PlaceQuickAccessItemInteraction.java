@@ -108,7 +108,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         final int fy = y;
         final int fz = z;
 
-        TransformComponent transformComponent = entity_Store.getComponent(entity_ref, TransformComponent.getComponentType());
+        TransformComponent transformComponent = entity_Store.getComponent(entity_ref, TransformComponent.getComponentType()).clone();
 
         // Get BlockPlaceUtilData
         //World world = player.getWorld();
@@ -119,7 +119,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         Vector3i toPlayerNorm = new Vector3i((int)Math.floor(toPlayer.x+0.5), (int)Math.floor(toPlayer.y+0.5), (int)Math.floor(toPlayer.z+0.5));
 
         BlockRotation rotation = null;
-        HeadRotation headRotation = entity_Store.getComponent(entity_ref, HeadRotation.getComponentType());
+        HeadRotation headRotation = entity_Store.getComponent(entity_ref, HeadRotation.getComponentType()).clone();
         final float yaw = headRotation.getRotation().yaw();
         double deg = Math.toDegrees(yaw);
         deg += 180; // Deg is from -180 -> 180, Convert to 0-360

@@ -111,9 +111,6 @@
     "BlockEntity": {
       "Components": {
         "ItemContainerBlock": {
-          "ItemContainer": {
-            "Capacity": 12
-          },
           "Capacity": 12
         }
       }

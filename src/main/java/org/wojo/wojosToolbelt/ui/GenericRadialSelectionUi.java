@@ -204,13 +204,13 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
 
         // ------ Error Handling ------
         if ( this._quickAccessItem == null ) {
-            WojosQuickAccessPlugin.LOGGER.atSevere().log("[Error] No Quick Access Item Held or Equipped!");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Error] No Quick Access Item Held or Equipped!");
         }
         if ( this._playerQaComp == null ) {
-            WojosQuickAccessPlugin.LOGGER.atSevere().log("[Error] Player does not have a Quick Access component!");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Error] Player does not have a Quick Access component!");
         }
         if ( this._targetItem == null ) {
-            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warn] Player does not have an item in the target location!");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[Warn] Player does not have an item in the target location!");
         }
         // ------------------------------- End Data Setup -------------------------------
         // ==============================================================================
