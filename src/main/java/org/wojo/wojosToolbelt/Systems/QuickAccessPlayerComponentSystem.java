@@ -40,45 +40,51 @@ public class QuickAccessPlayerComponentSystem extends RefChangeSystem<EntityStor
         // Quick Access component was added to a new entity
 
         UUIDComponent uuidComponent = store.getComponent(ref, UUIDComponent.getComponentType());
+        if (uuidComponent == null) {
+            return;}
+
         UUID playerUuid = uuidComponent.getUuid();
 
         quickAccessBtnEnabledMap.put(playerUuid, component.getIsEnabled());
         quickAccessHotbarLocationEquipMap.put(playerUuid, component.getEquippedPosition());
         quickAccessPlayerUuidMap.putIfAbsent(ref, playerUuid);
 
-        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: quickAccessPlayerComponentSystem.onComponentAdded");
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: WQA::QuickAccessPlayerComponentSystem::onComponentAdded");
     }
 
     @Override
     public void onComponentRemoved(@Nonnull Ref<EntityStore> ref,
         @Nonnull QuickAccessPlayerComponent component, 
-        @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer)
-        {
-        
+        @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         // Quick Access Component was removed from entity
 
         UUIDComponent uuidComponent = store.getComponent(ref, UUIDComponent.getComponentType());
+        if (uuidComponent == null) {
+            return;}
+
         UUID playerUuid = uuidComponent.getUuid();
 
         quickAccessBtnEnabledMap.put(playerUuid, component.getIsEnabled());
         quickAccessHotbarLocationEquipMap.put(playerUuid, component.getEquippedPosition());
 
-        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: quickAccessPlayerComponentSystem.onComponentRemoved");
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: WQA:QuickAccessPlayerComponentSystem::onComponentRemoved");
     }
 
     @Override
     public void onComponentSet(@Nonnull Ref<EntityStore> ref,
                                @Nullable QuickAccessPlayerComponent old_component, @Nonnull QuickAccessPlayerComponent new_component,
-                               @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer)
-        {
+                               @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
 
         // Quick Access Component replaced on a player that already has it
         UUIDComponent uuidComponent = store.getComponent(ref, UUIDComponent.getComponentType());
+        if (uuidComponent == null) {
+            return;}
+
         UUID playerUuid = uuidComponent.getUuid();
         
         quickAccessBtnEnabledMap.put(playerUuid, new_component.getIsEnabled());
         quickAccessHotbarLocationEquipMap.put(playerUuid, new_component.getEquippedPosition());
-        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: quickAccessPlayerComponentSystem.onComponentSet");
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]:  WQA:QuickAccessPlayerComponentSystem::onComponentSet");
     }
 
     @Override
