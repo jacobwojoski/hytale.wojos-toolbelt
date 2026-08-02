@@ -359,7 +359,23 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
             case "help" -> {
                 WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Help Pressed");
-                String cmd = "echo \"W.I.P. - See https://github.com/jacobwojoski/hytale.wojos-toolbelt for README\"";
+                String cmd =
+                            "echo \"W.I.P. - See one of the following for the current Guides \n" +
+                            " - https://github.com/jacobwojoski/hytale.wojos-toolbelt \n" +
+                            " - https://wiki.hytalemodding.dev/mod/wojos-quick-access-items-toolbelts-slings-and-more \n" +
+                            "Controlls: \n"+
+                            " * While Holding\n"+
+                            "   - Ctrl + Left-Click:   Break block\n"+
+                            "   - Ctrl + Right-Click:  Place block\n"+
+                            "   - Right-Click:  Open Inventory\n"+
+                            "   - Left-Click:   Open Radial UI\n"+
+                            "     > Radial + Left-Click:    Swap radial item to target hotbar position\n"+
+                            "     > Radial + Right-Click:   Swap to active hotbar position\n"+
+                            " * While Placed (Block)\n"+
+                            "   - F:            Open Inventory\n"+
+                            "   - Ctrl + F:     Equip to Hotbar Position\n"+
+                            "   - Left-Click:   Break block droping inventory\n"+
+                            "\"";
                 CommandManager.get().handleCommand(playerRef,cmd);
                 this.close();
             }
