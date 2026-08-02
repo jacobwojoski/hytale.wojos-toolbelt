@@ -38,6 +38,7 @@ public class OpenQuickAccessSelectionGuiInteraction extends SimpleInstantInterac
             return;
         }
 
+        // TODO: Validate if its a block interaction or an item interaction.
         Ref<EntityStore> ref = interactionContext.getEntity();
         Player player = commandBuffer.getComponent(ref, Player.getComponentType());
 
@@ -46,5 +47,7 @@ public class OpenQuickAccessSelectionGuiInteraction extends SimpleInstantInterac
             QuickAccessUtils.openQuickAccessUI(interactionContext.getEntity().getStore(), ref);
             //CommandManager.get().handleCommand(player,"wqa gui select --event open");
         }
+
+        interactionContext.getState().state = InteractionState.Finished;
     }
 }

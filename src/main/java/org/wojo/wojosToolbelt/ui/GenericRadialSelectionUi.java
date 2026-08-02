@@ -204,13 +204,13 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
 
         // ------ Error Handling ------
         if ( this._quickAccessItem == null ) {
-            WojosQuickAccessPlugin.LOGGER.atSevere().log("[Error] No Quick Access Item Held or Equipped!");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Error] No Quick Access Item Held or Equipped!");
         }
         if ( this._playerQaComp == null ) {
-            WojosQuickAccessPlugin.LOGGER.atSevere().log("[Error] Player does not have a Quick Access component!");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Error] Player does not have a Quick Access component!");
         }
         if ( this._targetItem == null ) {
-            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warn] Player does not have an item in the target location!");
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[Warn] Player does not have an item in the target location!");
         }
         // ------------------------------- End Data Setup -------------------------------
         // ==============================================================================
@@ -359,7 +359,23 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
             case "help" -> {
                 WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Help Pressed");
-                String cmd = "echo \"W.I.P. - See https://github.com/jacobwojoski/hytale.wojos-toolbelt for README\"";
+                String cmd =
+                            "echo \"W.I.P. - See one of the following for the current Guides \n" +
+                            " - https://github.com/jacobwojoski/hytale.wojos-toolbelt \n" +
+                            " - https://wiki.hytalemodding.dev/mod/wojos-quick-access-items-toolbelts-slings-and-more \n" +
+                            "Controlls: \n"+
+                            " * While Holding\n"+
+                            "   - Ctrl + Left-Click:   Break block\n"+
+                            "   - Ctrl + Right-Click:  Place block\n"+
+                            "   - Right-Click:  Open Inventory\n"+
+                            "   - Left-Click:   Open Radial UI\n"+
+                            "     > Radial + Left-Click:    Swap radial item to target hotbar position\n"+
+                            "     > Radial + Right-Click:   Swap to active hotbar position\n"+
+                            " * While Placed (Block)\n"+
+                            "   - F:            Open Inventory\n"+
+                            "   - Ctrl + F:     Equip to Hotbar Position\n"+
+                            "   - Left-Click:   Break block droping inventory\n"+
+                            "\"";
                 CommandManager.get().handleCommand(playerRef,cmd);
                 this.close();
             }
