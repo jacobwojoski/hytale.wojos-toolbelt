@@ -4,21 +4,21 @@
     "Items.Tools",
     "WojosQuickAccess.Containers"
   ],
-  "Icon": "Icons/ItemsGenerated/Utility_Leather_Quiver.png",
-  "Model": "Items/Back/Quiver.blockymodel",
-  "Texture": "Items/Back/Quiver_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Quick_Access_Item_Unrestricted_Debug.png",
+  "Model": "Items/WojosQuickAccess/WojosQuickAccess_Toolbox_Item.blockymodel",
+  "Texture": "Items/WojosQuickAccess/WojosQuickAccess_Toolbox_Texture.png",
   "Quality": "Legendary",
   "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.5,
     "Rotation": [
-      360,
-      128,
-      347
+      114,
+      0,
+      115
     ],
     "Translation": [
-      1,
-      -27
+      31,
+      12
     ]
   },
   "Scale": 1,
@@ -35,23 +35,101 @@
     "Primary": {
       "Interactions": [
         {
-          "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
+          "Type": "Condition",
+          "Crouching": true,
+          "Next": {
+            "Type": "BreakBlock"
+          },
+          "Failed": {
+            "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
+          },
+          "Effects": {
+            "WaitForAnimationToFinish": false,
+            "ItemPlayerAnimationsId": "Block",
+            "ItemAnimationId": "SwingLeft"
+          }
         }
       ]
     },
     "Secondary": {
       "Interactions": [
         {
-          "Type": "OpenItemStackContainer"
+          "Type": "Condition",
+          "Held": true,
+          "Next": {
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID",
+              "Effects": {
+                "WaitForAnimationToFinish": false,
+                "ItemPlayerAnimationsId": "Block",
+                "ItemAnimationId": "Build"
+              }
+            },
+            "Failed": {
+              "Type": "OpenItemStackContainer"
+            }
+          },
+          "Failed": {
+            "Type": "WojoQuickAccessEquipQuickAccessItemInteraction_ID"
+          }
         }
       ]
+    }
+  },
+  "ItemLevel": 100,
+  "Utility": {
+    "Usable": false
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "BlockSoundSetId": "Metal",
+    "PhysicalMaterialId": "Metal",
+    "Opacity": "Transparent",
+    "CustomModel": "Blocks/WojosQuickAccess/WojosQuickAccess_Toolbox.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/WojosQuickAccess/WojosQuickAccess_Toolbox_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "CustomModelScale": 1,
+    "HitboxType": "Block_Half",
+    "VariantRotation": "NESW",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "SoftBlocks"
+      }
     },
-    "Use": {
-      "Interactions": [
-        {
-          "Type": "OpenItemStackContainer"
+    "BlockParticleSetId": "Metal",
+    "TextureComputedColor": "#c6a487",
+    "FlipType": "Orthogonal",
+    "ParticleColor": "#fe3131",
+    "BlockEntity": {
+      "Components": {
+        "ItemContainerBlock": {
+          "Capacity": 8
         }
-      ]
+      }
+    },
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "WojoQuickAccessEquipQuickAccessItemInteraction_ID"
+            },
+            "Failed": {
+              "Type": "OpenContainer"
+            }
+          }
+        ]
+      }
     }
   },
   "Recipe": {
@@ -82,9 +160,5 @@
       "ItemId": "Quick_Access_Item_Unrestricted_Legendary",
       "Quantity": 1
     }
-  },
-  "ItemLevel": 100,
-  "Utility": {
-    "Usable": false
   }
 }

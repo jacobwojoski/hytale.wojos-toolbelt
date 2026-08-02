@@ -69,7 +69,9 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         // 2. Verify player can hold the container
         int qaEquippedPositiion = quickAccessPlayerComponent.getEquippedPosition();
         ItemStack equippedPositiion = hotbar.getInventory().getItemStack((short)qaEquippedPositiion);
+
         if (equippedPositiion != null) {
+            // Find
             QuickAccessUtils.notificationHelper(entity_store, entity_ref, "EQUIP FAILED", "Something is already equipped in hotbar location");
             return;
         }
@@ -79,7 +81,6 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
                 ItemContainerBlock.getComponentType(), world, targetPos.x, targetPos.y, targetPos.z
         );
 
-        // TODO: Get the item from the block
         // 4. Create QuickAccess Item that we will give to player
         BlockType blockType = world.getBlockType(targetPos.x, targetPos.y, targetPos.z);
         String itemId = blockType.getItem().getId();
