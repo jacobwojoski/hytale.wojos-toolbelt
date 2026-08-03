@@ -3,7 +3,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
-public class QuickAccessLoggingUtils {
+public class LoggingUtils {
     public static void printItemContainer(ItemContainer item_container){
         if (item_container == null){
             WojosQuickAccessPlugin.LOGGER.atInfo().log("[ERROR] WQA::LoggingUtils::printItemContainer \n - item_container is null");
