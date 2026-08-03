@@ -30,14 +30,15 @@ public class GuiUtils {
           quickAccessItem = equippedItem;
         }
     
-        // ------ Ensure Quick Access Item Has Proper Config ------
-        // ------ TODO: Update Selection GUI's to have a object for each UI instead of single monolithic UI file with multiple switch cases
+        // ------ TODO: Ensure Quick Access Item Has Proper Config ------
         // ------ Get Needed GUI Object ------
         // -- Have a different class for each file type instead of a single UI file --
         // -- Get ANy Needed Vars needed for GUI File --
         PlayerRef playerRef = getPlayerRef(store, ref);
         // InteractiveCustomUIPage<ItemSelectionGui.SelectionUiData> quickAccessSelectionUI = QuickAccessUtils.getSelectorGui(qaPlayerComp, playerRef, store, isItemHeld);
+        
         // -- Open UI --
+        // - Gui file only needs location of quickAccessItem were opening, Not if its held or equipped. 
         GenericRadialSelectionUi guiPage = GuiSelectionFactory.createGui(playerRef, store, quickAccessItem, qaItemHotbarPosition);
         //RadialGui2 guiPage = new RadialGui2(playerRef, store, quickAccessItem, qaItemHotbarPosition);
         // player.getPageManager().openCustomPage(ref, store, quickAccessSelectionUI)
