@@ -30,4 +30,10 @@ public class AssetInteractionUtils {
     public static Boolean isQuickAccessItem(String item_id) {
         return QuickAccessConfig.QUICK_ACCESS_ITEM_IDS.contains(item_id);
     }
+    public static Boolean isQuickAccessItem(ItemStack item_stack) {
+        if (item_stack == null) {
+            return false;
+        }
+        return QuickAccessConfig.QUICK_ACCESS_ITEM_IDS.contains(item_stack.getId());
+    }
 }
