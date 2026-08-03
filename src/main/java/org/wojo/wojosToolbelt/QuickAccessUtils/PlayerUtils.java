@@ -46,4 +46,86 @@ public class PlayerUtils {
         } 
         return null;
     }
+    
+    // TODO: should prob remove this util fn entirely 
+    public static short getQuickAccessItemEquippedLocationOrDefault(Ref<EntityStore> playerRef, Store<EntityStore> store) {
+        QuickAccessPlayerComponent quickAccessPlayerComponent = store.getComponent(playerRef, QuickAccessPlayerComponent.getComponentType());
+        if (quickAccessPlayerComponent != null){
+            int intPos = quickAccessPlayerComponent.getEquippedPosition();
+            return (short) intPos;
+        }
+        return 8; // Return default of 8
+    }
+
+    
+    public static ItemStack getEquippedQaItemOrNull(PlayerRef player_ref, Store<EntityStore> store) {
+        WojosQuickAccessPlugin.LOGGER.atInfo().log("QuickAccessUtils.getEquippedQaItemOrNull");
+        if (player_ref == null || player_ref.getReference() == null || !player_ref.isValid()) {
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("WARN: Player is NULL");
+            return null;
+        }
+        
+        QuickAccessPlayerComponent quickAccessPlayerComp = store.getComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType());
+        Player player = store.getComponent(player_ref.getReference(), Player.getComponentType());
+        if (player == null) {
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("WARN: Player Comp is NULL");
+            return null;
+        } else if (quickAccessPlayerComp == null) {
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("WARN: QaPlayerComp is NULL, Adding one to player.");
+            quickAccessPlayerComp = new QuickAccessPlayerComponent();
+            store.addComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType(), quickAccessPlayerComp);
+        }
+        
+        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(player_ref.getReference(), InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        int equippedPosition = quickAccessPlayerComp.getEquippedPosition();
+        ItemStack quickAccessItem = hotbar.getInventory().getItemStack((short) equippedPosition);
+        
+        if (!QuickAccessUtils.isQuickAccessItem(quickAccessItem)) {
+            return null;
+        }
+        return quickAccessItem;
+    }
+
+    public static ItemStack getHeldQaItemOrNull(PlayerRef player_ref, Store<EntityStore> store) {
+        WojosQuickAccessPlugin.LOGGER.atInfo().log("QuickAccessUtils.getHeldQaItemOrNull");
+        if (player_ref == null || player_ref.getReference() == null || !player_ref.isValid()) {
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("WARN: Player is NULL");
+            return null;
+        } else if (store.getComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType()) == null) {
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("WARN: QaPlayerComp is NULL, Adding one to player.");
+            QuickAccessPlayerComponent quickAccessPlayerComponent = new QuickAccessPlayerComponent();
+            store.addComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType(), quickAccessPlayerComponent);
+        }
+        
+        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(player_ref.getReference(), InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        ItemStack quickAccessItem = hotbar.getActiveItem();
+        
+        if (!QuickAccessUtils.isQuickAccessItem(quickAccessItem)) {
+            return null;
+        }
+        return quickAccessItem;
+    }
+
+    public static ItemStack getEquippedTargetItemOrNull(PlayerRef player_ref, Store<EntityStore> store) {
+        if (player_ref == null || player_ref.getReference() == null || !player_ref.isValid()) {
+            return null;
+        }
+        
+        QuickAccessPlayerComponent playerComponent = store.getComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType());
+        Player player = store.getComponent(player_ref.getReference(), Player.getComponentType());
+        if (playerComponent == null || player == null) {
+            return null;
+        }
+        
+        int targetPosition = playerComponent.getTargetPosition();
+        ItemStack targetItem;
+        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(player_ref.getReference(), InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        if (targetPosition == -1) {
+            targetItem = hotbar.getActiveItem();
+        } else {
+            targetItem = hotbar.getInventory().getItemStack((short) targetPosition);
+        }
+        
+        return targetItem;
+    }
 }
