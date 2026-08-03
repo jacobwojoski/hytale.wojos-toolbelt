@@ -27,4 +27,7 @@ public class AssetInteractionUtils {
     }
     public static String getItemType(ItemStack item_stack){
     }
+    public static Boolean isQuickAccessItem(String item_id) {
+        return QuickAccessConfig.QUICK_ACCESS_ITEM_IDS.contains(item_id);
+    }
 }
