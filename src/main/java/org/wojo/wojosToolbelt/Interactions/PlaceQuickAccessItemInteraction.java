@@ -6,12 +6,16 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.*;
+import com.hypixel.hytale.server.core.asset.type.item.config.ItemDropList;
+import com.hypixel.hytale.server.core.entity.InteractionManager;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
+import com.hypixel.hytale.server.core.modules.interaction.components.PlacedByInteractionComponent;
+import com.hypixel.hytale.server.core.universe.world.connectedblocks.ConnectedBlockPatternRule;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.joml.Vector3i;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -23,6 +27,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.cli
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.joml.Vector3ic;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
@@ -94,42 +99,28 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         final int fy = y;
         final int fz = z;
 
-        TransformComponent transformComponent = entity_Store.getComponent(entity_ref, TransformComponent.getComponentType()).clone();
-
         // Get BlockPlaceUtilData
-        //World world = player.getWorld();
         Ref<ChunkStore> chunkRef = chunk_store.getChunkSectionReferenceAtBlock(fx, fy, fz);
-        org.joml.Vector3d playerPos = transformComponent.getPosition();
-        org.joml.Vector3d placePos = new org.joml.Vector3d(fx + 0.5, fy + 0.5, fz + 0.5);
-        org.joml.Vector3d toPlayer = playerPos.sub(placePos).normalize();
-        Vector3i toPlayerNorm = new Vector3i((int)Math.floor(toPlayer.x+0.5), (int)Math.floor(toPlayer.y+0.5), (int)Math.floor(toPlayer.z+0.5));
-
-
         HeadRotation headRotation = entity_Store.getComponent(entity_ref, HeadRotation.getComponentType()).clone();
-        final float yaw = headRotation.getRotation().yaw();
-        double deg = Math.toDegrees(yaw);
-        deg += 180; // Deg is from -180 -> 180, Convert to 0-360
-
-        BlockRotation rotation = getBlockRotation(deg);
 
         BlockRotation blockRotation = interactionContext.getServerState().blockRotation;
         BlockRotation serverBlockRotation = interactionContext.getClientState().blockRotation;
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Client Rotation is "+blockRotation);
         WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Server Rotation is "+serverBlockRotation);
 
-        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Degrees: "+deg);
+        BlockRotation rotation = getBlockRotation(headRotation);
+        Vector3i placementNormal = getPlacementNormal(targetedFace);
 
-        //BlockRotation rotation = new BlockRotation( new Rotation.fromValue()) transformComponent.
         BlockPlaceUtils.placeBlock(
                 entity_ref,                          // ref: player entity ref
                 quickAccessItem,                     // itemStack: the item being placed
                 quickAccessItem.getBlockKey(),       // blockTypeKey: block to place
                 hotbar.getInventory(),               // itemContainer: player's inventory
-                toPlayerNorm,                        // placementNormal: face normal
+                placementNormal,                     // placementNormal: face normal
                 new Vector3i(fx, fy, fz),            // blockPosition: destination position
-                rotation,                       // blockRotation: computed rotation
+                rotation,                            // blockRotation: computed rotation
                 (byte) activeSlot,                   // activeSlot: hotbar slot
-                false,                               // removeItemInHand: false (you handle this yourself)
+                false,                               // removeItemInHand: false (I handle this)
                 chunkRef,                            // chunkReference: chunk ref for destination
                 chunk_accessor,                      // chunkStore: ChunkStore's Store for component access
                 entity_Store,                        // entityStore: EntityStore for player component access
@@ -165,18 +156,41 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
     }
 
     @NonNullDecl
-    private static BlockRotation getBlockRotation(double deg) {
+    private static BlockRotation getBlockRotation(HeadRotation head_rotation) {
+        final float yaw = head_rotation.getRotation().yaw();
+        double deg = Math.toDegrees(yaw);
+        deg += 180; // Deg is from -180 -> 180, Convert to 0-360
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Degrees: "+deg);
+
         BlockRotation rotation;
         if (deg >=45 && deg < 135){
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Calculated Rotation is 270");
             rotation = new BlockRotation(Rotation.TwoSeventy,Rotation.None,Rotation.None);
         } else if (deg >= 135 && deg <225) {
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Calculated Rotation is 0");
             rotation = new BlockRotation(Rotation.None,Rotation.None,Rotation.None);
         } else if (deg >= 225 && deg < 315){
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Calculated Rotation is 90");
             rotation = new BlockRotation(Rotation.Ninety,Rotation.None,Rotation.None);
         } else {
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG] Calculated Rotation is 180");
             rotation = new BlockRotation(Rotation.OneEighty,Rotation.None,Rotation.None);
         }
         return rotation;
+    }
+
+    private static Vector3i getPlacementNormal(BlockFace targeted_face) {
+        switch (targeted_face) {
+            case Up -> {return new Vector3i(0,1,0);}
+            case Down -> {return new Vector3i(0,-1,0);}
+
+            case East -> {return new Vector3i(1,0,0);}
+            case West -> {return new Vector3i(-1,0,0);}
+
+            case North -> {return new Vector3i(0,0,1);}
+            case South -> {return new Vector3i(0,0,-1);}
+            default -> {return new Vector3i(0,0,0);}
+        }
     }
 
     @Override
