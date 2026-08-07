@@ -151,19 +151,19 @@ public class QuickAccessConfig {
     //    - can see and interact with. 
     
     // Toolbelts can only Items with tool tag
-    public static Integer[] TOOLBELT_ARRAY =         {0,2,3,4,5,6,8,8};
+    public static Integer[] TOOLBELT_ARRAY =         {0,2,3,4,5,6,8,12};
 
     // Builders pouch can hold any building block
-    public static Integer[] BUILDERS_POUCH_ARRAY =   {0,2,3,4,5,6,8,8};
+    public static Integer[] BUILDERS_POUCH_ARRAY =   {0,2,3,4,5,6,8,12};
 
     // Slings can only hold weapons
-    public static Integer[] WEAPON_SLING_ARRAY =     {0,2,3,4,5,6,8,8};
+    public static Integer[] WEAPON_SLING_ARRAY =     {0,2,3,4,5,6,8,12};
 
     // Bandoleers can only hold consumables (Food, Bombs, Potions, but cant hold arrows)
-    public static Integer[] BANDOLIER_ARRAY =        {0,2,3,4,5,6,8,8};
+    public static Integer[] BANDOLIER_ARRAY =        {0,2,3,4,5,6,8,12};
     
     // Quivers can only hold arrows
-    public static Integer[] QUIVER_ARRAY =           {0,2,3,4,5,6,8,8};
+    public static Integer[] QUIVER_ARRAY =           {0,2,3,4,5,6,8,12};
 
     // Unrestricted array can hold anything
     public static Integer[] UNRESTRICTED_ARRAY =     {0,2,3,4,6,8,12};
@@ -184,32 +184,39 @@ public class QuickAccessConfig {
     }
 
     public static ITEM_TYPE getQuickAccessItemType(String item_id) {
-        switch (item_id){
-            case "Quick_Access_Item_Unrestricted_Common":
-            case "Quick_Access_Item_Unrestricted_Uncommon":
-            case "Quick_Access_Item_Unrestricted_Rare":
-            case "Quick_Access_Item_Unrestricted_Epic":
-            case "Quick_Access_Item_Unrestricted_Legendary":
-            case "Quick_Access_Item_Unrestricted_Debug":
+        // Example ID: Quick_Access_Item_Unrestricted_Debug
+        String[] split_id = item_id.split("_");
+        String subString = split_id[split_id.length-2];
+
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Getting Item type for: "+item_id+" Sub-String:"+subString);
+        switch (subString){
+            case "Unrestricted":
                 return ITEM_TYPE.UNRESTRICTED;
+            case "Tools":
+                return ITEM_TYPE.TOOLBELT;
             default:
                 return ITEM_TYPE.UNKNOWN;
         }
     }
 
     public static ITEM_TIER getQuickAccessItemTier(String item_id) {
-        switch (item_id){
-            case "Quick_Access_Item_Unrestricted_Common":
+        // Example ID: Quick_Access_Item_Unrestricted_Debug
+        String[] split_id = item_id.split("_");
+        String subString = split_id[split_id.length-1];
+
+        WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: Getting Item tier for: "+item_id+" Last Element");
+        switch (subString){
+            case "Common":
                 return ITEM_TIER.COMMON;
-            case "Quick_Access_Item_Unrestricted_Uncommon":
+            case "Uncommon":
                 return ITEM_TIER.UNCOMMON;
-            case "Quick_Access_Item_Unrestricted_Rare":
+            case "Rare":
                 return ITEM_TIER.RARE;
-            case "Quick_Access_Item_Unrestricted_Epic":
+            case "Epic":
                 return ITEM_TIER.EPIC;
-            case "Quick_Access_Item_Unrestricted_Legendary":
+            case "Legendary":
                 return ITEM_TIER.LEGENDARY;
-            case "Quick_Access_Item_Unrestricted_Debug":
+            case "Debug":
                 return ITEM_TIER.DEBUG;
             default:
                 return ITEM_TIER.UNKNOWN;

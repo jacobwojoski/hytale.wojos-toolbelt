@@ -29,7 +29,8 @@
     ]
   },
   "Container": {
-    "Capacity": 12
+    "Capacity": 12,
+    "ItemTag": "Tool"
   },
   "Interactions": {
     "Primary": {
@@ -111,7 +112,8 @@
     "BlockEntity": {
       "Components": {
         "ItemContainerBlock": {
-          "Capacity": 12
+          "Capacity": 12,
+          "ItemTag": "Tool"
         }
       }
     },

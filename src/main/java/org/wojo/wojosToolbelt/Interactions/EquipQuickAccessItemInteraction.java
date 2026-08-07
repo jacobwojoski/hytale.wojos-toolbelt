@@ -67,12 +67,27 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
 
         // 2. Verify player can hold the container
         int qaEquippedPositiion = quickAccessPlayerComponent.getEquippedPosition();
-        ItemStack equippedPositiion = hotbar.getInventory().getItemStack((short)qaEquippedPositiion);
+        ItemStack equippedPositionItem = hotbar.getInventory().getItemStack((short)qaEquippedPositiion);
 
-        if (equippedPositiion != null) {
-            // Find
-            QuickAccessUtils.notificationHelper(entity_store, entity_ref, "EQUIP FAILED", "Something is already equipped in hotbar location");
-            return;
+        // Check equipped position, then check hotbar for empty slot
+        if (equippedPositionItem != null) {
+            // Something in equipped slot, Search the rest of hotbar
+            ItemContainer hotbarContainer = hotbar.getInventory();
+            qaEquippedPositiion = -1;
+            for (short i = 0; i < hotbarContainer.getCapacity(); i++) {
+                ItemStack hotbarItem = hotbarContainer.getItemStack(i);
+
+                // Found empty hotbar location so update equipped position and break loop
+                if (hotbarItem == null) {
+                    qaEquippedPositiion = i;
+                }
+            }
+
+            // Unable to find empty hotbar location, Throw error
+            if (qaEquippedPositiion == -1) {
+                QuickAccessUtils.notificationHelper(entity_store, entity_ref, "EQUIP FAILED", "Something is already equipped in hotbar location");
+                return;
+            }
         }
         
         // 3. Get Container from placed block
