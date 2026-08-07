@@ -4,7 +4,7 @@
     "Items.Tools",
     "WojosQuickAccess.Containers"
   ],
-  "Icon": "Icons/ItemsGenerated/Quick_Access_Item_Unrestricted_Debug.png",
+  "Icon": "Icons/ItemsGenerated/Quick_Access_Item_Toolbox_Debug.png",
   "Model": "Items/WojosQuickAccess/WojosQuickAccess_Toolbox_Item.blockymodel",
   "Texture": "Items/WojosQuickAccess/WojosQuickAccess_Toolbox_Texture.png",
   "Quality": "Common",
