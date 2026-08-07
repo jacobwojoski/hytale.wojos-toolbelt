@@ -74,8 +74,30 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
             WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] Tring to move an item to a positiion greater than container size");
             return;
         }
-
+        
+        // ------ Validate QuickAccess-Item Container can hold item type ------
+        // -- Get hotbar Item's tags
         ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
+        String[] tags = targetItem.getItem().getFromMetatdataOrNull(ItemStackItemContainer);
+        
+        // -- Get container filters
+        TagFilter quickAccessTagFilter = new TagFilter();
+        int containerFilterTag = quickAccessItemStack.getItem().getItemStackContainerConfig().getGlobalFilter().getTagIndex();
+
+        // -- Compare hotbar item to filters & cancel swap/throw notification if swap is invalid
+        if ( !tags.contains(quickAccessTagFilter.toString()) ) {
+            String notification = 
+                "Quick Access Item can not hold items of type: Not Tools"
+                ;
+            
+             QuickAccessUtils.notificationHelper(
+                 store, 
+                 playerRef, 
+                 "ERROR", 
+                 notification
+             );
+        }
+        
         ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, targetItem);
         hotbar.getInventory().setItemStackForSlot(targetPosition, inventoryItem);
     }
