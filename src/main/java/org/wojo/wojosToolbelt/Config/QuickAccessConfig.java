@@ -14,20 +14,20 @@ public class QuickAccessConfig {
 
     // Create config codec
     // - NOTE: Keys need to be capitalized
-    public static final BuilderCodec<QuickAccessConfig> CODEC = BuilderCodec.builder(QuickAccessConfig.class, QuickAccessConfig::new)
-            .append(new KeyedCodec<Integer>("SwapItem_StaminaCostIsEnabled", Codec.BOOLEAN),
-                    (config, value) -> config.someValue = value, // Setter
-                    (config) -> config.someValue).add() // Getter
-            .append(new KeyedCodec<Integer>("SwapItem_StaminaCostValue", Codec.INTEGER),
-                    (config, value) -> config.someValue = value, // Setter
-                    (config) -> config.someValue).add() // Getter
-            .append(new KeyedCodec<Integer>("SwapItem_StaminaRegenDelayIsEnabled", Codec.BOOLEAN),
-                    (config, value) -> config.someValue = value, // Setter
-                    (config) -> config.someValue).add() // Getter
-            .append(new KeyedCodec<Integer>("SwapItem_StaminaRegenDelayValue_Seconds", Codec.INTEGER),
-                    (config, value) -> config.someValue = value, // Setter
-                    (config) -> config.someValue).add() // Getter
-            .build();
+//    public static final BuilderCodec<QuickAccessConfig> CODEC = BuilderCodec.builder(QuickAccessConfig.class, QuickAccessConfig::new)
+//            .append(new KeyedCodec<Integer>("SwapItem_StaminaCostIsEnabled", Codec.BOOLEAN),
+//                    (config, value) -> config.someValue = value, // Setter
+//                    (config) -> config.someValue).add() // Getter
+//            .append(new KeyedCodec<Integer>("SwapItem_StaminaCostValue", Codec.INTEGER),
+//                    (config, value) -> config.someValue = value, // Setter
+//                    (config) -> config.someValue).add() // Getter
+//            .append(new KeyedCodec<Integer>("SwapItem_StaminaRegenDelayIsEnabled", Codec.BOOLEAN),
+//                    (config, value) -> config.someValue = value, // Setter
+//                    (config) -> config.someValue).add() // Getter
+//            .append(new KeyedCodec<Integer>("SwapItem_StaminaRegenDelayValue_Seconds", Codec.INTEGER),
+//                    (config, value) -> config.someValue = value, // Setter
+//                    (config) -> config.someValue).add() // Getter
+//            .build();
     
     // Default Hytale Qualities:
     // - [Common, Uncommon, Rare, Epic, Legendary, Debug]
@@ -39,14 +39,13 @@ public class QuickAccessConfig {
         "Quick_Access_Item_Unrestricted_Epic",
         "Quick_Access_Item_Unrestricted_Legendary",
         "Quick_Access_Item_Unrestricted_Debug",
-        
-        // Tool only containers
-        "Quick_Access_Item_Toolbox_Common",
-        "Quick_Access_Item_Toolbox_Uncommon",
-        "Quick_Access_Item_Toolbox_Rare",
-        "Quick_Access_Item_Toolbox_Epic",
-        "Quick_Access_Item_Toolbox_Legendary",
-        "Quick_Access_Item_Toolbox_Debug"
+
+        "Quick_Access_Item_Tools_Common",
+        "Quick_Access_Item_Tools_Uncommon",
+        "Quick_Access_Item_Tools_Rare",
+        "Quick_Access_Item_Tools_Epic",
+        "Quick_Access_Item_Tools_Legendary",
+        "Quick_Access_Item_Tools_Debug"
 
         // Weapons only
         // Blocks only

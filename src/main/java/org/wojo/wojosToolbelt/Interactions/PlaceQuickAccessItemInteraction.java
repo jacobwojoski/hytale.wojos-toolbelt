@@ -53,7 +53,10 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
                                      @Nonnull Vector3i blockPos, @Nonnull CooldownHandler cooldownHndlr) {
 
         ItemStack quickAccessItem = interactionContext.getHeldItem();
-        if (quickAccessItem == null){ return;}
+        if (quickAccessItem == null){
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[Debug] Item Null");
+            return;
+        }
         ItemStack[] quickAccessItemContainer = QuickAccessUtils.getContainerItems(quickAccessItem);
 
         Ref<EntityStore> entity_ref = interactionContext.getEntity();
@@ -67,6 +70,7 @@ public class PlaceQuickAccessItemInteraction extends SimpleBlockInteraction {
         short activeSlot = hotbar.getActiveSlot();
 
         if (targetPos == null || !QuickAccessUtils.isQuickAccessItem(quickAccessItem)) {
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[Debug] Bad Item");
             return;
         }
 

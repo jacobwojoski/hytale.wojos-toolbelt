@@ -1,5 +1,21 @@
 package org.wojo.wojosToolbelt.QuickAccessUtils;
 
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.entity.UUIDComponent;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.Universe;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
+import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
+
+import java.util.UUID;
+
+import static org.wojo.wojosToolbelt.QuickAccessUtils.GuiUtils.notificationHelper;
+
 public class PlayerUtils {
     public static PlayerRef getPlayerRef(Store<EntityStore>store, Ref<EntityStore> ref) {
         UUIDComponent uuidComponent = store.getComponent(ref, UUIDComponent.getComponentType());
@@ -7,40 +23,41 @@ public class PlayerUtils {
         return Universe.get().getPlayer(uuid);
     }
 
-    public static short getActiveHotbarPosition(Store<EntityStore>store, Ref<EntityStore> ref) {
+    public static short getActiveHotbarPosition(Store<EntityStore> store, Ref<EntityStore> ref) {
         InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
         ItemStack heldItem = hotbar.getActiveItem();
         Boolean isActiveItemTheQuickAccessItem = QuickAccessUtils.isQuickAccessItem(heldItem);
     
         if (isActiveItemTheQuickAccessItem){
-            notificationHelper(store, ref, "WARNING", "Active slot is a Quick-Access Item. Item swap Cancled");
+            notificationHelper(store, ref, "WARNING", "Active slot is a Quick-Access Item. Item swap Canceled");
             return -1;
         }
         return hotbar.getActiveSlot();
     }
 
-    public staic ItemStack getItemAtHotbarPosition(Store<EntityStore>entity_store, Ref<EntityStore> entity_ref, short hotbar_position) {
+    public static ItemStack getItemAtHotbarPosition(Store<EntityStore>entity_store, Ref<EntityStore> entity_ref, short hotbar_position) {
         QuickAccessPlayerComponent playerComponent = entity_store.getComponent(entity_ref, QuickAccessPlayerComponent.getComponentType());
         Player player = entity_store.getComponent(entity_ref, Player.getComponentType());
         if (playerComponent == null || player == null) {
           return null;
         }
-    
-        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(player_ref.getReference(), InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+
+
+        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) entity_store.getComponent(entity_ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
         if (hotbar != null) {
             return hotbar.getInventory().getItemStack((short) hotbar_position);
         } 
         return null;
     }
 
-    public static ItemStack geActiveItem(){
+    public static ItemStack geActiveItem(Store<EntityStore> entity_store, Ref<EntityStore> entity_ref) {
         QuickAccessPlayerComponent playerComponent = entity_store.getComponent(entity_ref, QuickAccessPlayerComponent.getComponentType());
         Player player = entity_store.getComponent(entity_ref, Player.getComponentType());
         if (playerComponent == null || player == null) {
           return null;
         }
     
-        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) store.getComponent(player_ref.getReference(), InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        InventoryComponent.Hotbar hotbar = (InventoryComponent.Hotbar) entity_store.getComponent(entity_ref, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
         if (hotbar != null) {
             return hotbar.getActiveItem();
         } 
