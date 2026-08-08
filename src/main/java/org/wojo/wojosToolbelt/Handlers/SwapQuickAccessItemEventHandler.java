@@ -1,9 +1,13 @@
 package org.wojo.wojosToolbelt.Handlers;
 
+import com.hypixel.hytale.assetstore.AssetExtraInfo;
+import com.hypixel.hytale.builtin.tagset.TagSetPlugin;
 import com.hypixel.hytale.codec.ExtraInfo;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.ItemResourceType;
+import com.hypixel.hytale.protocol.TagPattern;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
 import com.hypixel.hytale.server.core.command.system.CommandManager;
@@ -13,17 +17,22 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
+import com.hypixel.hytale.server.core.inventory.container.filter.TagFilter;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.bson.BsonDocument;
+import org.bson.conversions.Bson;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
+import org.wojo.wojosToolbelt.QuickAccessUtils.LoggingUtils;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -79,8 +88,9 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
         boolean canStoreItem = validateCanStoreItem(targetItem, quickAccessItemStack);
 
+
         // -- Compare hotbar item to filters & cancel swap/throw notification if swap is invalid
-        if ( !canStoreItem ) {
+        if ( targetItem !=null && ensuredQuickAccessItem != null && !ensuredQuickAccessItem.canAddItemStackToSlot(sourceInventoryPosition, targetItem,false,true) ) {
             String notification = 
                 "Quick Access Item can not hold items of type: Not Tools"
                 ;
@@ -94,39 +104,42 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
             return;
         }
 
-        
+
         ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, targetItem);
         hotbar.getInventory().setItemStackForSlot(targetPosition, inventoryItem);
     }
 
     private boolean validateCanStoreItem(ItemStack item_stack_to_store, ItemStack quick_access_item_stack) {
-        // -- Get hotbar Item's tags
-        String[] tags = targetItem.getItem().getFromMetatdataOrNull(ItemStackItemContainer);
-        String itemResourceType = targetItem.getItem().getMaterialQuantity().resourceTypeId;
-        int itemTag = targetItem.getItem().getMaterialQuantity().itemTag;
+        // TODO: Find where these enums come from
+        // TOOL_TAG = 364;
+        // WEAPON_TAG = 343;
+        // BLOCK_TAG = 1;
 
-        AssetExtraInfo.Data extraInfo = targetItem.getItem().getData();
-        var tags = extraInfo.getRawTags();
-        
-        String[] categories = targetItem.getItem().getCategories();
-        String subCategory = targetItem.getItem().getSubCategory();
-        
-        ItemResourceType[] resourceTypes = targetItem.getItem().getResourceTypes();
-        
-        boolean isTool = targetItem.getItem().getTool() != null;
-        boolean isGlider = targetItem.getItem().getGlider() != null;
-        boolean isWeapon = targetItem.getItem().getWeapon() != null;
-        boolean isBlock = targetItem.getItem().hasBlockType();
-        // TagsetLookupTable | InternalContainerUtilTag | ItemCategory | Tool (Search?)
-        
-        // -- Get container filters
-        TagFilter quickAccessTagFilter = new TagFilter();
-        int containerFilterTag = quickAccessItemStack.getItem().getItemStackContainerConfig().getGlobalFilter().getTagIndex();
-
-        if ( categories.contains("Tool") & !isTool ) {
-            return false;
+        // No item_stack_to_store, just pulling from container so event is always valid
+        if (item_stack_to_store == null){
+            return true;
         }
-        
+
+        // -- Get container filters
+        //TagFilter quickAccessTagFilter = new TagFilter();
+        int containerFilterTag = quick_access_item_stack.getItem().getItemStackContainerConfig().getTagIndex();
+        quick_access_item_stack.getItem().getItemStackContainerConfig().getGlobalFilter().toString();
+
+        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: ContainerFilterTag" + containerFilterTag);
+        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: ContainerFilterTag" + containerFilterTag);
+
+
+        // -- Get hotbar Item's tags
+        AssetExtraInfo.Data extraInfo = item_stack_to_store.getItem().getData();
+        Map<String,String[]> tags = extraInfo.getRawTags();
+        LoggingUtils.printTagMap(tags);
+        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: tags_ids - "+extraInfo.getTags());
+
+        for (Map.Entry<String, String[]> entry : tags.entrySet()) {
+            String tag_key = entry.getKey();
+            // if tag_key == Tool
+            // or tag_key == Soil
+        }
         return true;
     }
 }

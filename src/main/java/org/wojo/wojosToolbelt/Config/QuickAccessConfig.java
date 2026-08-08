@@ -51,8 +51,22 @@ public class QuickAccessConfig {
         // Blocks only
         // Consumables Only
     );
-    
-    
+
+    String[] TOOLBELT_WHITELIST_TAGS = {"Type=Tool"};
+    String[] TOOLBELT_BLACKLIST_TAGS = {};
+
+    String[] BUILDERS_POUCH_WHITELIST_TAGS = {};
+    String[] BUILDERS_POUCH_BLACKLIST_TAGS = {};
+
+    String[] WEAPON_SLING_WHITELIST_TAGS = {"Type=Weapon"};
+    String[] WEAPON_SLING_BLACKLIST_TAGS = {};
+
+    String[] BANDOLIER_WHITELIST_TAGS = {};
+    String[] BANDOLIER_BLACKLIST_TAGS = {};
+
+    String[] QUIVER_WHITELIST_TAGS =  {};
+    String[] QUIVER_BLACKLIST_TAGS =  {};
+
     public static final int HOTBAR_EQIPPED_LOCATION_DEFAULT = 8;    // Button 9 - Hotbar location to eqip and use the qa-item
     public static final int HOTBAR_TARGET_LOCATION_DEFAULT = 0;     // Button 1 - Hotbar location to send stored qa-item to
 

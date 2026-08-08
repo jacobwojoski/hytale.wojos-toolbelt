@@ -3,6 +3,8 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
+import java.util.Map;
+
 public class LoggingUtils {
     public static void printItemContainer(ItemContainer item_container){
         if (item_container == null){
@@ -45,5 +47,26 @@ public class LoggingUtils {
         }
         logString += " ]";
         WojosQuickAccessPlugin.LOGGER.atInfo().log(logString);
+    }
+
+    public static void printTagMap(Map<String,String[]> item_stack_tags) {
+        StringBuilder result = new StringBuilder();
+
+        for (Map.Entry<String, String[]> entry : item_stack_tags.entrySet()) {
+            result.append(entry.getKey()).append(":\n");
+
+            String[] values = entry.getValue();
+
+            if (values == null || values.length == 0) {
+                result.append("  - None\n");
+                continue;
+            }
+
+            for (String value : values) {
+                result.append("  - ").append(value).append("\n");
+            }
+        }
+
+        WojosQuickAccessPlugin.LOGGER.atInfo().log(result.toString());
     }
 }

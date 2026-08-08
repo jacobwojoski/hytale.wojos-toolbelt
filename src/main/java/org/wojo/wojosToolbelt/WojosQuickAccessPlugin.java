@@ -11,6 +11,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Int
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import org.wojo.wojosToolbelt.Commands.WojosQuickAccessCommandCollection;
+import org.wojo.wojosToolbelt.Components.QuickAccessContainerFilterComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
@@ -20,6 +21,7 @@ import org.wojo.wojosToolbelt.Interactions.EquipQuickAccessItemInteraction;
 import org.wojo.wojosToolbelt.Interactions.OpenQuickAccessSelectionGuiInteraction;
 import org.wojo.wojosToolbelt.Interactions.PlaceQuickAccessItemInteraction;
 import org.wojo.wojosToolbelt.PacketAdapters.HotbarOpenQuickAccessGuiPacketAdapter;
+import org.wojo.wojosToolbelt.Systems.QuickAccessContainerFilterInitSystem;
 import org.wojo.wojosToolbelt.Systems.QuickAccessPlayerComponentSystem;
 import org.wojo.wojosToolbelt.Systems.QuickAccessPlayerSystem;
 
@@ -47,11 +49,16 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
     private void registerComponents(){
         var plyrCompType = this.getEntityStoreRegistry().registerComponent(QuickAccessPlayerComponent.class, QuickAccessPlayerComponent.QUICK_ACCESS_PLAYER_COMPONENT_ID, QuickAccessPlayerComponent.CODEC);
         QuickAccessPlayerComponent.setComponentType(plyrCompType);
+
+        var containerFilterCompType = this.getChunkStoreRegistry().registerComponent(QuickAccessContainerFilterComponent.class,QuickAccessContainerFilterComponent.QUICK_ACCESS_CONTAINER_FILTER_COMPONENT_ID,QuickAccessContainerFilterComponent.CODEC);
+        QuickAccessContainerFilterComponent.setComponentType(containerFilterCompType);
     }
     
     private void registerSystems(){
         this.getEntityStoreRegistry().registerSystem(new QuickAccessPlayerComponentSystem(QuickAccessPlayerComponent.getComponentType()));
         this.getEntityStoreRegistry().registerSystem(new QuickAccessPlayerSystem(Player.getComponentType()));
+
+        this.getChunkStoreRegistry().registerSystem(new QuickAccessContainerFilterInitSystem());
     }
 
     private void registerEvents(){

@@ -112,8 +112,12 @@
     "BlockEntity": {
       "Components": {
         "ItemContainerBlock": {
-          "Capacity": 6,
-          "ItemTag": "Tool"
+          "Capacity": 6
+        },
+        "WojosQuickAccess_ContainerFilter_Component_ID": {
+          "AllowedTags": [
+            "Type=Tool"
+          ]
         }
       }
     },
