@@ -52,20 +52,23 @@ public class QuickAccessConfig {
         // Consumables Only
     );
 
-    String[] TOOLBELT_WHITELIST_TAGS = {"Type=Tool"};
-    String[] TOOLBELT_BLACKLIST_TAGS = {};
+    static String[] TOOLBELT_WHITELIST_TAGS = {"Type=Tool"};
+    static String[] TOOLBELT_BLACKLIST_TAGS = {};
 
-    String[] BUILDERS_POUCH_WHITELIST_TAGS = {};
-    String[] BUILDERS_POUCH_BLACKLIST_TAGS = {};
+    static String[] BUILDERS_POUCH_WHITELIST_TAGS = {};
+    static String[] BUILDERS_POUCH_BLACKLIST_TAGS = {};
 
-    String[] WEAPON_SLING_WHITELIST_TAGS = {"Type=Weapon"};
-    String[] WEAPON_SLING_BLACKLIST_TAGS = {};
+    static String[] WEAPON_SLING_WHITELIST_TAGS = {"Type=Weapon"};
+    static String[] WEAPON_SLING_BLACKLIST_TAGS = {};
 
-    String[] BANDOLIER_WHITELIST_TAGS = {};
-    String[] BANDOLIER_BLACKLIST_TAGS = {};
+    static String[] BANDOLIER_WHITELIST_TAGS = {};
+    static String[] BANDOLIER_BLACKLIST_TAGS = {};
 
-    String[] QUIVER_WHITELIST_TAGS =  {};
-    String[] QUIVER_BLACKLIST_TAGS =  {};
+    static String[] QUIVER_WHITELIST_TAGS =  {};
+    static String[] QUIVER_BLACKLIST_TAGS =  {};
+
+    static String[] UNRESTRICTRED_WHITELIST_TAGS =  {};
+    static String[] UNRESTRICTRED_BLACKLIST_TAGS =  {};
 
     public static final int HOTBAR_EQIPPED_LOCATION_DEFAULT = 8;    // Button 9 - Hotbar location to eqip and use the qa-item
     public static final int HOTBAR_TARGET_LOCATION_DEFAULT = 0;     // Button 1 - Hotbar location to send stored qa-item to
@@ -113,6 +116,17 @@ public class QuickAccessConfig {
     public static final String DEFAULT_SELECTION_GUI_FILE = SELECTION_GUI_FILE_RADIAL_THREE;
     public static final String SETTINGS_GUI_FILE = "Pages/WojosQuickAccess/QuickAccessSettings.ui";
     public static final String HELP_GUI_FILE = "Pages/WojosQuickAccess/QuickAccessHelp.ui";
+
+    public static String[] getQuickAccessItemWhitelistTags(ItemStack quick_access_item_stack) {
+        ITEM_TYPE itemType = getQuickAccessItemType(quick_access_item_stack.getItemId());
+
+        switch (itemType){
+            case ITEM_TYPE.TOOLBELT:
+                return TOOLBELT_WHITELIST_TAGS;
+            default:
+                return UNRESTRICTRED_WHITELIST_TAGS;
+        }
+    }
 
     // Possible Item Tiers. Mythic is not craftable.
     public static enum ITEM_TIER {

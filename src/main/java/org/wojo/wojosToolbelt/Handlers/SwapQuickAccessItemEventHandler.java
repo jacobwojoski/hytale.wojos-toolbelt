@@ -1,39 +1,20 @@
 package org.wojo.wojosToolbelt.Handlers;
 
 import com.hypixel.hytale.assetstore.AssetExtraInfo;
-import com.hypixel.hytale.builtin.tagset.TagSetPlugin;
-import com.hypixel.hytale.codec.ExtraInfo;
-import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.protocol.ItemResourceType;
-import com.hypixel.hytale.protocol.TagPattern;
-import com.hypixel.hytale.server.core.asset.type.item.config.Item;
-import com.hypixel.hytale.server.core.asset.type.item.config.ItemStackContainerConfig;
-import com.hypixel.hytale.server.core.command.system.CommandManager;
-import com.hypixel.hytale.server.core.command.system.CommandSender;
-import com.hypixel.hytale.server.core.entity.UUIDComponent;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
-import com.hypixel.hytale.server.core.inventory.container.filter.TagFilter;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
-import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.bson.BsonDocument;
-import org.bson.conversions.Bson;
-import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
-import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Config.QuickAccessConfig;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
 import org.wojo.wojosToolbelt.QuickAccessUtils.LoggingUtils;
 import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccessItemEvent> {
@@ -73,41 +54,65 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
                         equippedPosition,           // slot containing the backpack
                         capacity                    // capacity
                 );
+        if (ensuredQuickAccessItem == null) {
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] WQA::SwapQuickAccessItemEvent::accept - Swap failed,  QA-Item is null");
+            return;
+        }
 
         ItemStack inventoryItem =
                 ItemStackItemContainer
                         .getContainer(hotbar.getInventory(),equippedPosition)
                         .getItemStack(sourceInventoryPosition);
 
+        ItemStack currentEquippedItem = hotbar.getInventory().getItemStack(targetPosition);
+
         if (targetPosition > capacity) {
-            WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] Tring to move an item to a positiion greater than container size");
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[WARN] WQA::SwapQuickAccessItemEvent::accept - Trying to move an item to a position greater than container size");
             return;
         }
         
         // ------ Validate QuickAccess-Item Container can hold item type ------
-        ItemStack targetItem = hotbar.getInventory().getItemStack(targetPosition);
-        boolean canStoreItem = validateCanStoreItem(targetItem, quickAccessItemStack);
 
 
         // -- Compare hotbar item to filters & cancel swap/throw notification if swap is invalid
         // TODO: handle canAddItemStackToSlot() when its a non empty slot
-        if ( targetItem !=null && ensuredQuickAccessItem != null && ensuredQuickAccessItem.canAddItemStackToSlot(sourceInventoryPosition, targetItem,false,true) ) {
-            String notification = 
-                "Quick Access Item can not hold items of type: Not Tools"
-                ;
-            
-             QuickAccessUtils.notificationHelper(
-                 store, 
-                 playerRef, 
-                 "ERROR", 
-                 notification
-             );
-            return;
+        ItemStack internalQaItemClone = null;
+        // Set container item to null so canAddItemStackToSlot doesnt fail from item already existing
+        if ( inventoryItem != null ){
+            internalQaItemClone = inventoryItem.cleanCopy();
+            ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, null);
         }
 
+        boolean canSwap = true;
+        if ( currentEquippedItem != null ) {
+            boolean canSwap1 = ensuredQuickAccessItem.canAddItemStack(currentEquippedItem,true,true);
+            boolean canSwap2 = ensuredQuickAccessItem.canAddItemStackToSlot(sourceInventoryPosition, currentEquippedItem,true,true);
+            WojosQuickAccessPlugin.LOGGER.atInfo().log("[INFO] WQA::SwapQuickAccessItemEvent::accept - CanSwap1&2: ["+canSwap1+","+canSwap2+"]");
+            canSwap = canSwap1 && canSwap2;
+            canSwap = canSwap && validateCanStoreItem(currentEquippedItem, quickAccessItemStack);
+        }
 
-        ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, targetItem);
-        hotbar.getInventory().setItemStackForSlot(targetPosition, inventoryItem);
+        if (!canSwap) {
+            String notification =
+                    "Quick Access Item can not hold items of type: Not Tools"
+                    ;
+
+            QuickAccessUtils.notificationHelper(
+                    store,
+                    playerRef,
+                    "<b style='color:red'>ERROR</b>",
+                    notification
+            );
+            ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, internalQaItemClone);
+            return;
+        } else {
+            // Add item back for swap command
+            ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, internalQaItemClone);
+        }
+
+        //ensuredQuickAccessItem.setItemStackForSlot(sourceInventoryPosition, currentEquippedItem, true);
+        //hotbar.getInventory().setItemStackForSlot(targetPosition, internalQaItemClone);
+        ensuredQuickAccessItem.swapItems(sourceInventoryPosition,hotbar.getInventory(),targetPosition,(short)1);
     }
 
     private boolean validateCanStoreItem(ItemStack item_stack_to_store, ItemStack quick_access_item_stack) {
@@ -122,25 +127,33 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
         }
 
         // -- Get container filters
-        //TagFilter quickAccessTagFilter = new TagFilter();
-        int containerFilterTag = quick_access_item_stack.getItem().getItemStackContainerConfig().getTagIndex();
-        quick_access_item_stack.getItem().getItemStackContainerConfig().getGlobalFilter().toString();
+        String[] filters = QuickAccessConfig.getQuickAccessItemWhitelistTags(quick_access_item_stack);
+        if (filters == null || filters.length == 0) {
+            // No filter found, so item storage is always valid.
+            return true;
+        }
 
-        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: ContainerFilterTag" + containerFilterTag);
-        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: ContainerFilterTag" + containerFilterTag);
+
+        // Filters are stored on the item slots so don't think its possible to get them through the item data
+//        int containerFilterTag = quick_access_item_stack.getItem().getItemStackContainerConfig().getTagIndex();
+//        quick_access_item_stack.getItem().getItemStackContainerConfig().getGlobalFilter().toString();
+//        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: ContainerFilterTag" + containerFilterTag);
+//        WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: ContainerFilterTag" + containerFilterTag);
 
 
         // -- Get hotbar Item's tags
         AssetExtraInfo.Data extraInfo = item_stack_to_store.getItem().getData();
-        Map<String,String[]> tags = extraInfo.getRawTags();
-        LoggingUtils.printTagMap(tags);
+        Map<String,String[]> item_tags = extraInfo.getRawTags();
+        LoggingUtils.printTagMap(item_tags);
         WojosQuickAccessPlugin.LOGGER.atInfo().log("[DEBUG]: tags_ids - "+extraInfo.getTags());
 
-        for (Map.Entry<String, String[]> entry : tags.entrySet()) {
-            String tag_key = entry.getKey();
-            // if tag_key == Tool
-            // or tag_key == Soil
+        for (int i=0; i< filters.length; i++) {
+            String whitelistedTag = filters[i];
+            if (!whitelistedTag.isEmpty() && !whitelistedTag.isBlank() && item_tags.containsKey(whitelistedTag) ) {
+                return true;
+            }
         }
-        return true;
+
+        return false;
     }
 }

@@ -30,7 +30,7 @@
   },
   "Container": {
     "Capacity": 12,
-    "ItemTag": "Tool"
+    "ItemTag": "Type=Tool"
   },
   "Interactions": {
     "Primary": {
