@@ -90,7 +90,8 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
 
 
         // -- Compare hotbar item to filters & cancel swap/throw notification if swap is invalid
-        if ( targetItem !=null && ensuredQuickAccessItem != null && !ensuredQuickAccessItem.canAddItemStackToSlot(sourceInventoryPosition, targetItem,false,true) ) {
+        // TODO: handle canAddItemStackToSlot() when its a non empty slot
+        if ( targetItem !=null && ensuredQuickAccessItem != null && ensuredQuickAccessItem.canAddItemStackToSlot(sourceInventoryPosition, targetItem,false,true) ) {
             String notification = 
                 "Quick Access Item can not hold items of type: Not Tools"
                 ;
