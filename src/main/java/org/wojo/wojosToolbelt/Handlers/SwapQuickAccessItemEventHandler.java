@@ -14,7 +14,6 @@ import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccessItemEvent> {
@@ -149,7 +148,7 @@ public class SwapQuickAccessItemEventHandler implements Consumer<SwapQuickAccess
 
         for (int i=0; i< filters.length; i++) {
             String whitelistedTag = filters[i];
-            if (!whitelistedTag.isEmpty() && !whitelistedTag.isBlank() && item_tags.containsKey(whitelistedTag) ) {
+            if (!whitelistedTag.isBlank() && item_tags.containsKey(whitelistedTag) ) {
                 return true;
             }
         }

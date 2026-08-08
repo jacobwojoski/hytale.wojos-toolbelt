@@ -107,7 +107,7 @@
     "BlockParticleSetId": "Metal",
     "TextureComputedColor": "#c6a487",
     "FlipType": "Orthogonal",
-    "ParticleColor": "#fe3131",
+    "ParticleColor": "#5c413a",
     "BlockEntity": {
       "Components": {
         "ItemContainerBlock": {

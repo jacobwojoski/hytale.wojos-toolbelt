@@ -7,8 +7,6 @@ import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 public class QuickAccessContainerFilterComponent implements Component<ChunkStore> {
 
