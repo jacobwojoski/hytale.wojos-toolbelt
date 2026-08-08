@@ -69,4 +69,25 @@ public class LoggingUtils {
 
         WojosQuickAccessPlugin.LOGGER.atInfo().log(result.toString());
     }
+
+    public static StringBuilder getTagMapString(Map<String,String[]> item_stack_tags) {
+        StringBuilder result = new StringBuilder();
+
+        for (Map.Entry<String, String[]> entry : item_stack_tags.entrySet()) {
+            result.append(entry.getKey()).append(":\n");
+
+            String[] values = entry.getValue();
+
+            if (values == null || values.length == 0) {
+                result.append("  - None\n");
+                continue;
+            }
+
+            for (String value : values) {
+                result.append("  - ").append(value).append("\n");
+            }
+        }
+
+        return result;
+    }
 }

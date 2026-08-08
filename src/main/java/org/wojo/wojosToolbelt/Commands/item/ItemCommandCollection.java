@@ -1,7 +1,6 @@
 package org.wojo.wojosToolbelt.Commands.item;
 
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
-import org.wojo.wojosToolbelt.Commands.component.PrintItemComponentCommand;
 
 public class ItemCommandCollection extends AbstractCommandCollection {
     public ItemCommandCollection(){
@@ -9,6 +8,7 @@ public class ItemCommandCollection extends AbstractCommandCollection {
 
         this.addSubCommand(new PrintItemCommand());
         this.addSubCommand(new SwapItemCommand());
+        this.addSubCommand(new PrintItemTagsCommand());
 
         addAliases("items","I");
     }

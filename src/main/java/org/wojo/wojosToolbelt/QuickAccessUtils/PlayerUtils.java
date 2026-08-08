@@ -145,4 +145,17 @@ public class PlayerUtils {
         
         return targetItem;
     }
+
+    public static ItemStack getHeldQaItemOrEquippedQaItemOrNull(PlayerRef player_ref, Store<EntityStore> store) {
+        ItemStack quickAccessItem = null;
+
+        // Check Held item
+        quickAccessItem = getHeldQaItemOrNull(player_ref, store);
+        if (quickAccessItem != null) {
+            return quickAccessItem;
+        }
+
+        // Check Equipped item is held is not a QA Item
+        return getEquippedQaItemOrNull(player_ref, store);
+    }
 }
