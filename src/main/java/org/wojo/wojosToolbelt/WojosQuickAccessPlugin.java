@@ -35,6 +35,7 @@ import javax.annotation.Nonnull;
 public class WojosQuickAccessPlugin extends JavaPlugin {
     private static WojosQuickAccessPlugin _instance = null;
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    public static final Config<QuickAccessConfig> quickAccessConfig = this.withConfig("WojosQuickAccessConfig", QuickAccessConfig.CODEC);
     
     private PacketFilter _inbound_hotbar_filter;
 
@@ -80,6 +81,7 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
         this.registerInteractions();
         this.registerCommands();
         this.registerPacketAdapters();
+        quickAccessConfig.save();
     }
 
     @Override
