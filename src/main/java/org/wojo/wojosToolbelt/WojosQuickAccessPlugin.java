@@ -2,8 +2,6 @@ package org.wojo.wojosToolbelt;
 
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.event.events.player.PlayerConnectEvent;
-import com.hypixel.hytale.server.core.event.events.player.PlayerEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.io.adapter.PacketFilter;
@@ -12,7 +10,6 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import org.wojo.wojosToolbelt.Commands.WojosQuickAccessCommandCollection;
 import org.wojo.wojosToolbelt.Components.QuickAccessContainerFilterComponent;
-import org.wojo.wojosToolbelt.Components.QuickAccessItemComponent;
 import org.wojo.wojosToolbelt.Components.QuickAccessPlayerComponent;
 import org.wojo.wojosToolbelt.Events.SwapQuickAccessItemEvent;
 import org.wojo.wojosToolbelt.Handlers.PlayerReadyEventHandler;
@@ -67,7 +64,7 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
     }
 
     private void registerInteractions(){
-        this.getCodecRegistry(Interaction.CODEC).register(OpenQuickAccessSelectionGuiInteraction.OpenQuickAccessSelectionGuiInteractionID, OpenQuickAccessSelectionGuiInteraction.class, OpenQuickAccessSelectionGuiInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register(OpenQuickAccessSelectionGuiInteraction.OPEN_QUICK_ACCESS_SELECTION_GUI_INTERACTION_ID, OpenQuickAccessSelectionGuiInteraction.class, OpenQuickAccessSelectionGuiInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register(PlaceQuickAccessItemInteraction.PLACE_QUICK_ACCESS_ITEM_INTERACTION_ID, PlaceQuickAccessItemInteraction.class, PlaceQuickAccessItemInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register(EquipQuickAccessItemInteraction.EQUIP_QUICK_ACCESS_ITEM_INTERACTION_ID, EquipQuickAccessItemInteraction.class, EquipQuickAccessItemInteraction.CODEC);
     }

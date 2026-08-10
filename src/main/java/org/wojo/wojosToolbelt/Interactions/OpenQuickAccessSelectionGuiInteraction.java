@@ -21,7 +21,7 @@ import org.wojo.wojosToolbelt.QuickAccessUtils.QuickAccessUtils;
 
 public class OpenQuickAccessSelectionGuiInteraction extends SimpleInstantInteraction {
 
-    public static final String OpenQuickAccessSelectionGuiInteractionID = "WojoQuickAccessOpenSelectionGuiInteraction_ID";
+    public static final String OPEN_QUICK_ACCESS_SELECTION_GUI_INTERACTION_ID = "WojoQuickAccessOpenSelectionGuiInteraction_ID";
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     // CODEC: Needed to link interaction with item
