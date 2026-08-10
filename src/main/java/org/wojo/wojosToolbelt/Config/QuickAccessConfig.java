@@ -8,6 +8,50 @@ import org.wojo.wojosToolbelt.WojosQuickAccessPlugin;
 import java.util.Set;
 
 public class QuickAccessConfig {
+    
+    public static final BuilderCodec<MyConfig> CODEC = BuilderCodec.builder(QuickAccessConfig.class, QuickAccessConfig::new)
+            // Hotbar settings
+            .append(new KeyedCodec<Integer>("TargetHotbarPosition_0Indexed", Codec.INTEGER),
+                    (QAConfig, value) -> QAConfig.someValue = value,    // Setter
+                    (QAConfig) -> QAConfig.someValue                    // Getter
+               ).add() 
+            .append(new KeyedCodec<Integer>("EquippedHotbarPosition_0Indexed", Codec.INTEGER),
+                    (QAConfig, value) -> QAConfig.someValue = value, // Setter
+                    (QAConfig) -> QAConfig.someValue
+               ).add() 
+
+            // ------ Item Settings ------
+            .append( new KeyedCodec<String[]>("ItemTiers", Codec.STRING_ARRAY),
+                   (QAConfig, value) -> QAConfig.someValue = value,
+                   (QAConfig) -> QAConfig.someValue
+                ).add()
+            .append( new KeyedCodec<String[]>("ItemTypes", Codec.STRING_ARRAY),
+                   (QAConfig, value) -> QAConfig.someValue = value,
+                   (QAConfig) -> QAConfig.someValue
+                ).add()
+    
+            // Storage Size Settings
+            .append( new KeyedCodec<>("UnrestrictedItem_StorageSizePerTier", new MapCodec<>(Codec.INTEGER, HashMap<String, Integer>::new),
+                   (QAConfig, value) -> QAConfig.someValue = value,
+                   (QAConfig) -> QAConfig.someValue
+                ).add()
+            .append( new KeyedCodec<>("ToolsItem_StorageSizePerTier", new MapCodec<>(Codec.INTEGER, HashMap<String, Integer>::new),
+                   (QAConfig, value) -> QAConfig.someValue = value,
+                   (QAConfig) -> QAConfig.someValue
+                ).add()
+
+            // Crafting Settings
+            .append( new KeyedCodec<Boolean>("UnrestrictedItem_IsCraftable", Codec.BOOLEAN),
+                   (QAConfig, value) -> QAConfig.someValue = value,
+                   (QAConfig) -> QAConfig.someValue
+                ).add()
+            .append( new KeyedCodec<Boolean>("ToolsItem_IsCraftable", Codec.BOOLEAN),
+                   (QAConfig, value) -> QAConfig.someValue = value,
+                   (QAConfig) -> QAConfig.someValue
+                ).add()
+                    
+            .build();
+    
     // Default Hytale Qualities:
     // - [Common, Uncommon, Rare, Epic, Legendary, Debug]
     public static final Set<String> QUICK_ACCESS_ITEM_IDS = Set.of(
