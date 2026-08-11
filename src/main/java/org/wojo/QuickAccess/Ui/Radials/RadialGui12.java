@@ -1,4 +1,4 @@
-package org.wojo.QuickAccess.ui.Radials;
+package org.wojo.QuickAccess.Ui.Radials;
 
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
@@ -7,15 +7,15 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.QuickAccess.Config.QuickAccessConfig;
-import org.wojo.QuickAccess.ui.GenericRadialSelectionUi;
-import org.wojo.QuickAccess.ui.GuiButtonData;
+import org.wojo.QuickAccess.Ui.GenericRadialSelectionUi;
+import org.wojo.QuickAccess.Ui.GuiButtonData;
 
-public class RadialGui8 extends GenericRadialSelectionUi {
+public class RadialGui12 extends GenericRadialSelectionUi {
 
     @Override
     protected void constructFileSpecificData() {
-        this._NUM_QA_BUTTONS = 8;
-        this._guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_EIGHT;
+        this._NUM_QA_BUTTONS = 12;
+        this._guiFile = QuickAccessConfig.SELECTION_GUI_FILE_RADIAL_TWELVE;
         this._defaultBgFile = "";
         this._currentBgFile = "";
 
@@ -28,19 +28,19 @@ public class RadialGui8 extends GenericRadialSelectionUi {
             String style = "";
             String htmlBtnId = "#QuickAccessButton"+String.valueOf(i);
             String htmlIconId = "#QuickAccessButton"+String.valueOf(i)+"Img";
-            String hoverImg = "QuickAccessRadialMenuDrawing_Eight_"+String.valueOf(i)+".png";
+            String hoverImg = "";
             String pressImg = "";
             
             GuiButtonData btnData = new GuiButtonData(
                 msg, btnText, tooltipText, buttonItemIdForIcon, isDisabled, 
                 style, htmlBtnId, htmlIconId, hoverImg, pressImg
             );
+            
             this._quickAccessButtons.addLast(btnData);
         }
-        this._equipedItemButton.buttonHighlightImage = "../Radials/Images/Eight/QuickAccessRadialMenuDrawing_Eight_Equipped.png";
     }
 
-    public RadialGui8(@NonNullDecl PlayerRef player_ref, Store<EntityStore> store, ItemStack quick_access_item, Integer quick_access_item_hotbar_position) {
+    public RadialGui12(@NonNullDecl PlayerRef player_ref, Store<EntityStore> store, ItemStack quick_access_item, Integer quick_access_item_hotbar_position) {
         super(player_ref, store, quick_access_item, quick_access_item_hotbar_position);
     }
 }

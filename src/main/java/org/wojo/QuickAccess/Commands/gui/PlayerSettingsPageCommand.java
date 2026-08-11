@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.QuickAccess.QuickAccessUtils.QuickAccessUtils;
-import org.wojo.QuickAccess.ui.PlayerSettingsGui;
+import org.wojo.QuickAccess.Ui.PlayerSettingsGui;
 
 public class PlayerSettingsPageCommand extends AbstractPlayerCommand {
     private final DefaultArg<String> eventArg;

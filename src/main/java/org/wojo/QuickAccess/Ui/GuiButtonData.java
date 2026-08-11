@@ -1,4 +1,4 @@
-package org.wojo.QuickAccess.ui;
+package org.wojo.QuickAccess.Ui;
 
 import com.hypixel.hytale.server.core.Message;
 

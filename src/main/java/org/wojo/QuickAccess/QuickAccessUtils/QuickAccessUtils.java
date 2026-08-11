@@ -16,8 +16,8 @@ import org.bson.BsonDocument;
 import org.wojo.QuickAccess.Components.QuickAccessPlayerComponent;
 import org.wojo.QuickAccess.Config.QuickAccessConfig;
 import org.wojo.QuickAccess.WojosQuickAccessPlugin;
-import org.wojo.QuickAccess.ui.GenericRadialSelectionUi;
-import org.wojo.QuickAccess.ui.GuiSelectionFactory;
+import org.wojo.QuickAccess.Ui.GenericRadialSelectionUi;
+import org.wojo.QuickAccess.Ui.GuiSelectionFactory;
 
 import java.util.Arrays;
 import java.util.UUID;

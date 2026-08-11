@@ -1,4 +1,4 @@
-package org.wojo.QuickAccess.ui;
+package org.wojo.QuickAccess.Ui;
 
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -7,7 +7,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.QuickAccess.Components.QuickAccessPlayerComponent;
 import org.wojo.QuickAccess.Config.QuickAccessConfig;
-import org.wojo.QuickAccess.ui.Radials.*;
+import org.wojo.QuickAccess.Ui.Radials.*;
 
 public class GuiSelectionFactory {
 

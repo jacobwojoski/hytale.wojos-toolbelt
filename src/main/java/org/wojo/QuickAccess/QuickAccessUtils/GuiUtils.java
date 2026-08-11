@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import org.wojo.QuickAccess.Components.QuickAccessPlayerComponent;
 import org.wojo.QuickAccess.WojosQuickAccessPlugin;
-import org.wojo.QuickAccess.ui.GenericRadialSelectionUi;
-import org.wojo.QuickAccess.ui.GuiSelectionFactory;
+import org.wojo.QuickAccess.Ui.GenericRadialSelectionUi;
+import org.wojo.QuickAccess.Ui.GuiSelectionFactory;
 
 import static org.wojo.QuickAccess.QuickAccessUtils.PlayerUtils.getPlayerRef;
 
