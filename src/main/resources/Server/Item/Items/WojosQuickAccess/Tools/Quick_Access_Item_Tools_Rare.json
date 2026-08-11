@@ -149,7 +149,7 @@
         "Quantity": 10
       },
       {
-        "ItemId": "Quick_Access_Item_Unrestricted_Uncommon",
+        "ItemId": "Quick_Access_Item_Tools_Uncommon",
         "Quantity": 1
       }
     ],
@@ -163,7 +163,7 @@
       }
     ],
     "PrimaryOutput": {
-      "ItemId": "Quick_Access_Item_Unrestricted_Rare",
+      "ItemId": "Quick_Access_Item_Tools_Rare",
       "Quantity": 1
     }
   }
