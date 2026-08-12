@@ -4,9 +4,9 @@
     "Items.Tools",
     "WojosQuickAccess.Containers"
   ],
-  "Icon": "Icons/ItemsGenerated/Quick_Access_Item_Unrestricted_Debug.png",
-  "Model": "Items/WojosQuickAccess/WojosQuickAccess_BagOfHolding_Item.blockymodel",
-  "Texture": "Items/WojosQuickAccess/WojosQuickAccess_BagOfHolding_Texture_Item.png",
+  "Icon": "Icons/ItemsGenerated/WojosQuickAccess/Unrestricted/Quick_Access_Item_Unrestricted_Debug.png",
+  "Model": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Item.blockymodel",
+  "Texture": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Item.png",
   "Quality": "Common",
   "MaxStack": 1,
   "IconProperties": {
@@ -88,10 +88,10 @@
     "BlockSoundSetId": "Metal",
     "PhysicalMaterialId": "Metal",
     "Opacity": "Transparent",
-    "CustomModel": "Blocks/WojosQuickAccess/WojosQuickAccess_BagOfHolding_Block.blockymodel",
+    "CustomModel": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Block.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/WojosQuickAccess/WojosQuickAccess_BagOfHolding_Texture_Block.png",
+        "Texture": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Block.png",
         "Weight": 1
       }
     ],
