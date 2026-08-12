@@ -22,15 +22,31 @@ public class QuickAccessContainerFilterInitSystem extends RefSystem<ChunkStore> 
     public void onEntityAdded(@Nonnull Ref<ChunkStore> ref, @Nonnull AddReason reason,
                               @Nonnull Store<ChunkStore> store, @Nonnull CommandBuffer<ChunkStore> commandBuffer) {
 
-        ItemContainerBlock rack = (ItemContainerBlock)
+        setFilterOnContainer(ref, commandBuffer);
+
+        copyItemsToContainer(ref, reason, store, commandBuffer);
+    }
+
+    @Override
+    public void onEntityRemove(@NonNullDecl Ref<ChunkStore> ref, @NonNullDecl RemoveReason removeReason, @NonNullDecl Store<ChunkStore> store, @NonNullDecl CommandBuffer<ChunkStore> commandBuffer) {
+
+    }
+
+    @Override
+    public Query<ChunkStore> getQuery() {
+        return Query.and(ItemContainerBlock.getComponentType(), QuickAccessContainerFilterComponent.getComponentType());
+    }
+
+    private void setFilterOnContainer(@Nonnull Ref<ChunkStore> ref, @Nonnull CommandBuffer<ChunkStore> commandBuffer) {
+        ItemContainerBlock quickAccessBlock = (ItemContainerBlock)
                 commandBuffer.getComponent(ref, ItemContainerBlock.getComponentType());
 
         // TODO: Update filter from config based on item type
         QuickAccessContainerFilterComponent filterConfig =
                 (QuickAccessContainerFilterComponent)
-                commandBuffer.getComponent(ref, QuickAccessContainerFilterComponent.getComponentType());
+                        commandBuffer.getComponent(ref, QuickAccessContainerFilterComponent.getComponentType());
 
-        if (rack == null || filterConfig == null) return;
+        if (quickAccessBlock == null || filterConfig == null) return;
 
         // Resolve tag name strings -> int indexes, once, here
         IntSet allowedTagIndexes = new IntOpenHashSet();
@@ -42,7 +58,6 @@ public class QuickAccessContainerFilterInitSystem extends RefSystem<ChunkStore> 
             if (actionType != FilterActionType.ADD) return true;
             if (itemStack == null) return true;
             Item item = itemStack.getItem();
-            if (item == null) return true;
 
             for (int tagIndex : allowedTagIndexes) {
                 if (item.getData().getExpandedTagIndexes().contains(tagIndex)) return true;
@@ -50,19 +65,16 @@ public class QuickAccessContainerFilterInitSystem extends RefSystem<ChunkStore> 
             return false;
         };
 
-        short capacity = rack.getItemContainer().getCapacity();
+        short capacity = quickAccessBlock.getItemContainer().getCapacity();
         for (short slot = 0; slot < capacity; slot++) {
-            rack.getItemContainer().setSlotFilter(FilterActionType.ADD, slot, tagFilter);
+            quickAccessBlock.getItemContainer().setSlotFilter(FilterActionType.ADD, slot, tagFilter);
         }
     }
 
-    @Override
-    public void onEntityRemove(@NonNullDecl Ref<ChunkStore> ref, @NonNullDecl RemoveReason removeReason, @NonNullDecl Store<ChunkStore> store, @NonNullDecl CommandBuffer<ChunkStore> commandBuffer) {
+    // TODO: see if we can get the player info of who picked up the item
+    private void copyItemsToContainer(@Nonnull Ref<ChunkStore> ref, @Nonnull AddReason reason,
+                                      @Nonnull Store<ChunkStore> store, @Nonnull CommandBuffer<ChunkStore> commandBuffer) {
 
-    }
 
-    @Override
-    public Query getQuery() {
-        return Query.and(ItemContainerBlock.getComponentType(), QuickAccessContainerFilterComponent.getComponentType());
     }
 }
