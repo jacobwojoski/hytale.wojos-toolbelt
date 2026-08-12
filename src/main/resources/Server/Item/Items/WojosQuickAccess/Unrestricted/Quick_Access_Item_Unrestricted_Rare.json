@@ -88,10 +88,10 @@
     "BlockSoundSetId": "Metal",
     "PhysicalMaterialId": "Metal",
     "Opacity": "Transparent",
-    "CustomModel": "Blocks/WojosQuickAccess/WojosQuickAccess_BagOfHolding_Block.blockymodel",
+    "CustomModel": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Block.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/WojosQuickAccess/WojosQuickAccess_BagOfHolding_Texture_Block.png",
+        "Texture": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Block.png",
         "Weight": 1
       }
     ],
