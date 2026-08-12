@@ -29,7 +29,7 @@
     ]
   },
   "Container": {
-    "Capacity": 3,
+    "Capacity": 5,
     "ItemTag": "Tool"
   },
   "Interactions": {
@@ -112,7 +112,7 @@
     "BlockEntity": {
       "Components": {
         "ItemContainerBlock": {
-          "Capacity": 3
+          "Capacity": 5
         },
         "WojosQuickAccess_ContainerFilter_Component_ID": {
           "AllowedTags": [
