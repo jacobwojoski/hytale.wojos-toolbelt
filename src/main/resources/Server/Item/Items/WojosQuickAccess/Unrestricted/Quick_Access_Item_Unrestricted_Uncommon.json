@@ -6,7 +6,7 @@
   ],
   "Icon": "Icons/ItemsGenerated/WojosQuickAccess/Unrestricted/Quick_Access_Item_Unrestricted_Debug.png",
   "Model": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Item.blockymodel",
-  "Texture": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Item.png",
+  "Texture": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Item_Uncommon.png",
   "Quality": "Uncommon",
   "MaxStack": 1,
   "IconProperties": {
