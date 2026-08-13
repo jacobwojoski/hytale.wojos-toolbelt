@@ -13,7 +13,7 @@ public class QuickAccessContainerFilterComponent implements Component<ChunkStore
     public static final BuilderCodec<QuickAccessContainerFilterComponent> CODEC =
             BuilderCodec.builder(QuickAccessContainerFilterComponent.class, QuickAccessContainerFilterComponent::new)
                     .append(new KeyedCodec<String[]>("AllowedTags",
-                                    new ArrayCodec(Codec.STRING, (size) -> new String[size])),
+                                    new ArrayCodec<>(Codec.STRING, String[]::new)),
                             (cfg, value, info) -> cfg.allowedTags = value,
                             (cfg, info) -> cfg.allowedTags)
                     .add()
