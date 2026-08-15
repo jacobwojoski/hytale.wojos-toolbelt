@@ -3,7 +3,7 @@
     {
       "id": "1",
       "name": "R-Attachment",
-      "position": {"x": 0, "y": 0, "z": -2},
+      "position": {"x": 0, "y": 31, "z": -17},
       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
       "shape": {
         "type": "none",
@@ -22,7 +22,7 @@
         {
           "id": "2",
           "name": "New",
-          "position": {"x": 0, "y": 0, "z": 2},
+          "position": {"x": 0, "y": -1, "z": 2},
           "orientation": {"x": 0, "y": -0.70711, "z": 0.70711, "w": 0},
           "shape": {
             "type": "none",
@@ -41,7 +41,7 @@
             {
               "id": "3",
               "name": "BagBase",
-              "position": {"x": 0, "y": 0, "z": 0},
+              "position": {"x": 0, "y": 1, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
@@ -198,7 +198,7 @@
             {
               "id": "6",
               "name": "Bag",
-              "position": {"x": 0, "y": -1, "z": 0},
+              "position": {"x": 0, "y": 0, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
@@ -355,7 +355,7 @@
             {
               "id": "9",
               "name": "Sides",
-              "position": {"x": -3, "y": 3, "z": 0},
+              "position": {"x": -3, "y": 4, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
@@ -460,7 +460,7 @@
             {
               "id": "11",
               "name": "Handle",
-              "position": {"x": 0, "y": -1, "z": 0},
+              "position": {"x": 0, "y": 0, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
@@ -721,7 +721,7 @@
             {
               "id": "16",
               "name": "Cover",
-              "position": {"x": 0, "y": -1, "z": 0},
+              "position": {"x": 0, "y": 0, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
@@ -1086,7 +1086,7 @@
             {
               "id": "23",
               "name": "ClaspsFront",
-              "position": {"x": -3, "y": 7, "z": 0},
+              "position": {"x": -3, "y": 8, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
@@ -1191,7 +1191,7 @@
             {
               "id": "25",
               "name": "ClaspsBack",
-              "position": {"x": -3, "y": 7, "z": 0},
+              "position": {"x": -3, "y": 8, "z": 0},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
               "shape": {
                 "type": "box",
