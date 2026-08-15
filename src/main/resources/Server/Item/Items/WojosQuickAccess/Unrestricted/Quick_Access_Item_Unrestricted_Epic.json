@@ -91,7 +91,7 @@
     "CustomModel": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Block.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Block.png",
+        "Texture": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Block_Epic.png",
         "Weight": 1
       }
     ],
