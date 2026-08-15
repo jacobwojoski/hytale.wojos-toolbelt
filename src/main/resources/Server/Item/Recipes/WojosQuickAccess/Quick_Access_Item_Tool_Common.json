@@ -1,10 +1,14 @@
-"Recipe": {
+{
   "Input": [
     {
       "ItemId": "Ingredient_Leather_Light",
       "Quantity": 10
     }
   ],
+  "PrimaryOutput": {
+    "ItemId": "Quick_Access_Item_Tools_Common",
+    "Quantity": 1
+  },
   "BenchRequirement": [
     {
       "Id": "Workbench",
@@ -13,9 +17,5 @@
         "Workbench_Tools"
       ]
     }
-  ],
-  "PrimaryOutput": {
-    "ItemId": "Quick_Access_Item_Tools_Common",
-    "Quantity": 1
-  }
+  ]
 }
