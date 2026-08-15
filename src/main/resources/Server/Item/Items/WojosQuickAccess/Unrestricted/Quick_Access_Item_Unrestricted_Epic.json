@@ -131,34 +131,5 @@
         ]
       }
     }
-  },
-  "Recipe": {
-    "Input": [
-      {
-        "ItemId": "Ingredient_Leather_Heavy",
-        "Quantity": 20
-      },
-      {
-        "ItemId": "Ingredient_Bar_Cobalt",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Quick_Access_Item_Unrestricted_Rare",
-        "Quantity": 1
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Workbench",
-        "Type": "Crafting",
-        "Categories": [
-          "Workbench_Tools"
-        ]
-      }
-    ],
-    "PrimaryOutput": {
-      "ItemId": "Quick_Access_Item_Unrestricted_Epic",
-      "Quantity": 1
-    }
   }
 }
