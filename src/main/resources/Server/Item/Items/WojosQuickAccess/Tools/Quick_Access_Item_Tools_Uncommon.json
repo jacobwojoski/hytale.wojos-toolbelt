@@ -6,7 +6,7 @@
   ],
   "Icon": "Icons/ItemsGenerated/WojosQuickAccess/Tools/Quick_Access_Item_Toolbox_Debug.png",
   "Model": "Items/WojosQuickAccess/Tools/WojosQuickAccess_Toolbox_Item.blockymodel",
-  "Texture": "Items/WojosQuickAccess/Tools/WojosQuickAccess_Toolbox_Texture.png",
+  "Texture": "Items/WojosQuickAccess/Tools/WojosQuickAccess_Toolbox_Texture_Item_Uncommon.png",
   "Quality": "Uncommon",
   "MaxStack": 1,
   "IconProperties": {
