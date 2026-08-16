@@ -92,7 +92,7 @@
     "CustomModel": "Blocks/WojosQuickAccess/Tools/WojosQuickAccess_Toolbox.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/WojosQuickAccess/Tools/WojosQuickAccess_Toolbox_Texture.png",
+        "Texture": "Blocks/WojosQuickAccess/Tools/WojosQuickAccess_Toolbox_Texture_Block_Rare.png",
         "Weight": 1
       }
     ],
