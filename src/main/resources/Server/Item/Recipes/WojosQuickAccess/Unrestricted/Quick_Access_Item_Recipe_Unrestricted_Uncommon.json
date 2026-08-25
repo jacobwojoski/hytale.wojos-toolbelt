@@ -1,0 +1,29 @@
+{
+  "Input": [
+    {
+      "ItemId": "Ingredient_Leather_Medium",
+      "Quantity": 10
+    },
+    {
+      "ItemId": "Ingredient_Bar_Copper",
+      "Quantity": 10
+    },
+    {
+      "ItemId": "Quick_Access_Item_Unrestricted_Common",
+      "Quantity": 1
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Quick_Access_Item_Unrestricted_Uncommon",
+    "Quantity": 1
+  },
+  "BenchRequirement": [
+    {
+      "Id": "Workbench",
+      "Type": "Crafting",
+      "Categories": [
+        "Workbench_Tools"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "PlayerAnimationsId": "Item",
+  "Categories": [
+    "Items.Tools",
+    "WojosQuickAccess.Containers"
+  ],
+  "Icon": "Icons/ItemsGenerated/WojosQuickAccess/Unrestricted/Quick_Access_Item_Unrestricted_Debug.png",
+  "Model": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Item.blockymodel",
+  "Texture": "Items/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Item_Common.png",
+  "Quality": "Common",
+  "MaxStack": 1,
+  "IconProperties": {
+    "Scale": 0.5,
+    "Rotation": [
+      114,
+      0,
+      115
+    ],
+    "Translation": [
+      31,
+      12
+    ]
+  },
+  "Scale": 1,
+  "Tags": {
+    "Type": [
+      "Utility",
+      "WojosQuickAccess"
+    ]
+  },
+  "Container": {
+    "Capacity": 2
+  },
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "Condition",
+          "Crouching": true,
+          "Next": {
+            "Type": "BreakBlock"
+          },
+          "Failed": {
+            "Type": "WojoQuickAccessOpenSelectionGuiInteraction_ID"
+          },
+          "Effects": {
+            "WaitForAnimationToFinish": false,
+            "ItemPlayerAnimationsId": "Block",
+            "ItemAnimationId": "SwingLeft"
+          }
+        }
+      ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "Condition",
+          "Held": true,
+          "Next": {
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "WojoQuickAccessPlaceQuickAccessItemInteraction_ID",
+              "Effects": {
+                "WaitForAnimationToFinish": false,
+                "ItemPlayerAnimationsId": "Block",
+                "ItemAnimationId": "Build"
+              }
+            },
+            "Failed": {
+              "Type": "OpenItemStackContainer"
+            }
+          },
+          "Failed": {
+            "Type": "WojoQuickAccessEquipQuickAccessItemInteraction_ID"
+          }
+        }
+      ]
+    }
+  },
+  "ItemLevel": 100,
+  "Utility": {
+    "Usable": false
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "BlockSoundSetId": "Metal",
+    "PhysicalMaterialId": "Metal",
+    "Opacity": "Transparent",
+    "CustomModel": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Block.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/WojosQuickAccess/Unrestricted/WojosQuickAccess_BagOfHolding_Texture_Block_Common.png",
+        "Weight": 1
+      }
+    ],
+    "CustomModelScale": 1,
+    "HitboxType": "Block_Half",
+    "VariantRotation": "NESW",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "SoftBlocks"
+      }
+    },
+    "BlockParticleSetId": "Metal",
+    "TextureComputedColor": "#c6a487",
+    "FlipType": "Orthogonal",
+    "ParticleColor": "#5c413a",
+    "BlockEntity": {
+      "Components": {
+        "ItemContainerBlock": {
+          "Capacity": 2
+        }
+      }
+    },
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "Condition",
+            "Crouching": true,
+            "Next": {
+              "Type": "WojoQuickAccessEquipQuickAccessItemInteraction_ID"
+            },
+            "Failed": {
+              "Type": "OpenContainer"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

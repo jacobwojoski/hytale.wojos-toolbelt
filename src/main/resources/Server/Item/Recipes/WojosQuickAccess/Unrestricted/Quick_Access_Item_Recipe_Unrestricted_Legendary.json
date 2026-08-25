@@ -1,0 +1,29 @@
+{
+  "Input": [
+    {
+      "ItemId": "Ingredient_Leather_Heavy",
+      "Quantity": 30
+    },
+    {
+      "ItemId": "Ingredient_Bar_Adamantite",
+      "Quantity": 10
+    },
+    {
+      "ItemId": "Quick_Access_Item_Unrestricted_Epic",
+      "Quantity": 1
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Quick_Access_Item_Unrestricted_Legendary",
+    "Quantity": 1
+  },
+  "BenchRequirement": [
+    {
+      "Id": "Workbench",
+      "Type": "Crafting",
+      "Categories": [
+        "Workbench_Tools"
+      ]
+    }
+  ]
+}
