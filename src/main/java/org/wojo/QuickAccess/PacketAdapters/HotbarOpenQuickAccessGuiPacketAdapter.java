@@ -35,7 +35,7 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
     @Override
     public boolean test(PlayerRef playerRef, Packet packet) {
         // 290 == SyncInteractionCain packet ID
-        if (packet.getId() != 290 ){
+        if (packet.getId() != SyncInteractionChains.PACKET_ID ){
             return false;
         }
         
@@ -44,10 +44,12 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
         
         Ref<EntityStore> entityRef = playerRef.getReference();
         if (entityRef != null && entityRef.isValid()) {
+
             Store<EntityStore> store = entityRef.getStore();
             World world = store.getExternalData().getWorld();
 
             if (!quickAccessPlayerUuidMap.containsKey(entityRef)){
+                WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: WQA::HotbarOpenQuickAccessGuiPacketAdapter::test - Player Not In Hash Map!");
                 world.execute(() -> {
                     final UUIDComponent component = store.getComponent(entityRef, UUIDComponent.getComponentType());
                     final UUID playerUuid = component.getUuid();
@@ -63,10 +65,13 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
             if (!quickAccessBtnEnabledMap.containsKey(playerUuid) || !quickAccessHotbarLocationEquipMap.containsKey(playerUuid)){
                 quickAccessBtnEnabledMap.put(playerUuid, false);
                 quickAccessHotbarLocationEquipMap.put(playerUuid, 8);
+
+                WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: WQA::HotbarOpenQuickAccessGuiPacketAdapter::test - Adding player to hashmap");
                 return false;
 
             // Player exists but button disabled so don't block packed
             } else if (!quickAccessBtnEnabledMap.get(playerUuid)) {
+                WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: WQA::HotbarOpenQuickAccessGuiPacketAdapter::test - Player Exists but disabled");
                 return false;
             }
 
@@ -78,6 +83,7 @@ public class HotbarOpenQuickAccessGuiPacketAdapter implements PlayerPacketFilter
                        && chain.data.targetSlot == equippedHotbarPos // slot to switch too
                        && chain.initial // start of new chain
                    ){
+                    WojosQuickAccessPlugin.LOGGER.atFine().log("[DEBUG]: WQA::HotbarOpenQuickAccessGuiPacketAdapter::test - Trying to open Gui");
                     // Interacting with following comps required us to be threadsafe so update on world thread not network thread.
                     world.execute(() -> {
                         // Revert Selected Hotbar Item
