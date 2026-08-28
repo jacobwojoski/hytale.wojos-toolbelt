@@ -12,6 +12,7 @@ import org.wojo.QuickAccess.Commands.WojosQuickAccessCommandCollection;
 import org.wojo.QuickAccess.Components.QuickAccessContainerFilterComponent;
 import org.wojo.QuickAccess.Components.QuickAccessPlayerComponent;
 import org.wojo.QuickAccess.Events.SwapQuickAccessItemEvent;
+import org.wojo.QuickAccess.Handlers.OpenGuiButtonHandler;
 import org.wojo.QuickAccess.Handlers.PlayerReadyEventHandler;
 import org.wojo.QuickAccess.Handlers.SwapQuickAccessItemEventHandler;
 import org.wojo.QuickAccess.Interactions.EquipQuickAccessItemInteraction;
@@ -59,8 +60,9 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
     }
 
     private void registerEvents(){
-        getEventRegistry().register(SwapQuickAccessItemEvent.class, new SwapQuickAccessItemEventHandler());
-        getEventRegistry().registerGlobal(PlayerReadyEvent.class, PlayerReadyEventHandler::handle);
+        this.getEventRegistry().register(SwapQuickAccessItemEvent.class, new SwapQuickAccessItemEventHandler());
+        this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, PlayerReadyEventHandler::handle);
+        this.getEntityStoreRegistry().registerSystem(new OpenGuiButtonHandler());
     }
 
     private void registerInteractions(){
@@ -83,14 +85,14 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
         this.registerEvents();
         this.registerInteractions();
         this.registerCommands();
-        this.registerPacketAdapters();
+        //this.registerPacketAdapters();
     }
 
     @Override
     protected void shutdown() {
-        if (this._inbound_hotbar_filter != null) {
-            PacketAdapters.deregisterInbound(this._inbound_hotbar_filter);
-        }
+//        if (this._inbound_hotbar_filter != null) {
+//            PacketAdapters.deregisterInbound(this._inbound_hotbar_filter);
+//        }
     }
 
     public static WojosQuickAccessPlugin get() {
