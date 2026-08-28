@@ -24,8 +24,7 @@ The main purpose of this mod is to fix one of my largest painpoints with invento
     - Holding & **Shift + Left-Click** will do a general break block punch
 - Placed *Quick-Access Items*
     - Use (**F**) opens the blocks inventory
-    - Primary (**Left-Click**) breaks the block droping its contents
-    - Secondary (**Right-Click**) tries to equip item into configured **equipped-hotbar-position** (Configurable)
+    - Crouch + Use (**Shift + F**) Tries to pick up the block & equip it to the hotbar.
 
 ## Settings
 - **Equipped Position:** What *hotbar position* acts as the Quick-Access-equipment & open-radial slot.
