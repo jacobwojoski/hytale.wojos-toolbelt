@@ -1,8 +1,8 @@
 {
     "Group": "Wojo",
     "Name": "WojosQuickAccess",
-    "Version": "1.5.0",
-    "Description": "A toolbelt plugin for HyTale! No longer do your tools need to take up all of your hotbar space! If your holding a tool and press the same numbered key of the equipped item, the toolbelt popup opens!",
+    "Version": "1.5.1",
+    "Description": "A toolbelt plugin for Hytale! No longer do your tools need to take up all of your hotbar space! If your holding a tool and press the same numbered key of the equipped item, the toolbelt popup opens!",
     "Authors": [
         {
             "Name": "Jacobwojoski"
