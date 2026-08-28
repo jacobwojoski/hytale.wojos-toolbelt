@@ -3,7 +3,6 @@ package org.wojo.QuickAccess;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
-import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.io.adapter.PacketFilter;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
@@ -18,7 +17,6 @@ import org.wojo.QuickAccess.Handlers.SwapQuickAccessItemEventHandler;
 import org.wojo.QuickAccess.Interactions.EquipQuickAccessItemInteraction;
 import org.wojo.QuickAccess.Interactions.OpenQuickAccessSelectionGuiInteraction;
 import org.wojo.QuickAccess.Interactions.PlaceQuickAccessItemInteraction;
-import org.wojo.QuickAccess.PacketAdapters.HotbarOpenQuickAccessGuiPacketAdapter;
 import org.wojo.QuickAccess.Systems.QuickAccessContainerFilterInitSystem;
 import org.wojo.QuickAccess.Systems.QuickAccessPlayerComponentSystem;
 import org.wojo.QuickAccess.Systems.QuickAccessPlayerSystem;
@@ -73,9 +71,6 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
     private void registerCommands(){
         this.getCommandRegistry().registerCommand(new WojosQuickAccessCommandCollection());
     }
-    private void registerPacketAdapters(){
-        this._inbound_hotbar_filter = PacketAdapters.registerInbound(new HotbarOpenQuickAccessGuiPacketAdapter());
-    }
     
     @Override
     protected void setup() {
@@ -85,14 +80,10 @@ public class WojosQuickAccessPlugin extends JavaPlugin {
         this.registerEvents();
         this.registerInteractions();
         this.registerCommands();
-        //this.registerPacketAdapters();
     }
 
     @Override
     protected void shutdown() {
-//        if (this._inbound_hotbar_filter != null) {
-//            PacketAdapters.deregisterInbound(this._inbound_hotbar_filter);
-//        }
     }
 
     public static WojosQuickAccessPlugin get() {

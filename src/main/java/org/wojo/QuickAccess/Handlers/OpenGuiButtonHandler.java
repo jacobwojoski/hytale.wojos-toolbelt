@@ -1,9 +1,6 @@
 package org.wojo.QuickAccess.Handlers;
 
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.ComponentAccessor;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.protocol.packets.inventory.SetActiveSlot;
@@ -49,13 +46,23 @@ public class OpenGuiButtonHandler extends EntityEventSystem<EntityStore, Invento
 
         // Open Ui
         Player playerComponent = archetypeChunk.getComponent(i, Player.getComponentType());
-        QuickAccessUtils.openQuickAccessUI(store, playerComponent.getReference());
+        if (playerComponent == null){
+            return;
+        }
+        Ref<EntityStore> playerReference = playerComponent.getReference();
+        if (playerReference == null || !playerReference.isValid()) {
+            return;
+        }
+        QuickAccessUtils.openQuickAccessUI(store, playerReference);
 
         // Revert Hotbar Selection
         InventoryComponent.Hotbar hotbarComponent = (InventoryComponent.Hotbar) archetypeChunk.getComponent(i, InventoryComponent.getComponentTypeById(InventoryComponent.HOTBAR_SECTION_ID));
+        if (hotbarComponent == null){
+            return;
+        }
         int originalHotbarSlot = inventorySetActiveSlotEvent.getPreviousSlot();
 
-        hotbarComponent.setActiveSlot(originalHotbarSlot, store,);
+        hotbarComponent.setActiveSlot((byte)originalHotbarSlot, playerReference, commandBuffer);
 
         SetActiveSlot setActiveSlotPacket = new SetActiveSlot(
                 InventoryComponent.HOTBAR_SECTION_ID,   // -1 indicates the hotbar
