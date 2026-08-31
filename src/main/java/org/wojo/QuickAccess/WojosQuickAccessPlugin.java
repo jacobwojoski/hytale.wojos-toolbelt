@@ -1,5 +1,6 @@
 package org.wojo.QuickAccess;
 
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
@@ -7,6 +8,8 @@ import com.hypixel.hytale.server.core.io.adapter.PacketFilter;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.wojo.QuickAccess.Commands.WojosQuickAccessCommandCollection;
 import org.wojo.QuickAccess.Components.QuickAccessContainerFilterComponent;
 import org.wojo.QuickAccess.Components.QuickAccessPlayerComponent;
