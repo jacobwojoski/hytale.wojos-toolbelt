@@ -10,12 +10,14 @@ public class QuickAccessItemComponent {
     // ============================= json data =============================
     // (data stored in items json)
     private int _itemTier = 0;        // Tier of Quick Access Item (Common, Uncommon, Rare, Epic, etc)
-    private int _containerSize = 10;  // Size of the container field in the item
+    private int _containerSize = 0;   // Size of the container field in the item
 
     // ============================= config data =============================
     //  (data stored in QuickAccessConfig bassed on item ID [Item Type & Tier])
     private int _itemType = 0;          // Type of Quick Access Item this is. (Quiver, Toolbelt, Unrestricted, etc)
-    private int _quickAccessSize = 2;   // Current number of enabled buttons the item has
+    private int _quickAccessSize = 0;   // Current number of enabled QuickSwap buttons the item has
+    private string _uiFile = "";        // What UI File is displayed
+    private boolean _canChangeUiFile = false; // Can the user change the UI file associated with the item
 
     public QuickAccessItemComponent(){
     }
