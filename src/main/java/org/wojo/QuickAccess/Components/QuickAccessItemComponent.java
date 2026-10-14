@@ -40,7 +40,7 @@ public class QuickAccessItemComponent {
         this._itemType = item_type;
         this._itemTier = item_quality;
         
-        this._container_filter = container_filter;
+        this._container_filter = Arrays.copyOf(container_filter);
         this._containerSize = container_size;
         this._quickAccessSize = quick_access_size;
 
