@@ -11,9 +11,9 @@ public class QuickAccessItemType {
   // Blocks Only 
   public static final int BUILDERS_POUCH = 4;
   // Consumables Only (Food, potions, Bombs) 
-  public static final int BANDOLEER = 1;
+  public static final int BANDOLEER = 5;
   // Arrows Only
-  public static final int QUIVER = 5;
+  public static final int QUIVER = 6;
 
   public String toString(int item_type_int) {
     switch (item_type_int) {
