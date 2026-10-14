@@ -41,8 +41,9 @@ public class ItemConfig {
         return new QuickAccessItemComponent(
           QuickAccessItemType.UNRESTRICTED,    // item type
           QuickAccessItemQuality.COMMON,       // item qualty
-          2,  // Container storage size
-          2,  // quickAccess Button size
+          null,   // Container filter
+          2,      // Container storage size
+          2,      // quickAccess Button size
           "Pages/WojosQuickAccess/Radials/RadialTwo.ui",   // ui file
           false                                            // is ui changeable
         );
@@ -51,12 +52,13 @@ public class ItemConfig {
       // ----------------------- TOOLS -------------------------
       case "Quick_Access_Item_Tools_Common":
         return new QuickAccessItemComponent(
-          QuickAccessItemType.TOOLBELT,        // item type
-          QuickAccessItemQuality.COMMON,       // item qualty
-          4,  // Container storage size
-          4,  // quickAccess Button size
-          "Pages/WojosQuickAccess/Radials/RadialFour.ui",  // ui file
-          false                                            // is ui changeable
+          QuickAccessItemType.TOOLBELT,        // int - item type
+          QuickAccessItemQuality.COMMON,       // int - item qualty
+          {"Type=Tool"},   // String[] - Container filter 
+          4,               // int - Container storage size
+          4,               // int - quickAccess Button size
+          "Pages/WojosQuickAccess/Radials/RadialFour.ui",  // String - ui file
+          false                                            // Bool   - is ui changeable
         );
       // ========================================================
       default:
