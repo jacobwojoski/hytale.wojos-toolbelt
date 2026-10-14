@@ -1,3 +1,5 @@
+package org.wojo.QuickAccess.Config;
+
 public class QuickAccessItemQuality {
   public static final int UNKNOWN = 0;
   public static final int COMMON = 1;
