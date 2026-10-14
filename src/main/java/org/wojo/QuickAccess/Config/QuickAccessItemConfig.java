@@ -3,7 +3,7 @@ package org.wojo.QuickAccess.Config;
 import QuickAccessItemType;
 import QuickAccessItemQuality;
 
-public class ItemConfig {
+public class QuickAccessItemConfig {
 
   public static final Set<String> QUICK_ACCESS_ITEM_IDS = Set.of(
     // No limit containers
