@@ -45,7 +45,8 @@ public class ItemConfig {
           2,      // Container storage size
           2,      // quickAccess Button size
           "Pages/WojosQuickAccess/Radials/RadialTwo.ui",   // ui file
-          false                                            // is ui changeable
+          false,                                           // can override
+          false                                            // is overwritten
         );
 
       // =======================================================
@@ -58,7 +59,8 @@ public class ItemConfig {
           4,               // int - Container storage size
           4,               // int - quickAccess Button size
           "Pages/WojosQuickAccess/Radials/RadialFour.ui",  // String - ui file
-          false                                            // Bool   - is ui changeable
+          false                                            // Bool   - can override
+          false                                            // bool   - is overwritten
         );
       // ========================================================
       default:
