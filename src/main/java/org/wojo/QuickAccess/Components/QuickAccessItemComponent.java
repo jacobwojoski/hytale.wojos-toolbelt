@@ -72,31 +72,6 @@ public class QuickAccessItemComponent {
         return copy;
     }
 
-    public static final BuilderCodec<QuickAccessItemComponent> CODEC = BuilderCodec
-        .builder(QuickAccessItemComponent.class, QuickAccessItemComponent::new)
-        .append(
-            new KeyedCodec<>("QuickAccessItemTier", Codec.INTEGER),
-            (component, value) -> component._itemTier = value,
-            component -> component._itemTier
-        ).add()
-        .append(
-            new KeyedCodec<>("QuickAccessContainerSize", Codec.INTEGER),
-            (component, value) -> component._containerSize = value,
-            component -> component._containerSize
-        ).add()
-        .append(
-            new KeyedCodec<>("QuickAccessItemType", Codec.INTEGER),
-            (component, value) -> component._itemType = value,
-            component -> component._itemType
-        ).add()
-        .append(
-            new KeyedCodec<>("QuickAccessSize", Codec.INTEGER),
-            (component, value) -> component._quickAccessSize = value,
-            component -> component._quickAccessSize
-        ).add()
-        .build();
-
-
     // ============ Getters and Setters ============
     // --- QAItemComp Quality ---
     public int getItemQuality() {
@@ -130,18 +105,57 @@ public class QuickAccessItemComponent {
         this._quickAccessSize = size;
     }
 
+    // --- filter ---
+    public string[] getFilter(){
+        return Arrays.copyOf(this._container_filter);
+    }
+    public void setFilter(String[] filter){
+        this._container_filter = Arrays.copyOf(filter);
+    }
+    // --- UI File ---
+    public string getUiFile() {
+        return this._uiFile;
+    }
+    public void setUiFile(String ui_file) {
+        this._uiFile = ui_file;
+    }
+    // --- Can Override UI ---
+    public boolean getCanOverrideUiFile(){
+        return this._canOverrideUiFile;
+    }
+    public void setCanOverrideUiFile(boolean can_override) {
+        this._canOverrideUiFile = can_override;
+    }
+    
+    // --- is File Overwritten ---
+    public boolean getIsFileOverritten(){
+        return this._isUiOverwritten;
+    }
+    public void setIsFileOverritten(boolean is_overwritten) {
+        this._isUiOverwritten = is_overwritten;
+    }
+    
     // -- Debug Output --
     public String getPrintableString(){
         String debugResult = String.format(
             "[DEBUG] Quick Access Component Data:\n"+
             "- Quick Access Item Type: %d \n"+
-            "- Quick Access Tier: %d \n" +
+            "- Quick Access Item Quality: %d \n" +
             "- Container Size: %d \n" +
-            "- Quick Access Size: %d \n",
+            "- Quick Access Size: %d \n" +
+            "- Container Filter(s): %s \n" +
+            "- Ui File: %s \n" +
+            "- Can Override: %b \n" +
+            "- Is Overwritten: %b \n",
+            
             this.getItemType(),
             this.getItemTier(),
             this.getContainerSize(),
-            this.getQuickAccessSize()
+            this.getQuickAccessSize(),
+            this.getFilter(),
+            this.getUiFile(),
+            this.getCanOverrideUiFile(),
+            this.getIsOverwritten()
         );
 
         return debugResult;
@@ -150,13 +164,52 @@ public class QuickAccessItemComponent {
     // ================ Component Type info ==================
     // NOTE: this is not a "real" component as this is tied to tiem data not an entity.
     // Because of this, the component should never directly be used as part of the ECS structure and the following doesn't get used.
+
+    // public static final BuilderCodec<QuickAccessItemComponent> CODEC = BuilderCodec
+    //     .builder(QuickAccessItemComponent.class, QuickAccessItemComponent::new)
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessItemQuality", Codec.INTEGER),
+    //         (component, value) -> component._itemQuality = value,
+    //         component -> component._itemQuality
+    //     ).add()
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessContainerSize", Codec.INTEGER),
+    //         (component, value) -> component._containerSize = value,
+    //         component -> component._containerSize
+    //     ).add()
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessItemType", Codec.INTEGER),
+    //         (component, value) -> component._itemType = value,
+    //         component -> component._itemType
+    //     ).add()
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessSize", Codec.INTEGER),
+    //         (component, value) -> component._quickAccessSize = value,
+    //         component -> component._quickAccessSize
+    //     ).add()
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessItemUiFile", Codec.STRING),
+    //         (component, value) -> component._uiFile = value,
+    //         component -> component._uiFile
+    //     ).add()
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessItemCanOverrideUi", Codec.BOOLEAN),
+    //         (component, value) -> component._canOverrideUiFile = value,
+    //         component -> component._canOverrideUiFile
+    //     ).add()
+    //     .append(
+    //         new KeyedCodec<>("QuickAccessItemIsUiOverwriten", Codec.BOOLEAN),
+    //         (component, value) -> component._isUiOverwritten = value,
+    //         component -> component._isUiOverwritten
+    //     ).add()
+    //     .build();
     
-//    public static final String QUICK_ACCESS_ITEM_COMPONENT_ID = "WojosQuickAccess_Item_Component_ID";
-//    private static ComponentType<EntityStore, QuickAccessItemComponent> _quick_access_item_component_type;
-//    public static ComponentType<EntityStore, QuickAccessItemComponent> getComponentType(){
-//        return _quick_access_item_component_type;
-//    }
-//    public static void setComponentType(ComponentType<EntityStore, QuickAccessItemComponent> type){
-//        QuickAccessItemComponent._quick_access_item_component_type = type;
-//    }
+    // public static final String QUICK_ACCESS_ITEM_COMPONENT_ID = "WojosQuickAccess_Item_Component_ID";
+    // private static ComponentType<EntityStore, QuickAccessItemComponent> _quick_access_item_component_type;
+    // public static ComponentType<EntityStore, QuickAccessItemComponent> getComponentType(){
+    //    return _quick_access_item_component_type;
+    // }
+    // public static void setComponentType(ComponentType<EntityStore, QuickAccessItemComponent> type){
+    //    QuickAccessItemComponent._quick_access_item_component_type = type;
+    // }
 }
