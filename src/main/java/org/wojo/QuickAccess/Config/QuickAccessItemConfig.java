@@ -1,3 +1,5 @@
+package org.wojo.QuickAccess.Config;
+
 import QuickAccessItemType;
 import QuickAccessItemQuality;
 
