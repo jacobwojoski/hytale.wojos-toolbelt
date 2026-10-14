@@ -148,6 +148,9 @@ public class QuickAccessItemComponent {
     }
 
     // ================ Component Type info ==================
+    // NOTE: this is not a "real" component as this is tied to tiem data not an entity.
+    // Because of this, the component should never directly be used as part of the ECS structure and the following doesn't get used.
+    
 //    public static final String QUICK_ACCESS_ITEM_COMPONENT_ID = "WojosQuickAccess_Item_Component_ID";
 //    private static ComponentType<EntityStore, QuickAccessItemComponent> _quick_access_item_component_type;
 //    public static ComponentType<EntityStore, QuickAccessItemComponent> getComponentType(){
