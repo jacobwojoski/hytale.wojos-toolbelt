@@ -98,12 +98,12 @@ public class QuickAccessItemComponent {
 
 
     // ============ Getters and Setters ============
-    // --- QAItemComp Tier ---
-    public int getItemTier() {
+    // --- QAItemComp Quality ---
+    public int getItemQuality() {
         return this._itemTier;
     }
-    public void setItemTier(int tier) {
-        this._itemTier = tier;
+    public void setItemQuality(int quality) {
+        this._itemQuality = quality;
     }
     
     // --- QAItemComp Type ---
