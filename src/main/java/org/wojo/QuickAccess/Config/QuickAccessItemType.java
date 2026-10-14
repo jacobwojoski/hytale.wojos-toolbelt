@@ -1,3 +1,5 @@
+package org.wojo.QuickAccess.Config;
+
 public class QuickAccessItemType {
   public static final int UNKNOWN = 0;
   // Anything
