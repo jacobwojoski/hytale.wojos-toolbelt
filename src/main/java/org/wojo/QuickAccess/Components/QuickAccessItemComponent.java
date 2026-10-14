@@ -16,8 +16,11 @@ public class QuickAccessItemComponent {
     //  (data stored in QuickAccessConfig bassed on item ID [Item Type & Tier])
     private int _itemType = 0;          // Type of Quick Access Item this is. (Quiver, Toolbelt, Unrestricted, etc)
     private int _quickAccessSize = 0;   // Current number of enabled QuickSwap buttons the item has
-    private string _uiFile = "";        // What UI File is displayed
-    private boolean _canChangeUiFile = false; // Can the user change the UI file associated with the item
+
+    private string[] _container_filter = {};    // Filters
+    private string _uiFile = "";                // What UI File is displayed
+    private string _canOverrideUiFile = false;  // 
+    private boolean _isUiOverwritten = false;   // Can the user change the UI file associated with the item
 
     public QuickAccessItemComponent(){
     }
@@ -27,6 +30,23 @@ public class QuickAccessItemComponent {
         this._containerSize = container_size;
         this._itemType = item_type;
         this._quickAccessSize = quick_access_size;
+    }
+
+    public QuickAccessItemComponent(
+        int item_type, int item_quality, 
+        string[] container_filter, int container_size, int quick_access_size,
+        string ui_file, boolean can_override_ui_file, boolean is_ui_file_overwritten
+        ) {
+        this._itemType = item_type;
+        this._itemTier = item_quality;
+        
+        this._container_filter = container_filter;
+        this._containerSize = container_size;
+        this._quickAccessSize = quick_access_size;
+
+        this._uiFile = ui_file;
+        this._canOverrideUiFile = can_override_ui_file;
+        this._isUiOverwritten = is_ui_file_overwritten;
     }
 
     public QuickAccessItemComponent(QuickAccessItemComponent original){
