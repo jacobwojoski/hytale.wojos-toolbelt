@@ -30,6 +30,10 @@ public class ItemConfig {
     String itemType = QuickAccessItemType.toString(item_type);
     String itemQuality = QuickAccessItemQuality.toString(item_quality);
     String itemId = "Quick_Aceess_Item_"+itemType+"_"+itemQuality;
+    if (! QUICK_ACCESS_ITEM_IDS.contains(itemId) ) {
+      WojosQuickAccessPlugin.LOGGER.atCritical().log("[ERROR]: Invalid Quick_Acceess_Item_Id of "+itemId)
+      return null;
+    }
     return itemId;
   }
 
