@@ -9,7 +9,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public class QuickAccessItemComponent {
     // ============================= json data =============================
     // (data stored in items json)
-    private int _itemTier = 0;        // Tier of Quick Access Item (Common, Uncommon, Rare, Epic, etc)
+    private int _itemQuality = 0;        // Tier of Quick Access Item (Common, Uncommon, Rare, Epic, etc)
     private int _containerSize = 0;   // Size of the container field in the item
 
     // ============================= config data =============================
@@ -25,19 +25,12 @@ public class QuickAccessItemComponent {
     public QuickAccessItemComponent(){
     }
 
-    public QuickAccessItemComponent(int item_tier, int container_size, int item_type, int quick_access_size){
-        this._itemTier = item_tier;
-        this._containerSize = container_size;
-        this._itemType = item_type;
-        this._quickAccessSize = quick_access_size;
-    }
-
     public QuickAccessItemComponent(
         int item_type, int item_quality, 
         string[] container_filter, int container_size, int quick_access_size,
         string ui_file, boolean can_override_ui_file, boolean is_ui_file_overwritten
         ) {
-        this._itemType = item_type;
+        this._itemQuality = item_type;
         this._itemTier = item_quality;
         
         this._container_filter = Arrays.copyOf(container_filter);
@@ -50,20 +43,32 @@ public class QuickAccessItemComponent {
     }
 
     public QuickAccessItemComponent(QuickAccessItemComponent original){
-        this._itemTier = original._itemTier;
-        this._containerSize = original._containerSize;
         this._itemType = original._itemType;
+        this._itemQuality = original._itemQuality;
+        
+        this._container_filter = Arrays.copyOf(original._container_filter);
+        this._containerSize = original._containerSize;
         this._quickAccessSize = original._quickAccessSize;
+
+        this._uiFile = original._uiFile;
+        this._canOverrideUiFile = original._canOverrideUiFile;
+        this._isUiOverwritten = original._isUiOverwritten;
     }
 
     @NullableDecl
     @Override
     public QuickAccessItemComponent clone() {
         QuickAccessItemComponent copy = new QuickAccessItemComponent();
-        copy._itemTier = this._itemTier;
-        copy._containerSize = this._containerSize;
         copy._itemType = this._itemType;
+        copy._itemQuality = this._itemQuality;
+        
+        copy._container_filter = Arrays.copyOf(this._container_filter);
+        copy._containerSize = this._containerSize;
         copy._quickAccessSize = this._quickAccessSize;
+
+        copy._uiFile = this._uiFile;
+        copy._canOverrideUiFile = this._canOverrideUiFile;
+        copy._isUiOverwritten = this._isUiOverwritten;
         return copy;
     }
 
