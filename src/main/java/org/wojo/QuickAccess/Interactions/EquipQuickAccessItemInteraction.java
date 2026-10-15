@@ -142,7 +142,7 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
                     targetPos.x,
                     targetPos.y,
                     targetPos.z,
-                    blockTypeKey.getId(),
+                    blockTypeKey.getId(), // Todo this doesn't work
                     BlockType.EMPTY_KEY,
                     0,
                     0,
