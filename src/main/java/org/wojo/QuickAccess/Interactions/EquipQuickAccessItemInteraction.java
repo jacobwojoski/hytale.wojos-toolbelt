@@ -25,6 +25,7 @@ import com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.AssetUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.wojo.QuickAccess.Components.QuickAccessPlayerComponent;
 import org.wojo.QuickAccess.Config.QuickAccessConfig;
@@ -135,15 +136,17 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
 
         // Delete block in world
         world.execute(() -> {
+            BlockType emptyBlock = BlockType.EMPTY;
             String blockTypeKey = BlockType.EMPTY_KEY;
+            int blockId = BlockType.getBlockIdOrUnknown(blockTypeKey, "Failed too resolve empty block");
             BlockOperations.setBlock(
                     world.getChunkStore(),
                     sectionRef,
                     targetPos.x,
                     targetPos.y,
                     targetPos.z,
-                    blockTypeKey.getId(), // Todo this doesn't work
-                    BlockType.EMPTY_KEY,
+                    blockId,
+                    BlockType.EMPTY,
                     0,
                     0,
                     0
