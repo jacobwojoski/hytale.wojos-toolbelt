@@ -151,8 +151,6 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
                     0,
                     0
             );
-
-            //world.setBlock(targetPos.x, targetPos.y, targetPos.z, blockTypeKey);
         });
 
         interactionContext.getState().state = InteractionState.Finished;
