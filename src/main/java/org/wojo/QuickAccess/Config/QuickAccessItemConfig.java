@@ -1,7 +1,11 @@
 package org.wojo.QuickAccess.Config;
 
-import QuickAccessItemType;
-import QuickAccessItemQuality;
+import org.wojo.QuickAccess.Components.QuickAccessItemComponent;
+import org.wojo.QuickAccess.Config.QuickAccessItemType;
+import org.wojo.QuickAccess.Config.QuickAccessItemQuality;
+import org.wojo.QuickAccess.WojosQuickAccessPlugin;
+
+import java.util.Set;
 
 public class QuickAccessItemConfig {
 
@@ -33,7 +37,7 @@ public class QuickAccessItemConfig {
     String itemQuality = QuickAccessItemQuality.toString(item_quality);
     String itemId = "Quick_Aceess_Item_"+itemType+"_"+itemQuality;
     if (! QUICK_ACCESS_ITEM_IDS.contains(itemId) ) {
-      WojosQuickAccessPlugin.LOGGER.atCritical().log("[ERROR]: Invalid Quick_Acceess_Item_Id of "+itemId)
+      WojosQuickAccessPlugin.LOGGER.atWarning().log("[ERROR]: Invalid Quick_Acceess_Item_Id of "+itemId);
       return null;
     }
     return itemId;
@@ -61,7 +65,7 @@ public class QuickAccessItemConfig {
         return new QuickAccessItemComponent(
           QuickAccessItemType.TOOLBELT,        // int - item type
           QuickAccessItemQuality.COMMON,       // int - item qualty
-          {"Type=Tool"},   // String[] - Container filter 
+          new String[] {"Type=Tool"},   // String[] - Container filter
           4,               // int - Container storage size
           4,               // int - quickAccess Button size
           "Pages/WojosQuickAccess/Radials/RadialFour.ui",  // String - ui file

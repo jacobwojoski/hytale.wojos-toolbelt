@@ -6,6 +6,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.protocol.packets.world.ServerSetBlock;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -15,9 +16,13 @@ import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemStackItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
+import com.hypixel.hytale.server.core.modules.interaction.BlockPlaceUtils;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.prefab.selection.standard.BlockSelection;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations;
+import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -88,7 +93,18 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         );
 
         // 4. Create QuickAccess Item that we will give to player
-        BlockType blockType = world.getBlockType(targetPos.x, targetPos.y, targetPos.z);
+        Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
+        Ref<ChunkStore> sectionRef =
+                world.getChunkStore().getChunkSectionReferenceAtBlock(
+                        targetPos.x,
+                        targetPos.y,
+                        targetPos.z
+                );
+        BlockSection blockSection = chunkStore.getComponent( sectionRef, BlockSection.getComponentType() );
+        int block = blockSection.get(targetPos.x,targetPos.y, targetPos.z);
+        BlockType blockType = BlockType.getAssetMap().getAsset(block);
+
+        //BlockType blockType = world.getBlockType(targetPos.x, targetPos.y, targetPos.z);
         String itemId = blockType.getItem().getId();
         ItemStack quickAccessItem = new ItemStack(itemId, 1);
 
@@ -120,7 +136,20 @@ public class EquipQuickAccessItemInteraction extends SimpleInstantInteraction {
         // Delete block in world
         world.execute(() -> {
             String blockTypeKey = BlockType.EMPTY_KEY;
-            world.setBlock(targetPos.x, targetPos.y, targetPos.z, blockTypeKey);
+            BlockOperations.setBlock(
+                    world.getChunkStore(),
+                    sectionRef,
+                    targetPos.x,
+                    targetPos.y,
+                    targetPos.z,
+                    blockTypeKey.getId(),
+                    BlockType.EMPTY_KEY,
+                    0,
+                    0,
+                    0
+            );
+
+            //world.setBlock(targetPos.x, targetPos.y, targetPos.z, blockTypeKey);
         });
 
         interactionContext.getState().state = InteractionState.Finished;

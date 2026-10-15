@@ -15,7 +15,7 @@ public class QuickAccessItemType {
   // Arrows Only
   public static final int QUIVER = 6;
 
-  public String toString(int item_type_int) {
+  public static String toString(int item_type_int) {
     switch (item_type_int) {
       case 1:
         return "Unrestricted";
@@ -34,7 +34,7 @@ public class QuickAccessItemType {
     }      
   }
 
-  public int toInt(String item_type_string) {
+  public static int toInt(String item_type_string) {
     switch (item_type_string) {
       case "Unrestricted":
         return 1;

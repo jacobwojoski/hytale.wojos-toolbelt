@@ -5,6 +5,8 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
+import java.util.Arrays;
+
 // NOTE: This is not an ECS component. This is instead a metadata component for an item. Each item has this info tied to it
 public class QuickAccessItemComponent {
     // ============================= json data =============================
@@ -17,9 +19,9 @@ public class QuickAccessItemComponent {
     private int _itemType = 0;          // Type of Quick Access Item this is. (Quiver, Toolbelt, Unrestricted, etc)
     private int _quickAccessSize = 0;   // Current number of enabled QuickSwap buttons the item has
 
-    private string[] _container_filter = {};    // Filters
-    private string _uiFile = "";                // What UI File is displayed
-    private string _canOverrideUiFile = false;  // 
+    private String[] _container_filter = {};    // Filters
+    private String _uiFile = "";                // What UI File is displayed
+    private boolean _canOverrideUiFile = false;  //
     private boolean _isUiOverwritten = false;   // Can the user change the UI file associated with the item
 
     public QuickAccessItemComponent(){
@@ -27,13 +29,13 @@ public class QuickAccessItemComponent {
 
     public QuickAccessItemComponent(
         int item_type, int item_quality, 
-        string[] container_filter, int container_size, int quick_access_size,
-        string ui_file, boolean can_override_ui_file, boolean is_ui_file_overwritten
+        String[] container_filter, int container_size, int quick_access_size,
+        String ui_file, boolean can_override_ui_file, boolean is_ui_file_overwritten
         ) {
-        this._itemQuality = item_type;
-        this._itemTier = item_quality;
+        this._itemType = item_type;
+        this._itemQuality = item_quality;
         
-        this._container_filter = Arrays.copyOf(container_filter);
+        this._container_filter = Arrays.copyOf(container_filter, container_filter.length);
         this._containerSize = container_size;
         this._quickAccessSize = quick_access_size;
 
@@ -46,7 +48,7 @@ public class QuickAccessItemComponent {
         this._itemType = original._itemType;
         this._itemQuality = original._itemQuality;
         
-        this._container_filter = Arrays.copyOf(original._container_filter);
+        this._container_filter = Arrays.copyOf(original._container_filter, original._container_filter.length);
         this._containerSize = original._containerSize;
         this._quickAccessSize = original._quickAccessSize;
 
@@ -62,7 +64,7 @@ public class QuickAccessItemComponent {
         copy._itemType = this._itemType;
         copy._itemQuality = this._itemQuality;
         
-        copy._container_filter = Arrays.copyOf(this._container_filter);
+        copy._container_filter = Arrays.copyOf(this._container_filter, this._container_filter.length);
         copy._containerSize = this._containerSize;
         copy._quickAccessSize = this._quickAccessSize;
 
@@ -75,7 +77,7 @@ public class QuickAccessItemComponent {
     // ============ Getters and Setters ============
     // --- QAItemComp Quality ---
     public int getItemQuality() {
-        return this._itemTier;
+        return this._itemQuality;
     }
     public void setItemQuality(int quality) {
         this._itemQuality = quality;
@@ -106,14 +108,17 @@ public class QuickAccessItemComponent {
     }
 
     // --- filter ---
-    public string[] getFilter(){
-        return Arrays.copyOf(this._container_filter);
+    public String[] getFilter(){
+        if (this._container_filter != null) {
+            return Arrays.copyOf(this._container_filter, this._container_filter.length);
+        }
+        return new String[] {""};
     }
     public void setFilter(String[] filter){
-        this._container_filter = Arrays.copyOf(filter);
+        this._container_filter = Arrays.copyOf(filter, filter.length);
     }
     // --- UI File ---
-    public string getUiFile() {
+    public String getUiFile() {
         return this._uiFile;
     }
     public void setUiFile(String ui_file) {
@@ -149,13 +154,13 @@ public class QuickAccessItemComponent {
             "- Is Overwritten: %b \n",
             
             this.getItemType(),
-            this.getItemTier(),
+            this.getItemQuality(),
             this.getContainerSize(),
             this.getQuickAccessSize(),
-            this.getFilter(),
+            this.getFilter().toString(),
             this.getUiFile(),
             this.getCanOverrideUiFile(),
-            this.getIsOverwritten()
+            this.getIsFileOverritten()
         );
 
         return debugResult;

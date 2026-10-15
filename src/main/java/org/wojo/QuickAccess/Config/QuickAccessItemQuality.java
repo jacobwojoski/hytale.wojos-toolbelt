@@ -9,7 +9,7 @@ public class QuickAccessItemQuality {
   public static final int LEGENDARY = 5;
   public static final int DEBUG = 6;
 
-  public String toString(int item_quality_int) {
+  public static String toString(int item_quality_int) {
     switch (item_quality_int) {
       case 1:
         return "Common";
@@ -28,7 +28,7 @@ public class QuickAccessItemQuality {
     }      
   }
 
-  public int toInt(String item_quality_string) {
+  public static int toInt(String item_quality_string) {
     switch (item_quality_string) {
       case "Common":
         return 1;
