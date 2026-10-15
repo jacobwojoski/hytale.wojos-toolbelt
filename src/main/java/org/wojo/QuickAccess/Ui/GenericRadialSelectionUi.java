@@ -400,7 +400,6 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
             default -> {
                 if ( clickType.equals("RightClick") && isSwapActive_Enabled) {
-                    // 
                     short containerPos = Short.parseShort(buttonPressed);
                     short equippedPos = _quickAccessItemHotbarPosition.shortValue();
                     short targetPos = QuickAccessUtils.getActiveHotbarPosition(store,ref);
