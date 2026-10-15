@@ -1,4 +1,11 @@
 # Changelog
+## 1.5.2
+- Features
+  - Support for 0.7 (Chapter 1!)
+- Bugs
+  - Fix update bug where trying to equip the quick-access-item caused a crash
+  - Fix Issue where right clicking an item doesn't swap to active hotbar location
+
 ## 1.5.1
 - Features
   - Mod icon for in game world mod list

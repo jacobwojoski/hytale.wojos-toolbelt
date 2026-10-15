@@ -195,7 +195,7 @@ public class QuickAccessConfig {
 
     // Get the number of different items the QuickAccess Item can swap between
     public static Integer getQuickAccessSize(QuickAccessItemComponent item) {
-        int tier = item.getItemTier();
+        int tier = item.getItemQuality();
         int type = item.getItemType();
 
         // validatate type and tier
@@ -264,7 +264,7 @@ public class QuickAccessConfig {
         QuickAccessItemComponent qaItemComp = QuickAccessItemComponentFactory.createQuickAccessItemComponent(quick_access_item);
 
         QuickAccessConfig.ITEM_TYPE type = QuickAccessConfig.ITEM_TYPE.fromId(qaItemComp.getItemType());
-        int tier = qaItemComp.getItemTier();
+        int tier = qaItemComp.getItemQuality();
         // Invalid inputs check so disable button
         if (type.getId() >= ITEM_TYPE.NUM_TYPES.getId() || type.getId() < 0
                 || tier < 0 || tier >= ITEM_TIER.NUM_TIERS.getId()){

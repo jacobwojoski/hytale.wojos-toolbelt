@@ -400,10 +400,15 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
             default -> {
                 if ( clickType.equals("RightClick") && isSwapActive_Enabled) {
-                    // 
                     short containerPos = Short.parseShort(buttonPressed);
                     short equippedPos = _quickAccessItemHotbarPosition.shortValue();
                     short targetPos = QuickAccessUtils.getActiveHotbarPosition(store,ref);
+                    WojosQuickAccessPlugin.LOGGER.atFine().log(
+                        "[DEBUG]: Right Click Pressed!"+
+                        "\n - ContainerPos: "+String.valueOf(containerPos)+
+                        "\n - equippedPos: "+String.valueOf(equippedPos)+
+                        "\n - targetPos: "+String.valueOf(targetPos)
+                    );
                     if (targetPos != -1){
                         SwapQuickAccessItemEvent.dispatch(playerRef.getReference(), store, containerPos, equippedPos, targetPos);
                     }
