@@ -1,8 +1,23 @@
 # Changelog
-## 1.X.X - INPROGRESS
+## 1.5.2
 - Features
-  - New Asset: Create custom art asset for the *Quick-Access Items*. First design has them all the same color toolbox
-  - Placeable: Place and Equip the block into the world. No longer can it only be carried.
+  - Support for 0.7 (Chapter 1!)
+- Bugs
+  - Fix update bug where trying to equip the quick-access-item caused a crash
+  - Fix Issue where right clicking an item doesn't swap to active hotbar location
+
+## 1.5.1
+- Features
+  - Mod icon for in game world mod list
+- Bugs
+  - Fix mod not working in singleplayer worlds by changing packet adapter to Event handler
+
+## 1.5.0
+- Features
+  - New Assets: Create custom art asset for the *Quick-Access Items*.
+    - Toolbox Design
+    - Bag-of-Holding Design
+  - Placeable: Place and Equip the block into the world.
 - Bugs
   - bug/empty-item-container: Fix issue where player was unable to use radial menu if they didn't add something to storage first. 
 

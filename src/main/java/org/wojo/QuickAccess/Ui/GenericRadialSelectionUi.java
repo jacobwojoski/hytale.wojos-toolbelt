@@ -363,7 +363,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                             "echo \"W.I.P. - See one of the following for the current Guides \n" +
                             " - https://github.com/jacobwojoski/hytale.wojos-toolbelt \n" +
                             " - https://wiki.hytalemodding.dev/mod/wojos-quick-access-items-toolbelts-slings-and-more \n" +
-                            "Controlls: \n"+
+                            "Controls: \n"+
                             " * While Holding\n"+
                             "   - Ctrl + Left-Click:   Break block\n"+
                             "   - Ctrl + Right-Click:  Place block\n"+
@@ -374,7 +374,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
                             " * While Placed (Block)\n"+
                             "   - F:            Open Inventory\n"+
                             "   - Ctrl + F:     Equip to Hotbar Position\n"+
-                            "   - Left-Click:   Break block droping inventory\n"+
+                            "   - Left-Click:   Break block dropping inventory\n"+
                             "\"";
                 CommandManager.get().handleCommand(playerRef,cmd);
                 this.close();
@@ -400,10 +400,15 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
             default -> {
                 if ( clickType.equals("RightClick") && isSwapActive_Enabled) {
-                    // 
                     short containerPos = Short.parseShort(buttonPressed);
                     short equippedPos = _quickAccessItemHotbarPosition.shortValue();
                     short targetPos = QuickAccessUtils.getActiveHotbarPosition(store,ref);
+                    WojosQuickAccessPlugin.LOGGER.atFine().log(
+                        "[DEBUG]: Right Click Pressed!"+
+                        "\n - ContainerPos: "+String.valueOf(containerPos)+
+                        "\n - equippedPos: "+String.valueOf(equippedPos)+
+                        "\n - targetPos: "+String.valueOf(targetPos)
+                    );
                     if (targetPos != -1){
                         SwapQuickAccessItemEvent.dispatch(playerRef.getReference(), store, containerPos, equippedPos, targetPos);
                     }

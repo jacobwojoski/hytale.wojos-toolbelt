@@ -19,7 +19,7 @@ public class QuickAccessItemComponentFactory {
         }
 
         comp.setItemType(QuickAccessConfig.getQuickAccessItemType(item_stack.getItemId()).getId());
-        comp.setItemTier(QuickAccessConfig.getQuickAccessItemTier(item_stack.getItemId()).getId());
+        comp.setItemQuality(QuickAccessConfig.getQuickAccessItemTier(item_stack.getItemId()).getId());
         comp.setQuickAccessSize(QuickAccessConfig.getQuickAccessSize(comp));
         comp.setContainerSize(containerCapacity);
 

@@ -1,10 +1,10 @@
 # Wojo's Quick Access Item's (Toolbelts, Slings & More)
-##### Turn 2 hotbar slots into 4+! 
+### De-clutter the Hotbar!
 This mod for **Hytale** adds custom *Quick-Access Items* that allows the user to have a *Quick-Access* radial menu.
 
 ### The Problem
-**Tools and weapons take up too much hotbar real-estate significatnly impacting the building experience while in adventure mode.**
-The main purpose of this mod is to fix one of my largest painpoints with inventory management. 
+**Tools and weapons take up too much hotbar real-estate. This significantly impacts the building experience while in adventure mode.**
+The main purpose of this mod is to fix one of *my* largest pain-points with inventory management. 
 
 ## WARNING: 
 - Now that radials are implemented there will be **limited/minor UI updates until Hytale's Noesis GUI** gets added.
@@ -24,8 +24,7 @@ The main purpose of this mod is to fix one of my largest painpoints with invento
     - Holding & **Shift + Left-Click** will do a general break block punch
 - Placed *Quick-Access Items*
     - Use (**F**) opens the blocks inventory
-    - Primary (**Left-Click**) breaks the block droping its contents
-    - Secondary (**Right-Click**) tries to equip item into configured **equipped-hotbar-position** (Configurable)
+    - Crouch + Use (**Shift + F**) Tries to pick up the block & equip it to the hotbar.
 
 ## Settings
 - **Equipped Position:** What *hotbar position* acts as the Quick-Access-equipment & open-radial slot.
@@ -41,13 +40,13 @@ The main purpose of this mod is to fix one of my largest painpoints with invento
 The current design only includes the *Unrestricted Quick-Access Items*. More are planned!
 
 - [X] **Unrestricted:** Quick access radial that can hold **Anything**
-- [ ] **Toolbelt:** Quick access radial item that holds only holds **Tools** (Shovel, Pickaxe, axe, hammer)
+- [X] **Toolbelt:** Quick access radial item that holds only holds **Tools** (Shovel, Pickaxe, axe, hammer)
 - [ ] **Builders Pouch:** Quick access radial that only holds **Blocks & Hammer**
 - [ ] **Weapon Sling:** Quick access radial that only hold **Weapons**
 - [ ] **Bandolier:** Quick access radial that only holds **Consumables** (Potions, Food, Bombs etc)
 - [ ] **Quiver:** Quick access radial that only holds **Arrows**
 
-## Quick-Access Item Tier & Storage Capacity
+## Quick-Access Item Tier & Default Storage Capacity
 - Unrestricted
     - Common: 2 slots
     - Uncommon: 3 slots
@@ -158,16 +157,15 @@ The plugin layout has 2 data storage locations; **QuickAccessPlayerComponent - T
 ### TODO:
 ##### High Priority (No set order)
 - [ ] Fix permissions issues - Default perms should allow player to use item
-- [ ] Allow swap item to/from a selected hotbar instead of specific value
-- [ ] Allow item to be placed in world
-    - [ ] Place+Break, Open inventory
+- [X] Allow swap item to/from a selected hotbar instead of specific value
+- [X] Allow item to be placed in world
+    - [X] Place+Break, Open inventory
 - [ ] Add hud elements to show item buttons to user when holding Quick Access Item
     - Look Into HudUI setting in asset file 
 
 ##### Low Priority (No set order) 
-- [ ] Custom Item model
+- [X] Custom Item model
 - [ ] Add animations to using item
-- [ ] Implement other QuickAccessItemTypes
 - [ ] Have way to *wear* QuickAccess items so others can see when player has it equipped
 - [ ] Crafting ballence
 - [ ] Configurable costs when using the feature
@@ -177,6 +175,7 @@ The plugin layout has 2 data storage locations; **QuickAccessPlayerComponent - T
     - [ ] Animation Time
     - [ ] Noise ( Audio Que for Others )
 
+---
 
 ### Special Thanks
 - **Hytalemodding.dev** website and discord needs all the praise I can give them. They are great source of info and helped me to many times to count during the development. [Modding Documentation Website](https://hytalemodding.dev/en)
