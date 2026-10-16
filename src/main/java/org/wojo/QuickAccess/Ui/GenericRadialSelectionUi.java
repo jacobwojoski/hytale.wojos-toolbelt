@@ -190,7 +190,7 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
     }
 
     // Convert class argument data to display data
-    pivate void loadQuickAccessDisplayData() {
+    private void loadQuickAccessDisplayData() {
         // Container Storage Size
         // QuickAccess Button Size
         // UiFile
