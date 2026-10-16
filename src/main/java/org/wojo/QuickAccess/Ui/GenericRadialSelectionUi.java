@@ -102,7 +102,8 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
 
     protected QuickAccessPlayerComponent _playerQaComp = null; // Player Specific Quick Access Settings
     protected Integer _quickAccessItemHotbarPosition = 8;
-    protected ItemStack _quickAccessItem = null;               // The Quick Access Item the user is interacting with
+    protected ItemStack _quickAccessItem = null;                           // The Quick Access Item the user is interacting with
+    protected QuickAccessItemComponent _quickAccessItemComponent = null;   // The defined config data for the QuickAccessItem the player is using
     protected ItemStack _targetItem = null;                    // Whats in the location swap will be placed in
 
     private void setupEquippedButtons() {
@@ -187,20 +188,30 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
             }
         }
     }
+
+    // Convert class argument data to display data
+    pivate void loadQuickAccessDisplayData() {
+        // Container Storage Size
+        // QuickAccess Button Size
+        // UiFile
+        // Target locations ActiveHotbarPosition & StaticHotbarPosition
+    }
     
     public GenericRadialSelectionUi(@Nonnull PlayerRef player_ref, Store<EntityStore> store, ItemStack quick_access_item, Integer quick_access_item_hotbar_position) {
         super(player_ref, CustomPageLifetime.CanDismissOrCloseThroughInteraction, RadialGuiInteractionData.CODEC);
 
         this._quickAccessItem = quick_access_item;
+        this._quickAccessItemComponent = QuickAccessItemConfig.QuickAccessItemComponentBuilder(quick_access_item.getId());
         this._quickAccessItemHotbarPosition = quick_access_item_hotbar_position;
-
-        constructFileSpecificData();
-        
-        // Save data needed for display (QuickAccessItem Data, QuickAccessPlayerData, Player Event Data)
-        // WojosQuickAccessPlugin.LOGGER.atDebug().log("[Debug] Is item held: "+String.valueOf(is_item_held));
         this._playerQaComp = store.getComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType());
-
         this._targetItem = QuickAccessUtils.getEquippedTargetItemOrNull(player_ref, store);
+        
+        if (_quickAccessItemComponent == null) {
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warning] WojosQuickAccess Item of '"+quick_access_item.getId()+"' has no associated component data!");
+        }
+
+        // Convert input data to needed display data
+        loadQuickAccessDisplayData();
 
         // ------ Error Handling ------
         if ( this._quickAccessItem == null ) {
