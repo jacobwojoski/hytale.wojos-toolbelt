@@ -43,6 +43,8 @@ public class QuickAccessItemConfig {
     return itemId;
   }
 
+  // Take a QuickAccess Item-ID and convert it to the configured Items data structure
+  // Eventualy these values should be defined in a config and loaded here to allow servers to modify them.
   public static QuickAccessItemComponent QuickAccessItemComponentBuilder(String quick_access_item_id) {
     switch (quick_access_item_id) {
       // =======================================================
