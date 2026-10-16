@@ -1,4 +1,13 @@
 # Changelog
+## 1.5.3
+- Features
+  - Update how UI's work to be a pre defined UI
+  - Update Buttons to better show 
+    - QuickSwapActiveSwap
+    - QuickSwapEnabled
+    - Settings Page
+  - Change Item Icon Images to properly display the colors of each item Quality
+
 ## 1.5.2
 - Features
   - Support for 0.7 (Chapter 1!)
