@@ -195,56 +195,65 @@ public abstract class GenericRadialSelectionUi extends InteractiveCustomUIPage<G
         // QuickAccess Button Size
         // UiFile
         // Target locations ActiveHotbarPosition & StaticHotbarPosition
+        // QuickAccessItem Location
     }
     
-    public GenericRadialSelectionUi(@Nonnull PlayerRef player_ref, Store<EntityStore> store, ItemStack quick_access_item, Integer quick_access_item_hotbar_position) {
+    public GenericRadialSelectionUi(@Nonnull PlayerRef player_ref, @Nonnull Store<EntityStore> store, @Nonull ItemStack quick_access_item, Integer quick_access_item_hotbar_position) {
         super(player_ref, CustomPageLifetime.CanDismissOrCloseThroughInteraction, RadialGuiInteractionData.CODEC);
 
-        this._quickAccessItem = quick_access_item;
-        this._quickAccessItemComponent = QuickAccessItemConfig.QuickAccessItemComponentBuilder(quick_access_item.getId());
-        this._quickAccessItemHotbarPosition = quick_access_item_hotbar_position;
-        this._playerQaComp = store.getComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType());
-        this._targetItem = QuickAccessUtils.getEquippedTargetItemOrNull(player_ref, store);
+        // ------------------------------- Save Player & Item Data Locally -------------------------------
+        // === Save Player Data ===
+        this._player_Ref = player_ref;
+        this._player_Entity_Store = store;
+        this._quick_Access_Item_Hotbar_Position = quick_access_item_hotbar_position;
+        this._active_Hotbar_Position = QuickAccessUtils.getActiveHotbarPosition(store, player_ref);
+        this._quick_Access_Player_Component = store.getComponent(player_ref.getReference(), QuickAccessPlayerComponent.getComponentType());
+
+        // === Save Item Data ===
+        this._quick_Access_Item = quick_access_item;
+        this._quick_Access_Item_Component = QuickAccessItemConfig.QuickAccessItemComponentBuilder(quick_access_item.getId());
         
-        if (_quickAccessItemComponent == null) {
-            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warning] WojosQuickAccess Item of '"+quick_access_item.getId()+"' has no associated component data!");
+        // === Save Possible Target Data ===
+        this._is_static_same_as_active = false;
+        this._target_Item_Active_Location = ;
+        this._target_Item_Static_Location = ;
+        this._target_Item_Active = QuickAccessUtils.getEquippedTargetItemOrNull(player_ref, store);
+        this._target_Item_Static = QuickAccessUtils.getEquippedTargetItemOrNull(player_ref, store);
+
+        // ------------------------------- Error Handling -------------------------------
+        if ( this._quick_Access_Item_Component == null ) {
+            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warning] WojosQuickAccess Item of '"+quick_access_item.getId()+"' has no associated Item component data!");
         }
 
-        // Convert input data to needed display data
-        loadQuickAccessDisplayData();
+        if ( this._quick_Access_Player_Component == null ) {
+             WojosQuickAccessPlugin.LOGGER.atWarning().log("[Warning] WojosQuickAccess Item of '"+quick_access_item.getId()+"' has no associated Player component data!");
+        }
+        
+        if ( this._target_Item_Static == null ) {
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[Warning] Player does not have an item in the Static target location!");
+        }
+        if ( this._target_Item_Active == null ) {
+            WojosQuickAccessPlugin.LOGGER.atFine().log("[Warning] Player does not have an item in the Active target location!");
+        }
 
-        // ------ Error Handling ------
-        if ( this._quickAccessItem == null ) {
-            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Error] No Quick Access Item Held or Equipped!");
-        }
-        if ( this._playerQaComp == null ) {
-            WojosQuickAccessPlugin.LOGGER.atWarning().log("[Error] Player does not have a Quick Access component!");
-        }
-        if ( this._targetItem == null ) {
-            WojosQuickAccessPlugin.LOGGER.atFine().log("[Warn] Player does not have an item in the target location!");
-        }
-        // ------------------------------- End Data Setup -------------------------------
-        // ==============================================================================
+        // ------------------------------- Setup Display Data -------------------------------
+        // ------ Display static or overwritten UI file
+        this.setupUiFile();
 
-        // ------ Setup Icon related buttons ------
-        // Equipped 
-        this.setupEquippedButtons();
-        // Item Select buttons
+        // ------ Setup Items In QuickAccess Buttons ------
         this.setupSelectionButtons();
-
-        // ------ Setup non-icon buttons -----
-        // Help, Settings, Status
+        
+        // ------ Setup Equipped Item Button ------
+        this.setupEquippedButtons();
+        
+        // ------ Setup Static Buttons ------
+        // - [Help, Settings, Status, Inventory] -
         this.setupStaticButtons();
-
-        // ----------------------------- End Button Configs -----------------------------
-        // ==============================================================================
-
+        
+        // ----------------------------- Debug Output -----------------------------
         // Output Used QuickAccess Item information
-        WojosQuickAccessPlugin.LOGGER.atFine().log("\n\n------ Item Stack Data ------\n"+this._quickAccessItem.toString());
-        WojosQuickAccessPlugin.LOGGER.atFine().log("\n------ Quick Access Item Component ------\n"+ QuickAccessItemComponentFactory.createQuickAccessItemComponent(this._quickAccessItem).getPrintableString());
-
-        // ----------------------------- End Debug Output -----------------------------
-        // ============================================================================
+        WojosQuickAccessPlugin.LOGGER.atFiner().log("\n\n------ Item Stack Data ------\n"+this._quickAccessItem.toString());
+        WojosQuickAccessPlugin.LOGGER.atFiner().log("\n------ Quick Access Item Component ------\n"+ QuickAccessItemComponentFactory.createQuickAccessItemComponent(this._quickAccessItem).getPrintableString());
     }
 
     // Take the ButtonData Information and update the associated UI Files
